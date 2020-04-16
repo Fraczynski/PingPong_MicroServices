@@ -1,0 +1,9 @@
+<div class="row justify-content-center">
+    <form #registerForm="ngForm" class="text-center mt-2" (ngSubmit)="register()">
+      <input class="form-control mt-2" type="text" name="email" placeholder="E-mail" required [(ngModel)]="model.email" >
+      <input class="form-control mt-2" type="password" name="password" placeholder="Hasło" required [(ngModel)]="model.password">
+      <input class="form-control mt-2" type="text" name="firstName" placeholder="Imię" required [(ngModel)]="model.firstName" >
+      <input class="form-control mt-2" type="text" name="lastName" placeholder="Nazwisko" required [(ngModel)]="model.lastName" >
+      <button class="btn btn-success mt-2" type="submit">Zarejestruj</button>
+    </form>
+</div>
