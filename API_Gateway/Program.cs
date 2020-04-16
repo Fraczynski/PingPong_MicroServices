@@ -21,7 +21,7 @@ namespace API_Gateway
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                    //.UseStartup<Startup>()
-                   .UseUrls("http://localhost:6000")
+                   .UseUrls("http://localhost:5100")
                    .ConfigureAppConfiguration((hostingContext, config) =>
                {
                    config
@@ -31,11 +31,13 @@ namespace API_Gateway
                })
                .ConfigureServices(s =>
                {
+                    s.AddCors();
                    s.AddOcelot();
                    s.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
                })
                 .Configure(a =>
                 {
+                    a.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
                     a.UseOcelot().Wait();
                 });
     }

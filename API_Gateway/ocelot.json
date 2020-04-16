@@ -27,8 +27,21 @@
             "UpstreamHttpMethod": [
                 "Post"
             ]
-        }
-    ],
+        },
+    {
+        "DownstreamPathTemplate": "/api/publickey",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+            {
+                "Host": "localhost",
+                "Port": 5000
+            }
+        ],
+        "UpstreamPathTemplate": "/api/publickey",
+        "UpstreamHttpMethod": [
+            "Get"
+        ]
+    }],
     "GlobalConfiguration": {
         "RequestIdKey": "OcRequestId",
         "AdministrationPath": "/api"
