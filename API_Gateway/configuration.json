@@ -1,5 +1,34 @@
 {
-    "ReRoutes": [],
+    "ReRoutes": [
+        {
+            "DownstreamPathTemplate": "/api/login",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5000
+                }
+            ],
+            "UpstreamPathTemplate": "/api/login",
+            "UpstreamHttpMethod": [
+                "Post"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/register",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5000
+                }
+            ],
+            "UpstreamPathTemplate": "/api/register",
+            "UpstreamHttpMethod": [
+                "Post"
+            ]
+        }
+    ],
     "GlobalConfiguration": {
         "RequestIdKey": "OcRequestId",
         "AdministrationPath": "/api"
