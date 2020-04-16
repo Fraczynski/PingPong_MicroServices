@@ -1,0 +1,7 @@
+{
+    "ReRoutes": [],
+    "GlobalConfiguration": {
+        "RequestIdKey": "OcRequestId",
+        "AdministrationPath": "/api"
+    }
+}

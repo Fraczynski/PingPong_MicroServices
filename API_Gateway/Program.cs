@@ -1,11 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
 
 namespace API_Gateway
 {
@@ -13,14 +15,28 @@ namespace API_Gateway
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                   //.UseStartup<Startup>()
+                   .UseUrls("http://*:6000")
+                   .ConfigureAppConfiguration((hostingContext, config) =>
+               {
+                   config
+                       .SetBasePath(hostingContext.HostingEnvironment.ContentRootPath)
+                       .AddJsonFile("configuration.json")
+                       .AddEnvironmentVariables();
+               })
+               .ConfigureServices(s =>
+               {
+                   s.AddOcelot();
+                   s.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+               })
+                .Configure(a =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    a.UseOcelot().Wait();
                 });
     }
 }
