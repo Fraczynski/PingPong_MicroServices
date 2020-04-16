@@ -21,12 +21,12 @@ namespace API_Gateway
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                    //.UseStartup<Startup>()
-                   .UseUrls("http://*:6000")
+                   .UseUrls("http://localhost:6000")
                    .ConfigureAppConfiguration((hostingContext, config) =>
                {
                    config
                        .SetBasePath(hostingContext.HostingEnvironment.ContentRootPath)
-                       .AddJsonFile("configuration.json")
+                       .AddJsonFile("ocelot.json")
                        .AddEnvironmentVariables();
                })
                .ConfigureServices(s =>
