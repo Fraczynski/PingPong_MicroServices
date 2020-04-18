@@ -1,28 +1,37 @@
 # Database
 SQL scripts that can be executed to reproduce the database object definitions and table data. 
+## Requirements 
+**MySQL server**
+```
+https://dev.mysql.com/downloads/installer/
+```
 ## Usage
 Inside mysql command prompt:
-* First create database:
+First create database:
 ```
 CREATE DATABASE pingpongapp;
 ```
-* Recreate users:
+Recreate users:
 ```
 source recreateUsers.sql
 ```
-* Switch to the database:
+Switch to the database:
 ```
-USE pingpongapp
+use pingpongapp
 ```
-* Recreate database structure:
+Recreate database structure:
 ```
 source recreateDatabaseStrucuture.sql
 ```
-* Seed data:
+Seed data:
 ```
 source sampleDataDump.sql
 ```
 ## EF Migrations
+First you will need **Entity framework tools**:
+```
+dotnet tool install --global dotnet-ef
+```
 Since we are working with code first approach you can recreate database structure from entity framework migrations as well. To do that you need to navigate to project folder and execute command:
 ```
 dotnet ef database update
