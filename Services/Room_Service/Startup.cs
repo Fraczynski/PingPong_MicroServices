@@ -35,6 +35,8 @@ namespace Room_Service
 
             services.AddScoped<IRoomsRepository, RoomsRepository>();
             services.AddScoped<ITablesRepository, TablesRepository>();
+
+            services.AddAutoMapper(typeof(RoomsRepository).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
