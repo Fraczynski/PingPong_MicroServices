@@ -32,6 +32,9 @@ namespace Room_Service
             services.AddCors();
             //database
             services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IRoomsRepository, RoomsRepository>();
+            services.AddScoped<ITablesRepository, TablesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
