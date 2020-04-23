@@ -14,5 +14,7 @@ namespace OpeningHours_Service.Data
         }
         public DbSet<OpeningHours> OpeningHours { get; set; }
         public DbSet<SpecialOpeningHours> SpecialOpeningHours { get; set; }
+
+        public DbSet<ClosingDay> ClosingDays { get; set; }
     }
 }
