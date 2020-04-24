@@ -28,20 +28,93 @@
                 "Post"
             ]
         },
-    {
-        "DownstreamPathTemplate": "/api/publickey",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-            {
-                "Host": "localhost",
-                "Port": 5000
-            }
-        ],
-        "UpstreamPathTemplate": "/api/publickey",
-        "UpstreamHttpMethod": [
-            "Get"
-        ]
-    }],
+        {
+            "DownstreamPathTemplate": "/api/publickey",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5000
+                }
+            ],
+            "UpstreamPathTemplate": "/api/publickey",
+            "UpstreamHttpMethod": [
+                "Get"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/rooms",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5002
+                }
+            ],
+            "UpstreamPathTemplate": "/api/rooms",
+            "UpstreamHttpMethod": [
+                "Get",
+                "Post",
+                "Patch",
+                "Delete",
+                "Put"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/rooms/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5002
+                }
+            ],
+            "UpstreamPathTemplate": "/api/rooms/{everything}",
+            "UpstreamHttpMethod": [
+                "Get",
+                "Post",
+                "Patch",
+                "Delete",
+                "Put"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/tables",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5002
+                }
+            ],
+            "UpstreamPathTemplate": "/api/tables",
+            "UpstreamHttpMethod": [
+                "Get",
+                "Post",
+                "Patch",
+                "Delete",
+                "Put"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/tables/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5002
+                }
+            ],
+            "UpstreamPathTemplate": "/api/tables/{everything}",
+            "UpstreamHttpMethod": [
+                "Get",
+                "Post",
+                "Patch",
+                "Delete",
+                "Put"
+            ]
+        }
+    ],
     "GlobalConfiguration": {
         "RequestIdKey": "OcRequestId",
         "AdministrationPath": "/api"
