@@ -25,7 +25,8 @@ export function tokenGetter() {
       AppComponent,
       NavMenuComponent,
       RegisterComponent,
-      HomeComponent
+      HomeComponent,
+	  RoomsViewComponent
    ],
    imports: [
       BrowserModule,
@@ -33,6 +34,7 @@ export function tokenGetter() {
       BrowserAnimationsModule,
       AppRoutingModule,
       FormsModule,
+	  BsDatepickerModule.forRoot(),
       JwtModule.forRoot({
          config: {
            tokenGetter,
