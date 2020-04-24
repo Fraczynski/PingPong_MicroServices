@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Room_Service.Data;
 using Room_Service.Dtos;
@@ -9,6 +10,7 @@ using Room_Service.Models;
 
 namespace Room_Service.Controllers
 {
+    [Authorize(Roles = "Employee")]
     [Route("api/[controller]")]
     [ApiController]
     public class TablesController : ControllerBase
@@ -22,6 +24,7 @@ namespace Room_Service.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         [HttpGet("{roomId}")]
         public async Task<IActionResult> GetTablesFromOneRoom(int roomId)
         {

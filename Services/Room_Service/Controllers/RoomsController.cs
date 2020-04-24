@@ -10,6 +10,7 @@ using Room_Service.Dtos;
 
 namespace Room_Service.Controllers
 {
+    [Authorize(Roles = "Employee")]
     [Route("api/[controller]")]
     [ApiController]
     public class RoomsController : ControllerBase
@@ -35,6 +36,7 @@ namespace Room_Service.Controllers
             throw new Exception("Nie udało się dodać pokoju");
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetRooms()
         {
@@ -57,7 +59,7 @@ namespace Room_Service.Controllers
             }
             throw new Exception("Nie udało się zaaktualizować stołu");
         }
-        
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRoom(int id)
         {
