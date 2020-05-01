@@ -41,6 +41,42 @@
         "UpstreamHttpMethod": [
             "Get"
         ]
+    },
+    {
+        "DownstreamPathTemplate": "/api/openinghours",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+            {
+                "Host": "localhost",
+                "Port": 5004
+            }
+        ],
+        "UpstreamPathTemplate": "/api/openinghours",
+        "UpstreamHttpMethod": [
+            "Get",
+            "Post",
+            "Patch",
+            "Delete",
+            "Put"
+        ]
+    },
+    {
+        "DownstreamPathTemplate": "/api/closingdays",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+            {
+                "Host": "localhost",
+                "Port": 5004
+            }
+        ],
+        "UpstreamPathTemplate": "/api/closingdays",
+        "UpstreamHttpMethod": [
+            "Get",
+            "Post",
+            "Patch",
+            "Delete",
+            "Put"
+        ]
     }],
     "GlobalConfiguration": {
         "RequestIdKey": "OcRequestId",
