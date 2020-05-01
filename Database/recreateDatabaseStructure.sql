@@ -219,27 +219,10 @@ DELETE CASCADE
 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Table structure for table `__efmigrationshistory`
---
-
-DROP TABLE IF EXISTS `__efmigrationshistory`;
-CREATE TABLE `__efmigrationshistory`
-(
-  `MigrationId` varchar
-(95) NOT NULL,
-  `ProductVersion` varchar
-(32) NOT NULL,
-  PRIMARY KEY
-(`MigrationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
 -- Table structure for table `rooms`
 --
 
 DROP TABLE IF EXISTS `rooms`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `rooms`
 (
   `Id` int NOT NULL AUTO_INCREMENT,
@@ -251,15 +234,12 @@ COLLATE utf8mb4_0900_ai_ci,
   PRIMARY KEY
 (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `tables`
 --
 
 DROP TABLE IF EXISTS `tables`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tables`
 (
   `Id` int NOT NULL AUTO_INCREMENT,
@@ -283,4 +263,4 @@ COLLATE utf8mb4_0900_ai_ci,
 DELETE CASCADE
 ) ENGINE=InnoDB
 AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+

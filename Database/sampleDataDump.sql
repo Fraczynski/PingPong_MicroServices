@@ -29,48 +29,31 @@ VALUES
     (2, 2);
 UNLOCK TABLES;
 
-
---
--- Dumping data for table `__efmigrationshistory`
---
-
-LOCK TABLES __efmigrationshistory WRITE;
-INSERT INTO __efmigrationshistory
-VALUES
-    ('20200410143137_UserAndRoles', '3.0.2');
-UNLOCK TABLES;
-
-
 --
 -- Dumping data for table `rooms`
 --
 
 LOCK TABLES rooms WRITE;
-/*!40000 ALTER TABLE `rooms` DISABLE KEYS */;
 INSERT INTO rooms
 VALUES
-    (1, 'Główny', 50, 100),
-    (2, 'Duży', 100, 200),
-    (3, 'VIP', 30, 30);
-/*!40000 ALTER TABLE `rooms` ENABLE KEYS */;
+    (1, 'Główny', 24, 20),
+    (2, 'Duży', 33, 33),
+    (3, 'VIP', 23, 22);
 UNLOCK TABLES;
-
 
 --
 -- Dumping data for table `tables`
 --
 
 LOCK TABLES tables WRITE;
-/*!40000 ALTER TABLE `tables` DISABLE KEYS */;
 INSERT INTO tables
 VALUES
-    (1, 'etykieta1', 5, 5, 5, 5, 1, 1),
-    (2, 'etykieta2', 15, 5, 5, 5, 1, 1),
-    (3, 'etykieta3', 25, 5, 5, 5, 1, 1),
-    (4, 'etykieta4', 5, 55, 5, 5, 0, 1),
-    (5, 'etykieta5', 5, 5, 5, 5, 1, 3),
-    (6, 'etykieta6', 15, 5, 5, 5, 1, 2),
-    (7, 'etykieta7', 25, 5, 5, 5, 0, 2),
-    (8, 'etykieta8', 5, 55, 5, 5, 0, 2);
-/*!40000 ALTER TABLE `tables` ENABLE KEYS */;
+    (1, 'Stol 1', 1, 1, 2.74, 1.525, 1, 1),
+    (2, 'Stol 2', 5, 1, 2.74, 1.525, 1, 1),
+    (3, 'Stol 3', 9, 1, 2.74, 1.525, 1, 1),
+    (4, 'Stol 4', 13, 1, 2.74, 1.525, 1, 1),
+    (5, 'Stol 1', 5, 1, 2.74, 1.525, 1, 3),
+    (6, 'Stol 1', 3, 1, 2.74, 1.525, 1, 2),
+    (7, 'Stol 2', 10, 1, 2.74, 1.525, 0, 2),
+    (8, 'Stol 3', 13, 1, 2.74, 1.525, 0, 2);
 UNLOCK TABLES;
