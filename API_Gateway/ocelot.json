@@ -129,6 +129,24 @@
         ]
     },
     {
+        "DownstreamPathTemplate": "/api/openinghours/{everything}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+            {
+                "Host": "localhost",
+                "Port": 5004
+            }
+        ],
+        "UpstreamPathTemplate": "/api/openinghours/{everything}",
+        "UpstreamHttpMethod": [
+            "Get",
+            "Post",
+            "Patch",
+            "Delete",
+            "Put"
+        ]
+    },
+    {
         "DownstreamPathTemplate": "/api/closingdays",
         "DownstreamScheme": "http",
         "DownstreamHostAndPorts": [
@@ -138,6 +156,25 @@
             }
         ],
         "UpstreamPathTemplate": "/api/closingdays",
+        "UpstreamHttpMethod": [
+            "Get",
+            "Post",
+            "Patch",
+            "Delete",
+            "Put"
+        ]
+    }
+    ,
+    {
+        "DownstreamPathTemplate": "/api/closingdays/{everything}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+            {
+                "Host": "localhost",
+                "Port": 5004
+            }
+        ],
+        "UpstreamPathTemplate": "/api/closingdays{everything}",
         "UpstreamHttpMethod": [
             "Get",
             "Post",
