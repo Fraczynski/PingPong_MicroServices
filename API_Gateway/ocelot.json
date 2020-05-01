@@ -1,7 +1,7 @@
 {
     "ReRoutes": [
         {
-            "DownstreamPathTemplate": "/api/login",
+            "DownstreamPathTemplate": "/api/auth/",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
@@ -9,13 +9,18 @@
                     "Port": 5000
                 }
             ],
-            "UpstreamPathTemplate": "/api/login",
+            "UpstreamPathTemplate": "/api/auth",
             "UpstreamHttpMethod": [
-                "Post"
+                "Post", 
+                "Get",
+                "Post",
+                "Patch",
+                "Delete",
+                "Put"
             ]
         },
         {
-            "DownstreamPathTemplate": "/api/register",
+            "DownstreamPathTemplate": "/api/auth/{everything}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
@@ -23,23 +28,14 @@
                     "Port": 5000
                 }
             ],
-            "UpstreamPathTemplate": "/api/register",
+            "UpstreamPathTemplate": "/api/auth/{everything}",
             "UpstreamHttpMethod": [
-                "Post"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/publickey",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 5000
-                }
-            ],
-            "UpstreamPathTemplate": "/api/publickey",
-            "UpstreamHttpMethod": [
-                "Get"
+                "Post", 
+                "Get",
+                "Post",
+                "Patch",
+                "Delete",
+                "Put"
             ]
         },
         {
@@ -133,6 +129,24 @@
         ]
     },
     {
+        "DownstreamPathTemplate": "/api/openinghours/{everything}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+            {
+                "Host": "localhost",
+                "Port": 5004
+            }
+        ],
+        "UpstreamPathTemplate": "/api/openinghours/{everything}",
+        "UpstreamHttpMethod": [
+            "Get",
+            "Post",
+            "Patch",
+            "Delete",
+            "Put"
+        ]
+    },
+    {
         "DownstreamPathTemplate": "/api/closingdays",
         "DownstreamScheme": "http",
         "DownstreamHostAndPorts": [
@@ -142,6 +156,25 @@
             }
         ],
         "UpstreamPathTemplate": "/api/closingdays",
+        "UpstreamHttpMethod": [
+            "Get",
+            "Post",
+            "Patch",
+            "Delete",
+            "Put"
+        ]
+    }
+    ,
+    {
+        "DownstreamPathTemplate": "/api/closingdays/{everything}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+            {
+                "Host": "localhost",
+                "Port": 5004
+            }
+        ],
+        "UpstreamPathTemplate": "/api/closingdays{everything}",
         "UpstreamHttpMethod": [
             "Get",
             "Post",
