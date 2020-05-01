@@ -10,7 +10,7 @@ using OpeningHours_Service.Models;
 
 namespace OpeningHours_Service.Controllers
 {
-    //[Authorize(Roles = "Employee")]
+    [Authorize(Roles = "Employee")]
     [ApiController]
     [Route("api/[controller]")]
     public class OpeningHoursController : ControllerBase
