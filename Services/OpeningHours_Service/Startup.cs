@@ -20,7 +20,7 @@ namespace OpeningHours_Service
             Configuration = configuration;
             using (var httpClient = new HttpClient())
             {
-                using (var response = httpClient.GetAsync("http://localhost:5100/api/publickey"))
+                using (var response = httpClient.GetAsync("http://localhost:5100/api/auth/publickey"))
                 {
                     publicAuthorizationKey = response.Result.Content.ReadAsStringAsync().Result;
                 }
