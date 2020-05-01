@@ -1,0 +1,23 @@
+<div class="row mt-2">
+  <div class="mt-2">Wybierz dzień:</div>
+  <div class="col-xs-12 col-12 col-sm-6 col-md-4 form-group">
+    <input [(ngModel)]="day" class="form-control " ngModel bsDatepicker [bsConfig]="{containerClass: 'theme-green'}" [minDate]="minDate" [maxDate]="maxDate">
+  </div>
+</div>
+
+<div *ngIf="rooms" class="row mt-2 mb-4 ">
+  <div class="mt-2">Wybierz sale:</div>
+  <div class="btn-group ml-2" dropdown>
+    <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle ml-3"
+      aria-controls="dropdown-animated">
+      {{currentRoom.name}} <span class="caret"></span>
+    </button>
+    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated">
+      <li *ngFor="let room of rooms" role="menuitem">
+        <a class="dropdown-item" (click)="changeCurrentRoom(room)">{{room.name}}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<canvas class="col-lg-8" id="canvas" style="width: 100%; cursor: pointer;"></canvas>

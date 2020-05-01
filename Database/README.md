@@ -21,7 +21,7 @@ use pingpongapp
 ```
 Recreate database structure:
 ```
-source recreateDatabaseStrucuture.sql
+source recreateDatabaseStructure.sql
 ```
 Seed data:
 ```

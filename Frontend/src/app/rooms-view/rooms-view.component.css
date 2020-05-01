@@ -1,0 +1,7 @@
+.dropdown-toggle,.dropdown-item,.ng-pristine{
+    cursor: pointer;
+  }
+  canvas {
+    margin: 0;
+    padding: 0;
+}
