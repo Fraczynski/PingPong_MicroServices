@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand">Rezerwacja ping-pong</a>
+    <a class="navbar-brand" [routerLink]="['']">Rezerwacja ping-pong</a>
 
     <ul class="navbar-nav mr-auto">
-      <li [routerLink]="['']" class="nav-item" routerLinkActive="active"> 
-        <a class="nav-link">Strona główna</a>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> 
+        <a [routerLink]="['']" class="nav-link">Strona główna</a>
       </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link">Sale</a>
+      <li  class="nav-item" routerLinkActive="active">
+        <a [routerLink]="['rooms-view']" class="nav-link">Sale</a>
       </li>
       <!--<div>
         <li class="nav-item" routerLinkActive="active">
