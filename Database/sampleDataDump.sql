@@ -57,3 +57,34 @@ VALUES
     (7, 'Stol 2', 10, 1, 2.74, 1.525, 0, 2),
     (8, 'Stol 3', 13, 1, 2.74, 1.525, 0, 2);
 UNLOCK TABLES;
+
+--
+-- Dumping data for table `OpeningHours`
+--
+
+LOCK TABLES `OpeningHours` WRITE;
+INSERT INTO OpeningHours (Id, DayOfWeek, Start, End, Open) VALUES (1, 0, 8, 16, 1);
+INSERT INTO OpeningHours (Id, DayOfWeek, Start, End, Open) VALUES (2, 1, 8, 16, 1);
+INSERT INTO OpeningHours (Id, DayOfWeek, Start, End, Open) VALUES (3, 2, 8, 16, 1);
+INSERT INTO OpeningHours (Id, DayOfWeek, Start, End, Open) VALUES (4, 3, 8, 16, 1);
+INSERT INTO OpeningHours (Id, DayOfWeek, Start, End, Open) VALUES (5, 4, 8, 16, 1);
+INSERT INTO OpeningHours (Id, DayOfWeek, Start, End, Open) VALUES (6, 5, 10, 14, 0);
+INSERT INTO OpeningHours (Id, DayOfWeek, Start, End, Open) VALUES (7, 6, 10, 14, 0);
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `SpecialOpeningHours`
+--
+
+LOCK TABLES `SpecialOpeningHours` WRITE;
+INSERT INTO SpecialOpeningHours (Day, Start, End, Description) VALUES ("2020-04-23", 8, 16,"dupa");
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `ClosingDays`
+--
+
+LOCK TABLES `ClosingDays` WRITE;
+INSERT INTO ClosingDays (Day, Description) VALUES ("2020-05-23", "dupa");
+UNLOCK TABLES;
+

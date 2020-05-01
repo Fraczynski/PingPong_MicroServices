@@ -19,7 +19,7 @@
     },
     "Authorization_Service": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "auth",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {

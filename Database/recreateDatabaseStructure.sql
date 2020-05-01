@@ -221,7 +221,6 @@ DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 --
 -- Table structure for table `rooms`
 --
-
 DROP TABLE IF EXISTS `rooms`;
 CREATE TABLE `rooms`
 (
@@ -263,4 +262,43 @@ COLLATE utf8mb4_0900_ai_ci,
 DELETE CASCADE
 ) ENGINE=InnoDB
 AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Table structure for table `openingHours`
+--
+DROP TABLE IF EXISTS `openinghours`;
+CREATE TABLE `openinghours` (
+	`Id` int NOT NULL AUTO_INCREMENT,
+	 `DayOfWeek` int NOT NULL,
+	 `Start` time(6) NOT NULL,
+	 `End` time(6) NOT NULL,
+	 `OPEN` tinyint(1) NOT NULL,
+	 PRIMARY KEY (`Id`)  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Table structure for table `spcialOpeningHours`
+--
+
+DROP TABLE IF EXISTS `specialopeninghours`;
+CREATE TABLE `specialopeninghours` (
+	`Id` int NOT NULL AUTO_INCREMENT,
+	 `Day` datetime(6) NOT NULL,
+	 `Start` time(6) NOT NULL,
+	 `End` time(6) NOT NULL,
+	 `Description` longtext,
+	 PRIMARY KEY (`Id`)  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Table structure for table `closingDays`
+--
+
+DROP TABLE IF EXISTS `closingdays`;
+CREATE TABLE `closingdays` (
+	`Id` int NOT NULL AUTO_INCREMENT,
+	 `Day` datetime(6) NOT NULL,
+	 `Description` longtext,
+	 PRIMARY KEY (`Id`)  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
