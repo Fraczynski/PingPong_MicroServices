@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Reservation_Service.Data;
+using AutoMapper;
 
 namespace Reservation_Service
 {
@@ -28,7 +29,9 @@ namespace Reservation_Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+             services.AddScoped<IReservationRepository, ReservationRepository>();
             services.AddDbContext<DataContext>(x=>x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddAutoMapper(typeof(ReservationRepository).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
