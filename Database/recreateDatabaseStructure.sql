@@ -312,9 +312,10 @@ CREATE TABLE `reservations` (
   `UserId` int NOT NULL,
   `PingPongTableId` int NOT NULL,
   `Start` datetime(6) NOT NULL,
+  `End` datetime(6) NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `FK_Reservations_Tables_PingPongTableId` (`PingPongTableId`),
   KEY `FK_Reservations_AspNetUsers_UserId` (`UserId`),
   CONSTRAINT `FK_Reservations_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE,
   CONSTRAINT `FK_Reservations_Tables_PingPongTableId` FOREIGN KEY (`PingPongTableId`) REFERENCES `tables` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

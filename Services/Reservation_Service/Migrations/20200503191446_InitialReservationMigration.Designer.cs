@@ -9,8 +9,8 @@ using Reservation_Service.Data;
 namespace Reservation_Service.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200503125705_reservationService")]
-    partial class reservationService
+    [Migration("20200503191446_InitialReservationMigration")]
+    partial class InitialReservationMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,9 @@ namespace Reservation_Service.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("PingPongTableId")
                         .HasColumnType("int");

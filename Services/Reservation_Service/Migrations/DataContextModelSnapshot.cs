@@ -23,6 +23,9 @@ namespace Reservation_Service.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<int>("PingPongTableId")
                         .HasColumnType("int");
 
@@ -33,10 +36,6 @@ namespace Reservation_Service.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PingPongTableId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Reservations");
                 });

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Reservation_Service.Migrations
 {
-    public partial class reservationService : Migration
+    public partial class InitialReservationMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,8 @@ namespace Reservation_Service.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(nullable: false),
                     PingPongTableId = table.Column<int>(nullable: false),
-                    Start = table.Column<DateTime>(nullable: false)
+                    Start = table.Column<DateTime>(nullable: false),
+                    End = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

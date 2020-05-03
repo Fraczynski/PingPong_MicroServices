@@ -63,13 +63,15 @@ UNLOCK TABLES;
 --
 
 LOCK TABLES `OpeningHours` WRITE;
-INSERT INTO OpeningHours (Id, DayOfWeek, Start, End, Open) VALUES (1, 0, 8, 16, 1);
-INSERT INTO OpeningHours (Id, DayOfWeek, Start, End, Open) VALUES (2, 1, 8, 16, 1);
-INSERT INTO OpeningHours (Id, DayOfWeek, Start, End, Open) VALUES (3, 2, 8, 16, 1);
-INSERT INTO OpeningHours (Id, DayOfWeek, Start, End, Open) VALUES (4, 3, 8, 16, 1);
-INSERT INTO OpeningHours (Id, DayOfWeek, Start, End, Open) VALUES (5, 4, 8, 16, 1);
-INSERT INTO OpeningHours (Id, DayOfWeek, Start, End, Open) VALUES (6, 5, 10, 14, 0);
-INSERT INTO OpeningHours (Id, DayOfWeek, Start, End, Open) VALUES (7, 6, 10, 14, 0);
+INSERT INTO OpeningHours
+VALUES 
+(1, 0, "8:00:00", "16:00:00", 0), 
+(2, 1, "8:00:00", "16:00:00", 1),
+(3, 2, "8:00:00", "16:00:00", 1),
+(4, 3, "8:00:00", "16:00:00", 1),
+(5, 4, "8:00:00", "16:00:00", 1),
+(6, 5, "8:00:00", "16:00:00", 1),
+(7, 6, "8:00:00", "16:00:00", 0);
 UNLOCK TABLES;
 
 --
@@ -77,7 +79,7 @@ UNLOCK TABLES;
 --
 
 LOCK TABLES `SpecialOpeningHours` WRITE;
-INSERT INTO SpecialOpeningHours (Day, Start, End, Description) VALUES ("2020-04-23", 8, 16,"dupa");
+INSERT INTO SpecialOpeningHours (Day, Start, End, Description) VALUES ("2020-04-23", "8:00:00", "16:00:00","");
 UNLOCK TABLES;
 
 --
@@ -85,6 +87,21 @@ UNLOCK TABLES;
 --
 
 LOCK TABLES `ClosingDays` WRITE;
-INSERT INTO ClosingDays (Day, Description) VALUES ("2020-05-23", "dupa");
+INSERT INTO ClosingDays (Day, Description) VALUES ("2020-05-23", "");
 UNLOCK TABLES;
 
+--
+-- Dumping data for table `reservations`
+--
+
+LOCK TABLES `reservations` WRITE;
+INSERT INTO `reservations` 
+VALUES 
+(1,1,1,'2020-05-07 12:00:00','2020-05-07 15:00:00'),
+(2,1,1,'2020-05-07 15:00:00','2020-05-07 16:00:00'),
+(3,1,1,'2020-05-07 11:00:00','2020-05-07 12:00:00'),
+(4,1,1,'2020-05-07 10:00:00','2020-05-07 11:00:00'),
+(5,1,1,'2020-05-07 08:15:00','2020-05-07 10:00:00'),
+(6,1,1,'2020-05-10 08:15:00','2020-05-10 10:00:00'),
+(7,1,1,'2020-05-10 10:15:00','2020-05-10 10:45:00');
+UNLOCK TABLES;
