@@ -15,7 +15,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(model: any) {
-    return this.http.post(this.gatewayUrl + 'login', model).pipe(
+    return this.http.post(this.gatewayUrl + 'auth/login', model).pipe(
       map((response: any) => {
         const user = response;
         if (user) {
@@ -26,7 +26,7 @@ export class AuthService {
     );
   }
   register(model: any) {
-    return this.http.post(this.gatewayUrl + 'register', model);
+    return this.http.post(this.gatewayUrl + 'auth/register', model);
   }
   loggedIn() {
     const token = localStorage.getItem('token');

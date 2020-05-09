@@ -18,6 +18,8 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { RoomsViewComponent } from './rooms-view/rooms-view.component';
+import { TableScheduleComponent } from './table-schedule/table-schedule.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -31,6 +33,7 @@ defineLocale('pl', plLocale);
     RegisterComponent,
     HomeComponent,
     RoomsViewComponent,
+    TableScheduleComponent
   ],
   imports: [
     BrowserModule,
@@ -47,9 +50,11 @@ defineLocale('pl', plLocale);
     }),
     // ngx-bootstrap
     BsDropdownModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],
+  entryComponents: [TableScheduleComponent]
 })
 export class AppModule {}

@@ -1,7 +1,7 @@
 <div class="row mt-2">
   <div class="mt-2">Wybierz dzień:</div>
   <div class="col-xs-12 col-12 col-sm-6 col-md-4 form-group">
-    <input [(ngModel)]="day" class="form-control " ngModel bsDatepicker [bsConfig]="{containerClass: 'theme-green'}" [minDate]="minDate" [maxDate]="maxDate">
+    <input [(ngModel)]="day" class="form-control "  bsDatepicker [bsConfig]="{containerClass: 'theme-green'}"  [minDate]="minDate" [maxDate]="maxDate" [daysDisabled]="weekDaysWhenClosed"  [datesDisabled]="closingDays">
   </div>
 </div>
 
@@ -21,3 +21,32 @@
 </div>
 
 <canvas class="col-lg-8" id="canvas" style="width: 100%; cursor: pointer;"></canvas>
+
+<div *ngIf="reservationService.reservationsCart.length!=0">
+  <h3>Wybrane rezerwacje:</h3>
+
+  <table class="table col-lg-6 table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Data</th>
+        <th scope="col">Godzina</th>
+        <th scope="col">Stół</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let m of reservationService.reservationsCart">
+        <td>{{m.start.toLocaleDateString()}}</td>
+        <td>{{m.start.getHours()}}:{{m.start.getMinutes()}}-{{m.end.getHours()}}:{{m.end.getMinutes()}}</td>
+        <td>{{m.pingPongTableLabel}}</td>
+        <td><button class="btn btn-danger btn-sm" (click)="removeFromReservationList(m)">Anuluj!</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row mt-3">
+    <button type="button" [disabled]="!authService.loggedIn()" (click)="sendReservations()"
+      class="btn btn-success">Zatwierdź rezerwacje</button>
+    <div *ngIf="!authService.loggedIn()" class="mt-2 ml-2" style="color:red"> <b>Musisz się zalogować przed złożeniem
+        rezerwacji!</b></div>
+  </div>
+</div>
