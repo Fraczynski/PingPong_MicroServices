@@ -22,7 +22,7 @@ namespace Auth_Service.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<Role> _roleManager;
-        public AuthController(IConfiguration configuration,UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager )
+        public AuthController(IConfiguration configuration, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager)
         {
             _configuration = configuration;
             _userManager = userManager;
@@ -37,7 +37,7 @@ namespace Auth_Service.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
-            User userToCreate = new User{Email=registerDto.Email,FirstName=registerDto.FirstName,LastName=registerDto.LastName};
+            User userToCreate = new User { Email = registerDto.Email, FirstName = registerDto.FirstName, LastName = registerDto.LastName };
             userToCreate.UserName = userToCreate.Email;
 
             var creatingUserResult = await _userManager.CreateAsync(userToCreate, registerDto.Password);
@@ -51,8 +51,8 @@ namespace Auth_Service.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-             var user = await _userManager.FindByEmailAsync(loginDto.Email);
-             if (user != null)
+            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            if (user != null)
             {
                 var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
@@ -60,16 +60,16 @@ namespace Auth_Service.Controllers
                 {
                     return Ok(new
                     {
-                        token = GenerateToken(_configuration.GetSection("AppSettings:PrivateKey").Value,user).Result
+                        token = GenerateToken(_configuration.GetSection("AppSettings:PrivateKey").Value, user).Result
                     });
                 }
             }
             return Unauthorized();
         }
-        private async Task<string> GenerateToken(string privateKey,User user)
+        private async Task<string> GenerateToken(string privateKey, User user)
         {
             var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
 
             var roles = await _userManager.GetRolesAsync(user);
 
@@ -77,17 +77,18 @@ namespace Auth_Service.Controllers
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
-
-            var tokenHandler = new JwtSecurityTokenHandler();
             SecurityKey key = TokenHelper.BuildRsaSigningKey(privateKey);
-            var Token = new JwtSecurityToken
-            (
-                claims: claims,
-                notBefore: DateTime.UtcNow,
-                expires: DateTime.Now.AddHours(24),
-                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest)
-            );
-            return tokenHandler.WriteToken(Token);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddHours(24),
+                SigningCredentials = creds
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
     }
 }
