@@ -3,6 +3,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { OpeningHoursService } from '../_services/opening-hours.service';
 import { ReservationsService } from '../_services/reservations.service';
 import { Reservation } from '../_models/reservation';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-table-schedule',
@@ -27,7 +28,8 @@ export class TableScheduleComponent implements OnInit {
   constructor(
     public reservationsService: ReservationsService,
     public bsModalRef: BsModalRef,
-    public openingHoursService: OpeningHoursService
+    public openingHoursService: OpeningHoursService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -54,13 +56,13 @@ export class TableScheduleComponent implements OnInit {
               this.setTableSchedule();
             },
             (error) => {
-              console.error(error);
+              this.toastr.error(error);
             }
           );
         }
       },
       (error) => {
-        console.error(error);
+        this.toastr.error(error);
       }
     );
   }
@@ -68,7 +70,6 @@ export class TableScheduleComponent implements OnInit {
   setTableSchedule() {
     this.reservations = [];
     this.reservationsService.getAlreadyBookedReservations(this.date, this.tableId).subscribe((data) => {
-      // dates retrived are strings so we need to convert them to Date type with "new Date(string)"
       for (const d of data) {
         this.alreadyBookedReservations.push({
           start: new Date(d.start),

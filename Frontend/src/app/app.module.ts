@@ -6,13 +6,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AppRoutingModule } from './app-routing.module';
-
 // ngx-bootstrap
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale, plLocale } from 'ngx-bootstrap/chronos';
 import { PaginationModule} from 'ngx-bootstrap/pagination';
-
+// toastr
+import { ToastrModule } from 'ngx-toastr';
 // components
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -22,6 +22,7 @@ import { RoomsViewComponent } from './rooms-view/rooms-view.component';
 import { TableScheduleComponent } from './table-schedule/table-schedule.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { UserReservationsComponent } from './user-reservations/user-reservations.component';
+import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -51,13 +52,16 @@ defineLocale('pl', plLocale);
         blacklistedRoutes: ['localhost:5100/api/auth'],
       },
     }),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+    }),
     // ngx-bootstrap
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     PaginationModule.forRoot()
   ],
-  providers: [],
+  providers: [ErrorInterceptorProvider],
   bootstrap: [AppComponent],
   entryComponents: [TableScheduleComponent]
 })

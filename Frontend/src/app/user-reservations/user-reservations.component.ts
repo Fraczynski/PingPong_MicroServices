@@ -3,6 +3,7 @@ import { Reservation } from '../_models/reservation';
 import { ReservationsService } from '../_services/reservations.service';
 import { AuthService } from '../_services/auth.service';
 import { Pagination } from '../_models/pagination';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-reservations',
@@ -14,7 +15,11 @@ export class UserReservationsComponent implements OnInit {
   reservationParams: any = {};
   pagination: Pagination;
 
-  constructor(private reservationService: ReservationsService, private authService: AuthService) {}
+  constructor(
+    private reservationService: ReservationsService,
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) {}
 
   resetFilters() {
     this.reservationParams.start = '';
@@ -50,19 +55,18 @@ export class UserReservationsComponent implements OnInit {
           }
         },
         (error) => {
-          console.error(error);
+          this.toastr.error(error);
         }
       );
   }
   cancelReservation(res: Reservation) {
     this.reservationService.cancelReservation(res).subscribe(
       () => {
-        console.log('Rezerwacja anulowana');
-        this.userReservations = this.userReservations.filter((r) => r !== res);
+        this.toastr.success('Rezerwacja anulowana pomyślnie');
         this.getReservations();
       },
       (error) => {
-        console.error(error);
+        this.toastr.error(error);
       }
     );
   }

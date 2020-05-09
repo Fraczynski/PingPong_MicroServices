@@ -13,6 +13,7 @@ import { ReservationsService } from '../_services/reservations.service';
 import { Reservation } from '../_models/reservation';
 import { Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tables',
@@ -45,7 +46,8 @@ export class RoomsViewComponent implements OnInit {
     private closingDaysService: ClosingDaysService,
     public reservationService: ReservationsService,
     private router: Router,
-    public authService: AuthService
+    public authService: AuthService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -80,7 +82,7 @@ export class RoomsViewComponent implements OnInit {
         this.getTables();
       },
       (error) => {
-        console.error(error);
+        this.toastr.error(error);
       }
     );
   }
@@ -91,7 +93,7 @@ export class RoomsViewComponent implements OnInit {
         this.tables = result;
         this.draw();
       },
-      (error) => console.error(error)
+      (error) => this.toastr.error(error)
     );
   }
   getClosingDays() {
@@ -103,7 +105,7 @@ export class RoomsViewComponent implements OnInit {
         this.moveToTheFirstOpenDay();
       },
       (error) => {
-        console.error(error);
+        this.toastr.error(error);
       }
     );
   }
@@ -119,7 +121,7 @@ export class RoomsViewComponent implements OnInit {
         this.getClosingDays();
       },
       (error) => {
-        console.error(error);
+        this.toastr.error(error);
       }
     );
   }
@@ -153,12 +155,12 @@ export class RoomsViewComponent implements OnInit {
   sendReservations() {
     this.reservationService.sendReservations().subscribe(
       () => {
-        console.log('Zarezerwowano');
+        this.toastr.success('Zarezerwowano');
         this.reservationService.reservationsCart = [];
         this.router.navigate(['/user-reservations']);
       },
       (error) => {
-        console.error(error);
+        this.toastr.error(error);
         this.reservationService.reservationsCart = [];
       }
     );
