@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale, plLocale } from 'ngx-bootstrap/chronos';
+import { PaginationModule} from 'ngx-bootstrap/pagination';
 
 // components
 import { AppComponent } from './app.component';
@@ -20,6 +21,7 @@ import { HomeComponent } from './home/home.component';
 import { RoomsViewComponent } from './rooms-view/rooms-view.component';
 import { TableScheduleComponent } from './table-schedule/table-schedule.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { UserReservationsComponent } from './user-reservations/user-reservations.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -33,7 +35,8 @@ defineLocale('pl', plLocale);
     RegisterComponent,
     HomeComponent,
     RoomsViewComponent,
-    TableScheduleComponent
+    TableScheduleComponent,
+    UserReservationsComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,8 @@ defineLocale('pl', plLocale);
     // ngx-bootstrap
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    PaginationModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

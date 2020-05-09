@@ -155,7 +155,7 @@ export class RoomsViewComponent implements OnInit {
       () => {
         console.log('Zarezerwowano');
         this.reservationService.reservationsCart = [];
-        // this.router.navigate(['/user-reservations']);
+        this.router.navigate(['/user-reservations']);
       },
       (error) => {
         console.error(error);
