@@ -1,191 +1,152 @@
 {
-    "ReRoutes": [
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/api/auth/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
         {
-            "DownstreamPathTemplate": "/api/auth/",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 5000
-                }
-            ],
-            "UpstreamPathTemplate": "/api/auth",
-            "UpstreamHttpMethod": [
-                "Post", 
-                "Get",
-                "Post",
-                "Patch",
-                "Delete",
-                "Put"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/auth/{everything}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 5000
-                }
-            ],
-            "UpstreamPathTemplate": "/api/auth/{everything}",
-            "UpstreamHttpMethod": [
-                "Post", 
-                "Get",
-                "Post",
-                "Patch",
-                "Delete",
-                "Put"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/rooms",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 5002
-                }
-            ],
-            "UpstreamPathTemplate": "/api/rooms",
-            "UpstreamHttpMethod": [
-                "Get",
-                "Post",
-                "Patch",
-                "Delete",
-                "Put"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/rooms/{everything}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 5002
-                }
-            ],
-            "UpstreamPathTemplate": "/api/rooms/{everything}",
-            "UpstreamHttpMethod": [
-                "Get",
-                "Post",
-                "Patch",
-                "Delete",
-                "Put"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/tables",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 5002
-                }
-            ],
-            "UpstreamPathTemplate": "/api/tables",
-            "UpstreamHttpMethod": [
-                "Get",
-                "Post",
-                "Patch",
-                "Delete",
-                "Put"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/tables/{everything}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 5002
-                }
-            ],
-            "UpstreamPathTemplate": "/api/tables/{everything}",
-            "UpstreamHttpMethod": [
-                "Get",
-                "Post",
-                "Patch",
-                "Delete",
-                "Put"
-            ]
-        },
-      {
-        "DownstreamPathTemplate": "/api/openinghours",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-            {
-                "Host": "localhost",
-                "Port": 5004
-            }
-        ],
-        "UpstreamPathTemplate": "/api/openinghours",
-        "UpstreamHttpMethod": [
-            "Get",
-            "Post",
-            "Patch",
-            "Delete",
-            "Put"
-        ]
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/auth",
+      "UpstreamHttpMethod": ["Post", "Get", "Post", "Patch", "Delete", "Put"]
     },
     {
-        "DownstreamPathTemplate": "/api/openinghours/{everything}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-            {
-                "Host": "localhost",
-                "Port": 5004
-            }
-        ],
-        "UpstreamPathTemplate": "/api/openinghours/{everything}",
-        "UpstreamHttpMethod": [
-            "Get",
-            "Post",
-            "Patch",
-            "Delete",
-            "Put"
-        ]
+      "DownstreamPathTemplate": "/api/auth/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/auth/{everything}",
+      "UpstreamHttpMethod": ["Post", "Get", "Post", "Patch", "Delete", "Put"]
     },
     {
-        "DownstreamPathTemplate": "/api/closingdays",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-            {
-                "Host": "localhost",
-                "Port": 5004
-            }
-        ],
-        "UpstreamPathTemplate": "/api/closingdays",
-        "UpstreamHttpMethod": [
-            "Get",
-            "Post",
-            "Patch",
-            "Delete",
-            "Put"
-        ]
-    }
-    ,
+      "DownstreamPathTemplate": "/api/rooms",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/api/rooms",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
     {
-        "DownstreamPathTemplate": "/api/closingdays/{everything}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-            {
-                "Host": "localhost",
-                "Port": 5004
-            }
-        ],
-        "UpstreamPathTemplate": "/api/closingdays{everything}",
-        "UpstreamHttpMethod": [
-            "Get",
-            "Post",
-            "Patch",
-            "Delete",
-            "Put"
-        ]
+      "DownstreamPathTemplate": "/api/rooms/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/api/rooms/{everything}",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/tables",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/api/tables",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/tables/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/api/tables/{everything}",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/openinghours",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ],
+      "UpstreamPathTemplate": "/api/openinghours",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/openinghours/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ],
+      "UpstreamPathTemplate": "/api/openinghours/{everything}",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/closingdays",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ],
+      "UpstreamPathTemplate": "/api/closingdays",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/closingdays/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ],
+      "UpstreamPathTemplate": "/api/closingdays/{everything}",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/reservation",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5006
+        }
+      ],
+      "UpstreamPathTemplate": "/api/reservation",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/reservation/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5006
+        }
+      ],
+      "UpstreamPathTemplate": "/api/reservation/{everything}",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
     }
-    ],
-    "GlobalConfiguration": {
-        "RequestIdKey": "OcRequestId",
-        "AdministrationPath": "/api"
-    }
+  ],
+  "GlobalConfiguration": {
+    "RequestIdKey": "OcRequestId",
+    "AdministrationPath": "/api"
+  }
 }

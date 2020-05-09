@@ -23,9 +23,16 @@ namespace Room_Service.Controllers
             _repository = repository;
             _mapper = mapper;
         }
+        [AllowAnonymous]
+        [HttpGet("{tableId}")]
+        public async Task<IActionResult> GetTable(int tableId)
+        {
+            var table = await _repository.GetTable(tableId);
+            return Ok(_mapper.Map<PingPongTableForReturnDto>(table));
+        }
 
         [AllowAnonymous]
-        [HttpGet("{roomId}")]
+        [HttpGet("room/{roomId}")]
         public async Task<IActionResult> GetTablesFromOneRoom(int roomId)
         {
             var tables = await _repository.GetAllTablesWithRoomId(roomId);

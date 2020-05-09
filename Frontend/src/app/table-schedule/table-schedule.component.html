@@ -1,0 +1,29 @@
+<div class="modal-content">
+  <div class="modal-header" style="background: #393535;">
+    <h5 class="col-12 modal-title text-center" style="color: white;">Stół {{tableLabel}}</h5>
+  </div>
+  <div class="modal-body">
+    <div class="row justify-content-center">
+        <button type="button" *ngIf="!(pickingStartDate||pickingEndDate)" (click)="startReservating()" class="btn btn-primary">Nowa rezerwacja</button>
+        <button type="button" *ngIf="pickingStartDate||pickingEndDate" (click)="cancelReservating()"class="btn btn-secondary">Anuluj</button>
+    </div>
+    <div class="row justify-content-center">
+      <div *ngIf="pickingStartDate">
+        Wybierz początek rezerwacji.
+      </div>
+      <div *ngIf="pickingEndDate">
+        Wybierz koniec rezerwacji.
+      </div>
+    </div>
+    <div class="row mt-2 justify-content-center">
+      <div *ngFor="let column of getArray(numberOfColumns);let l=index" class="col-{{12/numberOfColumns}}">
+        <button type="button" (mouseenter)="onMouseOver(m)" 
+        *ngFor="let m of reservations | slice:(reservations.length/numberOfColumns * l): (reservations.length/numberOfColumns* (l+1))" 
+        [disabled]='(!m.free||m.tempDisabled)' 
+        [ngClass]="{'btn-success':m.free&&!m.highlighted,'btn-danger':!m.free&&!m.highlighted,'btn-info': m.highlighted}"  class="mt-1 btn btn-sm col-12"
+        (click)="buttonPress(m)">{{m.start.getHours()}}:{{m.start.getMinutes()}}-{{m.end.getHours()}}:{{m.end.getMinutes()}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+

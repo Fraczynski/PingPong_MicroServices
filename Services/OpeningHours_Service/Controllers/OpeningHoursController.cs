@@ -16,11 +16,38 @@ namespace OpeningHours_Service.Controllers
     public class OpeningHoursController : ControllerBase
     {
         private readonly IOpeningHoursRepository _repository;
+        private readonly IClosingDaysRepository _closingDaysRepository;//TEMPORARY, REPLACE BOTCH REPOSITORIES WITH SERVICE LATER!!!
         private readonly IMapper _mapper;
-        public OpeningHoursController(IOpeningHoursRepository repository, IMapper mapper)
+        public OpeningHoursController(IOpeningHoursRepository repository, IClosingDaysRepository closingDaysRepository, IMapper mapper)
         {
             _mapper = mapper;
             _repository = repository;
+            _closingDaysRepository = closingDaysRepository;
+        }
+        [AllowAnonymous]
+        [HttpGet("actual/{dayString}")]
+        public async Task<IActionResult> GetActualOpeningHoursForSpecificDay(string dayString)
+        {
+            var day = DateTime.Parse(dayString);
+            var regularOpeningHours = await _repository.GetOpeningHours(day.DayOfWeek);
+            var actualOpeningHours = new ActualOpeningHoursDto();
+            if (!regularOpeningHours.Open || await _closingDaysRepository.IsInClosedDays(day))
+            {
+                return Ok(actualOpeningHours);
+            }
+            actualOpeningHours.IsOpen = true;
+            var specialOpeningHours = await _repository.GetSpecialOpeningHours(day);
+            if (specialOpeningHours != null)
+            {
+                actualOpeningHours.Start = specialOpeningHours.Start.Hours;
+                actualOpeningHours.End = specialOpeningHours.End.Hours;
+            }
+            else
+            {
+                actualOpeningHours.Start = regularOpeningHours.Start.Hours;
+                actualOpeningHours.End = regularOpeningHours.End.Hours;
+            }
+            return Ok(actualOpeningHours);
         }
         [AllowAnonymous]
         [HttpGet]

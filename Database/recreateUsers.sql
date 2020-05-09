@@ -20,3 +20,10 @@ GRANT ALL PRIVILEGES ON pingpongapp.OpeningHours TO 'openingService'@'localhost'
 GRANT ALL PRIVILEGES ON pingpongapp.ClosingDays TO 'openingService'@'localhost';
 GRANT ALL PRIVILEGES ON pingpongapp.__efmigrationshistory TO 'openingService'@'localhost';
 FLUSH PRIVILEGES;
+
+CREATE USER 'reservationService'@'localhost' IDENTIFIED BY 'reservationServicePassword';
+GRANT ALL PRIVILEGES ON pingpongapp.reservations TO 'reservationService'@'localhost';
+GRANT ALL PRIVILEGES ON pingpongapp.__efmigrationshistory TO 'reservationService'@'localhost';
+GRANT REFERENCES ON pingpongapp.tables TO 'reservationService'@'localhost';
+GRANT REFERENCES ON pingpongapp.aspnetusers TO 'reservationService'@'localhost';
+FLUSH PRIVILEGES;

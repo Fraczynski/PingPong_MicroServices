@@ -11,7 +11,7 @@ export class TablesService {
   constructor(private http: HttpClient) {}
 
   getTables(roomId: number): Observable<Table[]> {
-    return this.http.get<Table[]>(this.baseUrl + 'tables/' + roomId);
+    return this.http.get<Table[]>(this.baseUrl + 'tables/room/' + roomId);
   }
   updateTablesInRoom(tablesToAdd: Table[], tablesToDeleteIds: number[], tablesToUpdate: Table[]): Observable<Table[]> {
     return this.http.post<Table[]>(this.baseUrl + 'tables', {tablesToAdd, tablesToDeleteIds, tablesToUpdate});
