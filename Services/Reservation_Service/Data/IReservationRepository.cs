@@ -12,9 +12,8 @@ namespace Reservation_Service.Data
         Task<bool> IsReservationTaken(Reservation reservation);
         void DeleteReservation(Reservation reservation);
         Task<IEnumerable<Reservation>> getTableReservations(int tableId, DateTime day);
-        Task<IEnumerable<Reservation>> getUserReservations(int userId);
         Task<Reservation> GetReservation(int id);
         Task<bool> SaveAll();
-        Task<PagedList<Reservation>> GetAllReservations(ReservationParams reservationParams);
+        Task<PagedList<Reservation>> GetReservations(ReservationParams reservationParams);
     }
 }

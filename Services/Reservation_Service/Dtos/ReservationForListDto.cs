@@ -6,7 +6,6 @@ namespace Reservation_Service.Dtos
     {
         public int Id { get; set; }
         public int PingPongTableId { get; set; }
-        public string PingPongTableLabel { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public int UserId { get; set; }

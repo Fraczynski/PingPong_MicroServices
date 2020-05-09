@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Reservation_Service.Dtos;
 using Reservation_Service.Helpers;
 using Reservation_Service.Models;
 
@@ -34,10 +37,6 @@ namespace Reservation_Service.Data
         {
             return await _context.Reservations.Where(r => (r.PingPongTableId == tableId && r.Start.Date == day.Date)).ToListAsync();
         }
-        public async Task<IEnumerable<Reservation>> getUserReservations(int userId)
-        {
-            return await _context.Reservations.Where(r => (r.UserId == userId)).ToListAsync();
-        }
         public void DeleteReservation(Reservation reservation)
         {
             _context.Reservations.Remove(reservation);
@@ -50,13 +49,9 @@ namespace Reservation_Service.Data
         {
             return await _context.SaveChangesAsync() > 0;
         }
-        public async Task<PagedList<Reservation>> GetAllReservations(ReservationParams reservationParams)
+        public async Task<PagedList<Reservation>> GetReservations(ReservationParams reservationParams)
         {
-            var reservations = _context.Reservations./*Include(r => r.PingPongTable).*/OrderBy(r => r.Start).AsQueryable();
-            /*if (!string.IsNullOrEmpty(reservationParams.PingPongTableLabel))
-            {
-                reservations = reservations.Where(r => r.PingPongTable.Label.ToLower().Contains(reservationParams.PingPongTableLabel.ToLower()));
-            }*/
+            var reservations = _context.Reservations.OrderBy(r => r.Start).AsQueryable();
             if (reservationParams.Start != DateTime.MinValue)
             {
                 reservations = reservations.Where(r => r.Start.Date == reservationParams.Start.Date);
@@ -64,6 +59,10 @@ namespace Reservation_Service.Data
             if (reservationParams.UserId != null)
             {
                 reservations = reservations.Where(r => r.UserId == reservationParams.UserId);
+            }
+            if (reservationParams.PingPongTableId != null)
+            {
+                reservations = reservations.Where(r => r.PingPongTableId == reservationParams.PingPongTableId);
             }
             if (!string.IsNullOrEmpty(reservationParams.OrderBy))
             {
@@ -74,11 +73,11 @@ namespace Reservation_Service.Data
                             reservations = reservations.OrderBy(r => r.UserId);
                             break;
                         }
-                    /*case "pingPongTableLabel":
+                    case "pingPongTableId":
                         {
-                            reservations = reservations.OrderBy(r => r.PingPongTable.Label);
+                            reservations = reservations.OrderBy(r => r.PingPongTableId);
                             break;
-                        }*/
+                        }
                     default:
                         {
                             reservations = reservations.OrderBy(r => r.Start);

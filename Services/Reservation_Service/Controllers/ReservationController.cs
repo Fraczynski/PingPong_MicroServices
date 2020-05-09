@@ -25,38 +25,24 @@ namespace Reservation_Service.Controllers
             _reservationRepo = reservationRepo;
             _mapper = mapper;
         }
+        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAllReservations([FromQuery]ReservationParams reservationParams)
+        public async Task<IActionResult> GetReservations([FromQuery] ReservationParams reservationParams)
         {
-            var reservations = await _reservationRepo.GetAllReservations(reservationParams);
+            if (reservationParams.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) && !User.FindFirst(ClaimTypes.Role).Value.Equals("Employee"))
+                return Forbid();
+            var reservations = await _reservationRepo.GetReservations(reservationParams);
             var reservationsToReturn = _mapper.Map<IEnumerable<ReservationForListDto>>(reservations);
-            foreach (var reservation in reservationsToReturn)
-            {
-                reservation.PingPongTableLabel = (await GetTable(reservation.PingPongTableId)).Label;
-            }
             Response.AddPagination(reservations.CurrentPage, reservations.PageSize, reservations.TotalCount, reservations.TotalPages);
             return Ok(reservationsToReturn);
         }
-
         [HttpGet("{date}/{tableId}")]
         public async Task<IActionResult> GetTableReservations(DateTime date, int tableId)
         {
             var reservations = await _reservationRepo.getTableReservations(tableId, date);
             return Ok(_mapper.Map<IEnumerable<ReservationForScheduleDto>>(reservations));
         }
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUserReservations(int userId)
-        {
-            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) && !User.FindFirst(ClaimTypes.Role).Value.Equals("Employee"))
-                return Forbid();
-            var reservations = await _reservationRepo.getUserReservations(userId);
-            var reservationsToReturn = _mapper.Map<IEnumerable<ReservationForListDto>>(reservations);
-            foreach (var reservation in reservationsToReturn)
-            {
-                reservation.PingPongTableLabel = (await GetTable(reservation.PingPongTableId)).Label;
-            }
-            return Ok(reservationsToReturn);
-        }
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReservation(int id)
         {
@@ -74,10 +60,11 @@ namespace Reservation_Service.Controllers
             }
             throw new Exception($"Usunięcie rezerwacji o numerze {id} nie powiodło się.");
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> MakeReservation(IEnumerable<ReservationForAddDto> reservationsForAddDto)
         {
-            var userWhoRequestedId = 1;//int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userWhoRequestedId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var reservationsToAdd = _mapper.Map<IEnumerable<Reservation>>(reservationsForAddDto);
 
             foreach (Reservation r in reservationsToAdd)
@@ -96,6 +83,43 @@ namespace Reservation_Service.Controllers
             }
             throw new System.Exception("Nie udało się zapisać rezerwacji do bazy!");
         }
+        private async Task<(bool, string)> ValidateReservationRequest(Reservation r)
+        {
+            if (r.Start.Minute % 15 != 0)
+            {
+                return (false, "Rezerwacja powinna zaczynać się od wielokrotnośći 15 minut!");
+            }
+            if (r.End.Minute % 15 != 0)
+            {
+                return (false, "Rezerwacja powinna kończyć się na wielokrotnośći 15 minut!");
+            }
+            if (r.End - r.Start < TimeSpan.FromMinutes(30))
+            {
+                return (false, "Rezerwacja nie może być krótsza niż 30 minut!");
+            }
+            var openingHours = await GetOpeningHours(r.Start.Date);
+            if (openingHours == null)
+            {
+                return (false, "Rezerwacja musi być złożona na czynny dzień!");
+            }
+            if (!(r.Start.TimeOfDay >= openingHours.Value.openingHour && r.End.TimeOfDay <= openingHours.Value.closingHour))
+            {
+                return (false, "Rezerwacja wykracza poza godziny otwarcia lokalu");
+            }
+            if (!ValidateReservationSubmitTimeWindow(r.Start))
+            {
+                return (false, "Rezerwacja powinna być złożona nie wcześniej niż dwa tygodnie przed jej terminem oraz nie później niż na godzinę przed!");
+            }
+            if ((await GetTable(r.PingPongTableId) == null))
+            {
+                return (false, "Dany stół nie istnieje!");
+            }
+            if (await _reservationRepo.IsReservationTaken(r))
+            {
+                return (false, "Rezerwacja już zajęta!");
+            }
+            return (true, null);
+        }
         private bool ValidateReservationSubmitTimeWindow(DateTime start)
         {
             var timeDiffrence = start - DateTime.Now;
@@ -105,7 +129,6 @@ namespace Reservation_Service.Controllers
             }
             return true;
         }
-
         private async Task<(TimeSpan openingHour, TimeSpan closingHour)?> GetOpeningHours(DateTime day)
         {
             ActualOpeningHoursDto actualOpeningHours;
@@ -133,39 +156,6 @@ namespace Reservation_Service.Controllers
                     return JsonConvert.DeserializeObject<TableDto>(openingHoursServiceAnswer);
                 }
             }
-        }
-        private async Task<(bool, string)> ValidateReservationRequest(Reservation r)
-        {
-            if (r.Start.Minute % 15 != 0)//wielokrotność 15
-            {
-                return (false, "Rezerwacja powinna zaczynać się od wielokrotnośći 15 minut!");
-            }
-            if (r.End - r.Start < TimeSpan.FromMinutes(30))
-            {
-                return (false, "Rezerwacja nie może być krótsza niż 30 minut!");
-            }
-            var openingHours = await GetOpeningHours(r.Start.Date);
-            if (openingHours == null)
-            {
-                return (false, "Rezerwacja musi być złożona na czynny dzień!");
-            }
-            if (!(r.Start.TimeOfDay >= openingHours.Value.openingHour && r.End.TimeOfDay <= openingHours.Value.closingHour))
-            {
-                return (false, "Rezerwacja wykracza poza godziny otwarcia lokalu");
-            }
-            if (!ValidateReservationSubmitTimeWindow(r.Start))
-            {
-                return (false, "Rezerwacja powinna być złożona nie wcześniej niż dwa tygodnie przed jej terminem oraz nie później niż na godzinę przed!");
-            }
-            if (GetTable(r.PingPongTableId) == null)
-            {
-                return (false, "Dany stół nie istnieje!");
-            }
-            if (await _reservationRepo.IsReservationTaken(r))
-            {
-                return (false, "Rezerwacja już zajęta!");
-            }
-            return (true, null);
         }
     }
 }

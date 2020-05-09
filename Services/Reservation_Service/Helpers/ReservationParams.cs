@@ -14,7 +14,7 @@ namespace Reservation_Service.Helpers
         }
         public DateTime Start { get; set; }
         public int? UserId { get; set; }
-        public string PingPongTableLabel { get; set; }
+        public int? PingPongTableId { get; set; }
         public string OrderBy { get; set; }
     }
 }
