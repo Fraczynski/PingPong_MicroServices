@@ -3,11 +3,14 @@
     <tab heading="Użytkownicy">
       <app-user-list *ngIf="tabs.tabs[0].active"></app-user-list>
     </tab>
+    <tab heading="Rezerwacje">
+      <app-reservations-list *ngIf="tabs.tabs[1].active"></app-reservations-list>
+    </tab>
     <tab heading="Sale">
-      <app-rooms-manager *ngIf="tabs.tabs[1].active"></app-rooms-manager>
+      <app-rooms-manager *ngIf="tabs.tabs[2].active"></app-rooms-manager>
     </tab>
     <tab heading="Godziny otwarcia">
-      <app-opening-hours *ngIf="tabs.tabs[2].active"></app-opening-hours>
+      <app-opening-hours *ngIf="tabs.tabs[3].active"></app-opening-hours>
     </tab>
   </tabset>
 </div>

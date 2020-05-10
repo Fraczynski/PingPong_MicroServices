@@ -33,6 +33,7 @@ import { TranslatePipe } from './_pipes/translate.pipe';
 import { RoomsManagerComponent } from './admin/rooms-manager/rooms-manager.component';
 import { OpeningHoursComponent } from './admin/opening-hours/opening-hours.component';
 import { EnumToArrayPipe } from './_pipes/enumToArray.pipe';
+import { ReservationsListComponent } from './admin/reservations-list/reservations-list.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -55,6 +56,7 @@ defineLocale('pl', plLocale);
     EnumToArrayPipe,
     RoomsManagerComponent,
     OpeningHoursComponent,
+    ReservationsListComponent
   ],
   imports: [
     BrowserModule,

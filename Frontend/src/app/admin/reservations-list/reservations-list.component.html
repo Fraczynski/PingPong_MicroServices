@@ -1,0 +1,71 @@
+<form class="form-inline mt-2 mb-2" #form="ngForm" ngSubmit="loadUsers()" novalidate>
+  <div class="form-group px-2">
+    <label for="start">Data</label>
+    <input type="text" [(ngModel)]="reservationParams.start"  style="width: 140px" id="start" name="start" class="form-control" bsDatepicker>
+  </div>
+  <div class="form-group px-2" >
+    <label for="id">Id użytkownika</label>
+    <input type="number" [(ngModel)]="reservationParams.userId" class="form-control ml-1" style="width: 70px" id="id" name="id">
+  </div>
+  <div class="form-group px-2">
+    <label for="pingPongTableLabel">Id stołu:</label>
+    <input type="text"  [(ngModel)]="reservationParams.pingPongTableId" class="form-control ml-1" style="width: 140px" id="pingPongTableId" name="pingPongTableId">
+  </div>
+
+  <div class="row ml-auto">
+    <button type="submit" class="btn btn-primary" style="margin-left:10px"  (click)="getReservationsList()">Zastosuj</button>
+    <div class="btn-group" dropdown>
+      <button id="button-animated" dropdownToggle type="button" class="btn btn-info dropdown-toggle"
+              aria-controls="dropdown-animated">
+        Sortowanie <span class="caret"></span>
+      </button>
+      <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+          role="menu" aria-labelledby="button-animated">
+        <li role="menuitem"><a (click)="reservationParams.orderBy='start';getReservationsList()" class="dropdown-item">Data</a></li>
+        <li role="menuitem"><a (click)="reservationParams.orderBy='userId';getReservationsList()" class="dropdown-item">Użytkownicy</a></li>
+        <li role="menuitem"><a (click)="reservationParams.orderBy='pingPongTableId';getReservationsList()" class="dropdown-item">Stoły</a></li>
+      </ul>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="resetFilters()">Resetuj</button>
+  </div>
+</form>
+<div *ngIf="reservations">
+    <table class='table' aria-labelledby="tableLabel">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Godzina</th>
+          <th>Użytkownik</th>
+          <th>Stół</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let reservation of reservations">
+          <tr class="clickable-tr" (click)="reservation.expanded = !reservation.expanded">
+            <td>{{reservation.start.toLocaleDateString()}}</td>
+            <td>{{reservation.start.getHours()}}:00-{{reservation.start.getHours()+1}}:00</td>
+            <td>{{reservation.userId}}</td>
+            <td>{{reservation.pingPongTableId}}</td>
+          </tr>
+          <tr *ngIf="reservation.expanded">
+            <td colspan="100%">
+              <div class="row justify-content-center">
+                <button type="button" class="btn btn-primary ml-3"
+                (click)="confirmReservation(reservation)">Potwierdź</button>
+              <button type="button" class="btn btn-secondary ml-3"
+                (click)="markUserAbsence(reservation)">Nieobecność</button>
+              <button type="button" (click)="cancelReservation(reservation)"
+                class="btn btn-danger  ml-3">Usuń</button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  <div class="row justify-content-center">
+    <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage"
+      (pageChanged)="pageChanged($event)" [(ngModel)]="pagination.currentPage" previousText="&lsaquo;"
+      nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+    </pagination>
+  </div>
+</div>
