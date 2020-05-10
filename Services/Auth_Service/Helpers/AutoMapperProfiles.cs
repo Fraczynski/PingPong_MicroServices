@@ -10,6 +10,8 @@ namespace Auth_Service.Helpers
         {
             CreateMap<User, UserForReturnDto>();
             CreateMap<User, UserForListDto>();
+            CreateMap<Role, RoleDto>();
+            CreateMap<RoleDto, Role>();
         }
     }
 }

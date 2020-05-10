@@ -25,6 +25,30 @@
       "UpstreamHttpMethod": ["Post", "Get", "Post", "Patch", "Delete", "Put"]
     },
     {
+      "DownstreamPathTemplate": "/api/users/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/users",
+      "UpstreamHttpMethod": ["Post", "Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/users/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/users/{everything}",
+      "UpstreamHttpMethod": ["Post", "Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
       "DownstreamPathTemplate": "/api/rooms",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
