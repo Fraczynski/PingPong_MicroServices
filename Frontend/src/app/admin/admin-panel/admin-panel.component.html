@@ -1,0 +1,8 @@
+
+<div class="tab-panel">
+  <tabset #tabs class="member-tabset">
+    <tab heading="Użytkownicy">
+      <app-user-list *ngIf="tabs.tabs[0].active"></app-user-list>
+    </tab>
+  </tabset>
+</div>

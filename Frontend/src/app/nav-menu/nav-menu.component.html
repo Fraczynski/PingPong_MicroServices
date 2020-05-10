@@ -9,11 +9,11 @@
       <li  class="nav-item" routerLinkActive="active">
         <a [routerLink]="['rooms-view']" class="nav-link">Sale</a>
       </li>
-      <!--<div>
+      <div>
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link">Panel administratora</a>
+          <a class="nav-link" [routerLink]="['/admin-panel']">Panel administratora</a>
         </li>
-      </div>-->
+      </div>
     </ul>
 
     <form  *ngIf="!loggedIn()" #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">

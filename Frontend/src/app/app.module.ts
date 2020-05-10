@@ -10,7 +10,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale, plLocale } from 'ngx-bootstrap/chronos';
-import { PaginationModule} from 'ngx-bootstrap/pagination';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { TabsModule} from 'ngx-bootstrap/tabs';
 // toastr
 import { ToastrModule } from 'ngx-toastr';
 // components
@@ -23,6 +24,10 @@ import { TableScheduleComponent } from './table-schedule/table-schedule.componen
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { UserReservationsComponent } from './user-reservations/user-reservations.component';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { UserListComponent } from './admin/user-list/user-list.component';
+import { EditRoleComponent } from './admin/edit-role/edit-role.component';
+import { TranslatePipe } from './_pipes/translate.pipe';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -37,7 +42,11 @@ defineLocale('pl', plLocale);
     HomeComponent,
     RoomsViewComponent,
     TableScheduleComponent,
-    UserReservationsComponent
+    UserReservationsComponent,
+    AdminPanelComponent,
+    UserListComponent,
+    EditRoleComponent,
+    TranslatePipe
   ],
   imports: [
     BrowserModule,
@@ -59,10 +68,11 @@ defineLocale('pl', plLocale);
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    TabsModule.forRoot()
   ],
   providers: [ErrorInterceptorProvider],
   bootstrap: [AppComponent],
-  entryComponents: [TableScheduleComponent]
+  entryComponents: [TableScheduleComponent, EditRoleComponent],
 })
 export class AppModule {}

@@ -3,9 +3,10 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   gatewayUrl = environment.gatewayUrl;
@@ -25,6 +26,15 @@ export class AuthService {
       })
     );
   }
+
+  editUserRole(id: number, newRoleName: string) {
+    return this.http.put(this.gatewayUrl + 'auth/' + id, { name: newRoleName });
+  }
+
+  getRoles(): Observable<any[]> {
+    return this.http.get<any[]>(this.gatewayUrl + 'auth/roles');
+  }
+
   register(model: any) {
     return this.http.post(this.gatewayUrl + 'auth/register', model);
   }
