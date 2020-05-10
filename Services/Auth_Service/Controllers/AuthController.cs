@@ -11,6 +11,8 @@ using Auth_Service.Dtos;
 using Microsoft.AspNetCore.Identity;
 using Auth_Service.Models;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace Auth_Service.Controllers
 {
@@ -22,12 +24,14 @@ namespace Auth_Service.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<Role> _roleManager;
-        public AuthController(IConfiguration configuration, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager)
+        private readonly IMapper _mapper;
+        public AuthController(IConfiguration configuration, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager, IMapper mapper)
         {
             _configuration = configuration;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _mapper = mapper;
         }
         [HttpGet("publicKey")]
         public IActionResult GetPublicKey()
@@ -45,7 +49,7 @@ namespace Auth_Service.Controllers
             {
                 return BadRequest(creatingUserResult.Errors);
             }
-            await _userManager.AddToRoleAsync(userToCreate, "Employee");
+            await _userManager.AddToRoleAsync(userToCreate, "Customer");
             return Ok();
         }
         [HttpPost("login")]
@@ -65,6 +69,33 @@ namespace Auth_Service.Controllers
                 }
             }
             return Unauthorized();
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> ChangeUserRole(int id, RoleDto roleDto)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return NotFound($"Użytkownik o numerze id: {id}, którego role próbowałeś zmienić, nie istnieje");
+            }
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            var removingRolesResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+            if (removingRolesResult.Succeeded)
+            {
+                var addingRolesResult = await _userManager.AddToRoleAsync(user, roleDto.Name);
+                if (addingRolesResult.Succeeded)
+                {
+                    return NoContent();
+                }
+                return BadRequest(addingRolesResult.Errors);
+            }
+            return BadRequest(removingRolesResult.Errors);
+        }
+        [HttpGet("roles")]
+        public async Task<IActionResult> GetRoles()
+        {
+            var roles = await _roleManager.Roles.ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<RoleDto>>(roles));
         }
         private async Task<string> GenerateToken(string privateKey, User user)
         {
