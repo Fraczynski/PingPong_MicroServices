@@ -31,6 +31,8 @@ import { UserListComponent } from './admin/user-list/user-list.component';
 import { EditRoleComponent } from './admin/edit-role/edit-role.component';
 import { TranslatePipe } from './_pipes/translate.pipe';
 import { RoomsManagerComponent } from './admin/rooms-manager/rooms-manager.component';
+import { OpeningHoursComponent } from './admin/opening-hours/opening-hours.component';
+import { EnumToArrayPipe } from './_pipes/enumToArray.pipe';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -50,7 +52,9 @@ defineLocale('pl', plLocale);
     UserListComponent,
     EditRoleComponent,
     TranslatePipe,
+    EnumToArrayPipe,
     RoomsManagerComponent,
+    OpeningHoursComponent,
   ],
   imports: [
     BrowserModule,
