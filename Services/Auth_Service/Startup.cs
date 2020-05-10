@@ -22,6 +22,7 @@ namespace Auth_Service
             services.AddControllers().AddNewtonsoftJson();
             //database
             services.AddDbContext<DataContext>(x=>x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IUserRepository,UserRepository>();
             //identity
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
