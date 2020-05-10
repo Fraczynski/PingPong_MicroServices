@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Auth_Service.Data;
 using Microsoft.AspNetCore.Identity;
 using Auth_Service.Models;
+using AutoMapper;
 
 namespace Auth_Service
 {
@@ -20,6 +21,8 @@ namespace Auth_Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
+
+            services.AddAutoMapper(typeof(UserRepository).Assembly);
             //database
             services.AddDbContext<DataContext>(x=>x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IUserRepository,UserRepository>();
