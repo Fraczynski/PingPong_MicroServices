@@ -11,9 +11,11 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale, plLocale } from 'ngx-bootstrap/chronos';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
-import { TabsModule} from 'ngx-bootstrap/tabs';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 // toastr
 import { ToastrModule } from 'ngx-toastr';
+// switch
+import { UiSwitchModule } from 'ngx-ui-switch';
 // components
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -28,6 +30,7 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { UserListComponent } from './admin/user-list/user-list.component';
 import { EditRoleComponent } from './admin/edit-role/edit-role.component';
 import { TranslatePipe } from './_pipes/translate.pipe';
+import { RoomsManagerComponent } from './admin/rooms-manager/rooms-manager.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -46,7 +49,8 @@ defineLocale('pl', plLocale);
     AdminPanelComponent,
     UserListComponent,
     EditRoleComponent,
-    TranslatePipe
+    TranslatePipe,
+    RoomsManagerComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +58,7 @@ defineLocale('pl', plLocale);
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
+    UiSwitchModule,
     JwtModule.forRoot({
       config: {
         tokenGetter,
@@ -69,7 +74,7 @@ defineLocale('pl', plLocale);
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     PaginationModule.forRoot(),
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
   ],
   providers: [ErrorInterceptorProvider],
   bootstrap: [AppComponent],

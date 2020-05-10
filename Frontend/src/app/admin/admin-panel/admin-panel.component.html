@@ -1,8 +1,10 @@
-
 <div class="tab-panel">
   <tabset #tabs class="member-tabset">
     <tab heading="Użytkownicy">
       <app-user-list *ngIf="tabs.tabs[0].active"></app-user-list>
+    </tab>
+    <tab heading="Sale">
+      <app-rooms-manager *ngIf="tabs.tabs[1].active"></app-rooms-manager>
     </tab>
   </tabset>
 </div>
