@@ -1,46 +1,69 @@
-<div *ngIf="rooms" class="row mt-2 ">
+<div *ngIf="rooms" class="row mt-2">
   <div class="col-lg-5">
     <div class="btn-group" dropdown>
-      <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-        aria-controls="dropdown-animated">
-        {{currentRoom.name}} <span class="caret"></span>
+      <button
+        id="button-animated"
+        dropdownToggle
+        type="button"
+        class="btn btn-primary dropdown-toggle"
+        aria-controls="dropdown-animated"
+      >
+        {{ currentRoom.name }} <span class="caret"></span>
       </button>
       <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated">
         <li *ngFor="let room of rooms" role="menuitem">
-          <a class="dropdown-item" (click)="changeCurrentRoom(room)">{{room.name}}</a>
+          <a class="dropdown-item" (click)="changeCurrentRoom(room)">{{ room.name }}</a>
         </li>
       </ul>
     </div>
-    <button type="button" class="btn btn-secondary ml-1" (click)="openEditRoomForm()"
-      *ngIf="!editRoomFormVisable&&!newRoomFormVisable">Edytuj sale</button>
-    <button type="button" *ngIf="!newRoomFormVisable&&!editRoomFormVisable" (click)="showAddRoomForm()"
-      class="btn btn-secondary ml-1">Dodaj sale</button>
-    <button type="button" *ngIf="newRoomFormVisable || editRoomFormVisable"
-      (click)="newRoomFormVisable=false; editRoomFormVisable=false" class="btn btn-secondary ml-1">Ukryj</button>
+    <button
+      type="button"
+      class="btn btn-secondary ml-1"
+      (click)="openEditRoomForm()"
+      *ngIf="!editRoomFormVisable && !newRoomFormVisable"
+    >
+      Edytuj sale
+    </button>
+    <button
+      type="button"
+      *ngIf="!newRoomFormVisable && !editRoomFormVisable"
+      (click)="showAddRoomForm()"
+      class="btn btn-secondary ml-1"
+    >
+      Dodaj sale
+    </button>
+    <button
+      type="button"
+      *ngIf="newRoomFormVisable || editRoomFormVisable"
+      (click)="newRoomFormVisable = false; editRoomFormVisable = false"
+      class="btn btn-secondary ml-1"
+    >
+      Ukryj
+    </button>
   </div>
   <div class="col-lg-8">
     <div class="row" *ngIf="newRoomFormVisable">
-      <label class="mt-auto ml-1">Nazwa: </label><input [(ngModel)]="newRoom.name" type="text"
-        class="form-control col-lg-2 ml-1">
-      <label class="mt-auto ml-1">Długość:</label> <input [(ngModel)]="newRoom.roomLength" type="number"
-        class="form-control col-lg-2 ml-1">
-      <label class="mt-auto ml-1">Szerokość:</label> <input [(ngModel)]="newRoom.roomWidth" type="number"
-        class="form-control col-lg-2 ml-1">
+      <label class="mt-auto ml-1">Nazwa: </label
+      ><input [(ngModel)]="newRoom.name" type="text" class="form-control col-lg-2 ml-1" />
+      <label class="mt-auto ml-1">Długość:</label>
+      <input [(ngModel)]="newRoom.roomLength" type="number" class="form-control col-lg-2 ml-1" />
+      <label class="mt-auto ml-1">Szerokość:</label>
+      <input [(ngModel)]="newRoom.roomWidth" type="number" class="form-control col-lg-2 ml-1" />
       <button type="button ml-1" (click)="addRoom()" class="btn btn-success ml-1">Dodaj</button>
     </div>
     <div class="row" *ngIf="editRoomFormVisable">
-      <label class="mt-auto ml-1">Nazwa: </label><input [(ngModel)]="roomToEdit.name" type="text"
-        class="form-control col-lg-2 ml-1">
-      <label class="mt-auto ml-1">Długość:</label> <input [(ngModel)]="roomToEdit.roomLength" type="number"
-        class="form-control col-lg-2 ml-1">
-      <label class="mt-auto ml-1">Szerokość:</label> <input [(ngModel)]="roomToEdit.roomWidth" type="number"
-        class="form-control col-lg-2 ml-1">
+      <label class="mt-auto ml-1">Nazwa: </label
+      ><input [(ngModel)]="roomToEdit.name" type="text" class="form-control col-lg-2 ml-1" />
+      <label class="mt-auto ml-1">Długość:</label>
+      <input [(ngModel)]="roomToEdit.roomLength" type="number" class="form-control col-lg-2 ml-1" />
+      <label class="mt-auto ml-1">Szerokość:</label>
+      <input [(ngModel)]="roomToEdit.roomWidth" type="number" class="form-control col-lg-2 ml-1" />
       <button type="button ml-1" (click)="editRoom()" class="btn btn-success ml-1">Aktualizuj</button>
       <button type="button ml-1" (click)="deleteRoom()" class="btn btn-danger ml-1">Usuń</button>
     </div>
   </div>
 </div>
-<div class="row" >
+<div class="row">
   <div class="col-lg-8">
     <canvas class="mt-2" style="width: 100%;" id="canvas"></canvas>
   </div>
@@ -48,24 +71,40 @@
     <div class="overflow-auto" [style.height.px]="canvas.offsetHeight">
       <div class="card mt-2 mr-3" *ngFor="let table of allTables">
         <div class="card-body">
-          <div class="row"> 
-            <label class="ml-3 mt-auto">Etykieta:</label><input type="text" [(ngModel)]="table.label"
-              (ngModelChange)="draw()" class="form-control form-control-sm col-4 ml-2">
-            <i (click)="deleteTable(table)" class="fa fa-times ml-auto mr-3"></i>
+          <div class="row">
+            <label class="ml-3 mt-auto">Etykieta:</label
+            ><input
+              type="text"
+              [(ngModel)]="table.label"
+              (ngModelChange)="draw()"
+              class="form-control form-control-sm col-4 ml-2"
+            />
+            <fa-icon class="ml-auto mr-3" [styles]="{'color':'red'}" (click)="deleteTable(table)" [icon]="faTimes"></fa-icon>
           </div>
           <div class="row justify-content-around">
             <div class="col-5">
-              X: <input type="number" [(ngModel)]="table.x" (ngModelChange)="draw()"
-                class="form-control form-control-sm">
+              X:
+              <input
+                type="number"
+                [(ngModel)]="table.x"
+                (ngModelChange)="draw()"
+                class="form-control form-control-sm"
+              />
             </div>
             <div class="col-5">
-              Y: <input type="number" [(ngModel)]="table.y" (ngModelChange)="draw()"
-                class="form-control form-control-sm">
+              Y:
+              <input
+                type="number"
+                [(ngModel)]="table.y"
+                (ngModelChange)="draw()"
+                class="form-control form-control-sm"
+              />
             </div>
           </div>
           <div class="row mt-2">
             <div class="col-6 text-center">
-              Pionowy: <ui-switch [(ngModel)]="table.verticalOrientation"(ngModelChange)="draw()" size="small"></ui-switch>
+              Pionowy:
+              <ui-switch [(ngModel)]="table.verticalOrientation" (ngModelChange)="draw()" size="small"></ui-switch>
             </div>
           </div>
         </div>

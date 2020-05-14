@@ -2,6 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import {
+  faBook,
+  faAddressCard,
+  faUserCog,
+  faSignOutAlt,
+  faHome,
+  faTableTennis,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-nav-menu',
@@ -10,6 +18,12 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NavMenuComponent implements OnInit {
   model: any = {};
+  faBook = faBook;
+  faAddressCard = faAddressCard;
+  faUserCog = faUserCog;
+  faHome = faHome;
+  faTableTennis = faTableTennis;
+  faSignOutAlt = faSignOutAlt;
   constructor(private authService: AuthService, public router: Router, private toastr: ToastrService) {}
 
   ngOnInit() {}

@@ -14,6 +14,8 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 // toastr
 import { ToastrModule } from 'ngx-toastr';
+// fontawesome
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // switch
 import { UiSwitchModule } from 'ngx-ui-switch';
 // components
@@ -56,7 +58,7 @@ defineLocale('pl', plLocale);
     EnumToArrayPipe,
     RoomsManagerComponent,
     OpeningHoursComponent,
-    ReservationsListComponent
+    ReservationsListComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,6 +67,7 @@ defineLocale('pl', plLocale);
     AppRoutingModule,
     FormsModule,
     UiSwitchModule,
+    FontAwesomeModule,
     JwtModule.forRoot({
       config: {
         tokenGetter,

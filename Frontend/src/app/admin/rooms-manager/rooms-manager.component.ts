@@ -7,6 +7,7 @@ import { TablesService } from 'src/app/_services/tables.service';
 import { DrawRoomService } from 'src/app/_services/draw-room.service';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import * as cloneDeep from 'lodash/cloneDeep';
 import { ToastrService } from 'ngx-toastr';
 
@@ -17,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RoomsManagerComponent implements OnInit {
   canvas: HTMLCanvasElement;
+  faTimes = faTimes;
 
   rooms: Room[];
   currentRoom: Room;

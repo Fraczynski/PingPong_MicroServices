@@ -4,14 +4,14 @@
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> 
-        <a [routerLink]="['']" class="nav-link">Strona główna</a>
+        <a [routerLink]="['']" class="nav-link"><fa-icon [icon]="faHome"></fa-icon> Strona główna</a>
       </li>
       <li  class="nav-item" routerLinkActive="active">
-        <a [routerLink]="['rooms-view']" class="nav-link">Sale</a>
+        <a [routerLink]="['rooms-view']" class="nav-link"><fa-icon [icon]="faTableTennis"></fa-icon> Sale</a>
       </li>
       <div>
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" [routerLink]="['/admin-panel']">Panel administratora</a>
+          <a class="nav-link" [routerLink]="['/admin-panel']"><fa-icon [icon]="faUserCog"></fa-icon> Panel administratora</a>
         </li>
       </div>
     </ul>
@@ -25,13 +25,13 @@
 
     <div *ngIf="loggedIn()" class="dropdown" dropdown>
       <a class="dropdown-toggle text-light" dropdownToggle>
-        Zalogowany!
+         Witaj Bartek!
       </a>
       <div class="dropdown-menu mt-3" *dropdownMenu>
-        <a class="dropdown-item" > Edytuj profil</a>
-        <a class="dropdown-item" [routerLink]="['user-reservations']"> Twoje rezerwacje</a>
+        <a class="dropdown-item" ><fa-icon [icon]="faAddressCard"></fa-icon> Edytuj profil</a>
+        <a class="dropdown-item" [routerLink]="['user-reservations']"><fa-icon [icon]="faBook"></fa-icon> Twoje rezerwacje</a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" (click)="logout()">Wyloguj</a>
+        <a class="dropdown-item" (click)="logout()"><fa-icon [icon]="faSignOutAlt"></fa-icon> Wyloguj</a>
       </div>
   </div>
   </div>
