@@ -66,14 +66,16 @@ namespace Reservation_Service.Controllers
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> MakeReservation(IEnumerable<ReservationForAddDto> reservationsForAddDto)
+        public async Task<IActionResult> MakeReservation(ReservationsForAddDto reservationsForAddDto)
         {
-            var userWhoRequestedId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var reservationsToAdd = _mapper.Map<IEnumerable<Reservation>>(reservationsForAddDto);
-
+            var reservationsToAdd = _mapper.Map<IEnumerable<Reservation>>(reservationsForAddDto.reservationsToAdd);
+            if (reservationsForAddDto.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)
+            && !(User.FindFirst(ClaimTypes.Role).Value.Contains("Employee") ||
+             (User.FindFirst(ClaimTypes.Role).Value.Contains("Administrator"))))
+                return Forbid();
             foreach (Reservation r in reservationsToAdd)
             {
-                r.UserId = userWhoRequestedId;
+                r.UserId = reservationsForAddDto.UserId;
                 var validationResult = await ValidateReservationRequest(r);
                 if (!validationResult.Item1)
                 {
