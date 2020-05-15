@@ -5,7 +5,7 @@
   <div class="modal-body">
     <div class="row justify-content-center">
         <button type="button" *ngIf="!(pickingStartDate||pickingEndDate)" (click)="startReservating()" class="btn btn-primary">Nowa rezerwacja</button>
-        <button type="button" *ngIf="pickingStartDate||pickingEndDate" (click)="cancelReservating()"class="btn btn-secondary">Anuluj</button>
+        <button type="button" *ngIf="pickingStartDate||pickingEndDate" (click)="cancelReservating()"class="btn btn-danger">Anuluj</button>
     </div>
     <div class="row justify-content-center">
       <div *ngIf="pickingStartDate">

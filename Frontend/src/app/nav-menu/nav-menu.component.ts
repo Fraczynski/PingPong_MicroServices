@@ -24,7 +24,7 @@ export class NavMenuComponent implements OnInit {
   faHome = faHome;
   faTableTennis = faTableTennis;
   faSignOutAlt = faSignOutAlt;
-  constructor(private authService: AuthService, public router: Router, private toastr: ToastrService) {}
+  constructor(public authService: AuthService, public router: Router, private toastr: ToastrService) {}
 
   ngOnInit() {}
 

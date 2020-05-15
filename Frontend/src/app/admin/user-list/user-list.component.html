@@ -1,33 +1,33 @@
 <form class="form-inline mt-2 mb-2" #form="ngForm" ngSubmit="loadUsers()" novalidate>
-  <div class="form-group px-2" >
-    <label for="id">Id</label>
+  <div class="form-group px-1" >
+    <label for="id">Id:</label>
     <input type="number" [(ngModel)]="userParams.id" class="form-control ml-1" style="width: 60px" id="id" name="id">
   </div>
-  <div class="form-group px-2">
-    <label for="fistName">Imię</label>
+  <div class="form-group px-1">
+    <label for="fistName">Imię:</label>
     <input type="text" [(ngModel)]="userParams.firstName" class="form-control ml-1" style="width: 100px" id="fistName" name="fistName">
   </div>
 
-  <div class="form-group px-2">
-    <label for="lastName">Nazwisko</label>
+  <div class="form-group px-1">
+    <label for="lastName">Nazwisko: </label>
     <input type="text" [(ngModel)]="userParams.lastName" class="form-control ml-1"  style="width: 140px" id="lastName" name="lastName">
   </div>
 
-  <div class="form-group px-2">
-    <label for="email">Email</label>
+  <div class="form-group px-1">
+    <label for="email">Email:</label>
     <input type="text" [(ngModel)]="userParams.email" class="form-control ml-1" style="width: 140px" id="email" name="email">
   </div>
 
-  <div class="form-group px-2">
-    <label for="gender">Rola: </label>
+  <div class="form-group px-1">
+    <label for="gender">Rola:</label>
     <select class="form-control ml-1" [(ngModel)]="userParams.role" id="gender" name="gender">
       <option *ngFor="let role of roles" [value]="role">
         {{role|translate}}
       </option>
     </select>
   </div>
-  <div class="row">
-    <div class="btn-group ml-3" dropdown>
+  <div class="form-inline">
+    <div class="form-group btn-group px-1" dropdown>
       <button id="button-animated" dropdownToggle type="button" class="btn btn-info dropdown-toggle"
               aria-controls="dropdown-animated">
         Sortowanie <span class="caret"></span>
@@ -38,8 +38,12 @@
         <li role="menuitem"><a (click)="userParams.orderBy='lastName';loadUsers()" class="dropdown-item">Alfabetycznie</a></li>
       </ul>
     </div>
-    <button type="submit" class="btn btn-primary ml-1" (click)="loadUsers()">Zastosuj</button>
-    <button type="button" class="btn btn-secondary ml-1" (click)="resetFilters()">Resetuj</button>
+    <div class="form-group px-1">
+      <button type="submit" class="btn btn-primary px-1" (click)="loadUsers()">Zastosuj</button>
+    </div>
+    <div class="form-group px-1">
+      <button type="button" class="btn btn-secondary px-1" (click)="resetFilters()">Resetuj</button>
+    </div>
   </div>
 </form>
 <div *ngIf="users" >

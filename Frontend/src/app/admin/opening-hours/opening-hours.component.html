@@ -12,9 +12,27 @@
         </thead>
         <tbody>
           <tr *ngFor="let hours of tempOpeningHours">
-            <th>{{(WeekDay|enumToArray)[hours.dayOfWeek]|translate}}</th>
-            <td><input type="number" min="0" max="23" [disabled]="!hours.open" [(ngModel)]="hours.start" class="form-control"></td>
-            <td><input type="number" min="0" max="23" [disabled]="!hours.open" [(ngModel)]="hours.end" class="form-control"></td>
+            <th>{{ (WeekDay | enumToArray)[hours.dayOfWeek] | translate }}</th>
+            <td>
+              <input
+                type="number"
+                min="0"
+                max="23"
+                [disabled]="!hours.open"
+                [(ngModel)]="hours.start"
+                class="form-control"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                min="0"
+                max="23"
+                [disabled]="!hours.open"
+                [(ngModel)]="hours.end"
+                class="form-control"
+              />
+            </td>
             <td>
               <ui-switch [(ngModel)]="hours.open"></ui-switch>
             </td>
@@ -22,13 +40,12 @@
         </tbody>
       </table>
     </div>
-    <button type="submit" class="btn btn-success ml-auto" (click)="submitNewOpeningHours()">Zatwierdź
-      zmiany</button>
+    <button type="submit" class="btn btn-success ml-auto" (click)="submitNewOpeningHours()">Zatwierdź zmiany</button>
   </div>
   <div class="col-lg-6 col-12">
     <h5 class="h5 mt-2">Pozostałe dni w których lokal jest zamknięty:</h5>
     <div class="table-responsive">
-      <table *ngIf="closingDays?.length>0" class='table' aria-labelledby="tableLabel">
+      <table *ngIf="closingDays?.length > 0" class="table" aria-labelledby="tableLabel">
         <thead>
           <tr>
             <th>Data</th>
@@ -37,30 +54,45 @@
         </thead>
         <tbody>
           <tr *ngFor="let closingDay of closingDays">
-            <td>{{closingDay.day.toLocaleDateString()}}</td>
-            <td>{{closingDay.description}}</td>
-            <td><button type="button" (click)="deleteClosingDay(closingDay)"
-                class="btn btn-danger btn-sm ml-3">Usuń!</button>
+            <td>{{ closingDay.day.toLocaleDateString() }}</td>
+            <td>{{ closingDay.description }}</td>
+            <td>
+              <button type="button" (click)="deleteClosingDay(closingDay)" class="btn btn-danger btn-sm ml-3">
+                Usuń!
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <button type="submit" *ngIf="!newClosingDayFormVisable" (click)="openNewClosingDayForm()"
-      class="btn btn-success ml-auto">Dodaj nowy dzień</button>
+    <button
+      type="submit"
+      *ngIf="!newClosingDayFormVisable"
+      (click)="openNewClosingDayForm()"
+      class="btn btn-primary ml-auto"
+    >
+      Dodaj nowy dzień
+    </button>
     <div class="row" *ngIf="newClosingDayFormVisable">
       <h6 class="h6 col-lg-12">Nowy nieczynny dzień:</h6>
       <label class="mt-auto mr-1 ml-1">Data:</label>
-      <input class="form-control col-lg-3 col-md-2" [(ngModel)]="newClosingDay.day" ngModel bsDatepicker
-        [bsConfig]="{containerClass: 'theme-green'}">
+      <input
+        class="form-control col-lg-3 col-md-2"
+        [(ngModel)]="newClosingDay.day"
+        ngModel
+        bsDatepicker
+        [bsConfig]="{ containerClass: 'theme-green' }"
+      />
       <label class="mt-auto mr-1 ml-1">Opis:</label>
-      <input type="text" [(ngModel)]="newClosingDay.description" class="form-control col-lg-2 col-md-2">
+      <input type="text" [(ngModel)]="newClosingDay.description" class="form-control col-lg-2 col-md-2" />
       <button type="button" (click)="addClosingDay()" class="btn btn-success ml-1 mr-1">Dodaj</button>
-      <button type="button" class="btn btn-secondary mr-1 ml-1" (click)="newClosingDayFormVisable=false">Anuluj</button>
+      <button type="button" class="btn btn-secondary mr-1 ml-1" (click)="newClosingDayFormVisable = false">
+        Anuluj
+      </button>
     </div>
     <h5 class="h5 mt-2">Dni o zmienionych godzinach otwarcia:</h5>
     <div class="table-responsive">
-      <table *ngIf="specialOpeningHours?.length>0" class='table' aria-labelledby="tableLabel">
+      <table *ngIf="specialOpeningHours?.length > 0" class="table" aria-labelledby="tableLabel">
         <thead>
           <tr>
             <th>Data</th>
@@ -71,32 +103,76 @@
         </thead>
         <tbody>
           <tr *ngFor="let special of specialOpeningHours">
-            <td>{{special.day.toLocaleDateString()}}</td>
-            <td>{{special.start}}</td>
-            <td>{{special.end}}</td>
-            <td>{{special.description}}</td>
-            <td><button type="button" (click)="deleteSpecialOpeningHours(special)"
-                class="btn btn-danger btn-sm ml-3">Usuń!</button></td>
+            <td>{{ special.day.toLocaleDateString() }}</td>
+            <td>{{ special.start }}</td>
+            <td>{{ special.end }}</td>
+            <td>{{ special.description }}</td>
+            <td>
+              <button type="button" (click)="deleteSpecialOpeningHours(special)" class="btn btn-danger btn-sm ml-3">
+                Usuń!
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <button *ngIf="!newSpecialOpeningHoursFormVisable" (click)="openNewSpecialOpeningHoursForm()" type="submit"
-      class="btn btn-success ml-auto">Dodaj nowy dzień</button>
-    <div class="form-inline" *ngIf="newSpecialOpeningHoursFormVisable">
-      <h6 class="h6 col-lg-12">Nowy dzień o zmienionych godzinach otwarcia:</h6>
-      <label class=" mr-1 ml-1">Data:</label>
-      <input class="form-control col-lg-3 col-md-2" [(ngModel)]="newSpecialOpeningHours.day" ngModel bsDatepicker
-        [bsConfig]="{containerClass: 'theme-green'}">
-      <label class=" mr-1 ml-1">Start:</label>
-      <input type="number" min="0" max="23" [(ngModel)]="newSpecialOpeningHours.start" class="form-control col-lg-2 col-md-1">
-      <label class="mr-1 ml-1">Koniec:</label>
-      <input type="number" min="0" max="23" [(ngModel)]="newSpecialOpeningHours.end" class="form-control col-lg-2 col-md-1">
-      <label class="mr-1 ml-1">Komentarz:</label>
-      <input type="text" [(ngModel)]="newSpecialOpeningHours.description" class="form-control col-lg-3 col-md-2">
-      <button type="button" (click)="addSpecialOpeningHours()" class="btn btn-success btn  ml-1 mr-1">Dodaj</button>
-      <button type="button" class="btn btn-secondary ml-1 mr-1"
-        (click)="newSpecialOpeningHoursFormVisable=false">Anuluj</button>
+    <button
+      *ngIf="!newSpecialOpeningHoursFormVisable"
+      (click)="openNewSpecialOpeningHoursForm()"
+      type="submit"
+      class="btn btn-primary ml-auto"
+    >
+      Dodaj nowy dzień
+    </button>
+    <div *ngIf="newSpecialOpeningHoursFormVisable">
+      <h6 class="h6">Nowy dzień o zmienionych godzinach otwarcia:</h6>
+      <div class="form-inline">
+        <div class="form-group mx-1">
+          <label class="mr-1">Data:</label>
+          <input
+            class="form-control"
+            [(ngModel)]="newSpecialOpeningHours.day"
+            ngModel
+            bsDatepicker
+            [bsConfig]="{ containerClass: 'theme-green' }"
+            style="width: 100px;"
+          />
+        </div>
+        <div class="form-group mx-1">
+          <label class="mr-1">Start:</label>
+          <input
+            type="number"
+            min="0"
+            max="23"
+            [(ngModel)]="newSpecialOpeningHours.start"
+            class="form-control"
+            style="width: 70px;"
+          />
+        </div>
+        <div class="form-group mx-1">
+          <label class="mr-1">Koniec:</label>
+          <input
+            type="number"
+            min="0"
+            max="23"
+            style="width: 70px;"
+            [(ngModel)]="newSpecialOpeningHours.end"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group mx-1">
+          <label class="mr-1">Komentarz:</label>
+          <input type="text" [(ngModel)]="newSpecialOpeningHours.description" class="form-control" />
+        </div>
+        <div class="form-group mx-1">
+          <button type="button" (click)="addSpecialOpeningHours()" class="btn btn-success btn">Dodaj</button>
+        </div>
+        <div class="form-group mx-1">
+          <button type="button" class="btn btn-secondary" (click)="newSpecialOpeningHoursFormVisable = false">
+            Anuluj
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

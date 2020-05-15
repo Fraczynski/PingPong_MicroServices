@@ -166,7 +166,7 @@ export class TableScheduleComponent implements OnInit {
       const firstNotFree = this.findFirstNotFree(this.startRes);
 
       for (const m of this.reservations) {
-        if (m.start < this.startRes.start || (firstNotFree != null && m.start >= firstNotFree.start)) {
+        if (m.start <= this.startRes.start || (firstNotFree != null && m.start >= firstNotFree.start)) {
           m.tempDisabled = true;
         }
       }

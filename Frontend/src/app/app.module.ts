@@ -36,6 +36,7 @@ import { RoomsManagerComponent } from './admin/rooms-manager/rooms-manager.compo
 import { OpeningHoursComponent } from './admin/opening-hours/opening-hours.component';
 import { EnumToArrayPipe } from './_pipes/enumToArray.pipe';
 import { ReservationsListComponent } from './admin/reservations-list/reservations-list.component';
+import { HasRoleDirective } from './_directives/hasRole.directive';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -59,6 +60,7 @@ defineLocale('pl', plLocale);
     RoomsManagerComponent,
     OpeningHoursComponent,
     ReservationsListComponent,
+    HasRoleDirective
   ],
   imports: [
     BrowserModule,
@@ -66,7 +68,11 @@ defineLocale('pl', plLocale);
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
-    UiSwitchModule,
+    UiSwitchModule.forRoot(
+      {
+        color: 'rgb(102, 153, 255)'
+      }
+    ),
     FontAwesomeModule,
     JwtModule.forRoot({
       config: {

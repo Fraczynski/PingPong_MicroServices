@@ -18,6 +18,9 @@ export class TranslatePipe implements PipeTransform {
       case 'Customer': {
         return 'Klient';
       }
+      case 'Administrator': {
+        return 'Administrator';
+      }
       case 'Sunday': {
         return 'Niedziela';
       }
