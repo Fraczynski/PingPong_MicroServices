@@ -13,6 +13,7 @@ using Auth_Service.Models;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Auth_Service.Controllers
 {
@@ -70,6 +71,7 @@ namespace Auth_Service.Controllers
             }
             return Unauthorized();
         }
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public async Task<IActionResult> ChangeUserRole(int id, RoleDto roleDto)
         {
@@ -91,6 +93,7 @@ namespace Auth_Service.Controllers
             }
             return BadRequest(removingRolesResult.Errors);
         }
+        [Authorize(Roles = "Administrator,Employee")]
         [HttpGet("roles")]
         public async Task<IActionResult> GetRoles()
         {
@@ -99,8 +102,10 @@ namespace Auth_Service.Controllers
         }
         private async Task<string> GenerateToken(string privateKey, User user)
         {
-            var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+            var claims= new List<Claim>(){
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.FirstName)
+            };
 
             var roles = await _userManager.GetRolesAsync(user);
 

@@ -6,7 +6,8 @@ WRITE;
 INSERT INTO aspnetroles
 VALUES
     (1, 'Customer', 'CUSTOMER', 'c3ccd19d-f6d9-4a70-aaa1-226623084606'),
-    (2, 'Employee', 'EMPLOYEE', '1ce8397c-e399-4398-aeeb-5ce95d995f51');
+    (2, 'Employee', 'EMPLOYEE', '1ce8397c-e399-4398-aeeb-5ce95d995f51'),
+    (3,'Administrator','ADMINISTRATOR','47ca351c-a493-49bd-978a-d6940023c397');
 UNLOCK TABLES;
 
 --

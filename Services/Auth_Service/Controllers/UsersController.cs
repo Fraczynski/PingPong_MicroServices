@@ -25,7 +25,7 @@ namespace Auth_Service.Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Roles = "Employee")]
+        [Authorize(Roles = "Administrator,Employee")]
         [HttpGet]
         public async Task<IActionResult> GetUsers([FromQuery] UserParams userParams)
         {
@@ -42,7 +42,9 @@ namespace Auth_Service.Controllers
         [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
-            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) && !User.FindFirst(ClaimTypes.Role).Value.Equals("Employee"))
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)
+            && !(User.FindFirst(ClaimTypes.Role).Value.Contains("Employee")
+            || (User.FindFirst(ClaimTypes.Role).Value.Contains("Administrator"))))
                 return Forbid();
 
             var user = await _repository.GetUser(id);
@@ -57,7 +59,9 @@ namespace Auth_Service.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) && !User.FindFirst(ClaimTypes.Role).Value.Equals("Employee"))
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) &&
+             !(User.FindFirst(ClaimTypes.Role).Value.Contains("Employee")
+             || (User.FindFirst(ClaimTypes.Role).Value.Contains("Administrator"))))
                 return Forbid();
 
             var userToDelete = await _repository.GetUser(id);

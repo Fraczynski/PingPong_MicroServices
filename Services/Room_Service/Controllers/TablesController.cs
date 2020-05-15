@@ -10,7 +10,7 @@ using Room_Service.Models;
 
 namespace Room_Service.Controllers
 {
-    [Authorize(Roles = "Employee")]
+    [Authorize(Roles = "Employee,Administrator")]
     [Route("api/[controller]")]
     [ApiController]
     public class TablesController : ControllerBase

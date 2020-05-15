@@ -29,7 +29,9 @@ namespace Reservation_Service.Controllers
         [HttpGet]
         public async Task<IActionResult> GetReservations([FromQuery] ReservationParams reservationParams)
         {
-            if (reservationParams.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) && !User.FindFirst(ClaimTypes.Role).Value.Equals("Employee"))
+            if (reservationParams.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) &&
+             !(User.FindFirst(ClaimTypes.Role).Value.Contains("Employee") ||
+              (User.FindFirst(ClaimTypes.Role).Value.Contains("Administrator"))))
                 return Forbid();
             var reservations = await _reservationRepo.GetReservations(reservationParams);
             var reservationsToReturn = _mapper.Map<IEnumerable<ReservationForListDto>>(reservations);
@@ -51,7 +53,9 @@ namespace Reservation_Service.Controllers
             {
                 return NotFound($"Rezerwacja o numerze id: {id}, którą próbowałeś usunąć, już nie istnieje");
             }
-            if (reservationToDelete.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) && !User.FindFirst(ClaimTypes.Role).Value.Equals("Employee"))
+            if (reservationToDelete.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)
+            && !(User.FindFirst(ClaimTypes.Role).Value.Contains("Employee") ||
+             (User.FindFirst(ClaimTypes.Role).Value.Contains("Administrator"))))
                 return Forbid();
             _reservationRepo.DeleteReservation(reservationToDelete);
             if (await _reservationRepo.SaveAll())
