@@ -8,6 +8,7 @@ import { ClosingDay } from 'src/app/_models/closingDay';
 import { ClosingDaysService } from 'src/app/_services/closing-days.service';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { ToastrService } from 'ngx-toastr';
+import { DATE } from 'ngx-bootstrap/chronos/units/constants';
 
 @Component({
   selector: 'app-opening-hours',
@@ -44,6 +45,11 @@ export class OpeningHoursComponent implements OnInit {
         this.openingHours = data;
         // move sunday to the end of the array
         this.openingHours.push(this.openingHours.shift());
+        const today = new Date();
+        for (const openingHour of this.openingHours) {
+          openingHour.start = new Date(today.toDateString() + ' ' + openingHour.start + ' UTC');
+          openingHour.end = new Date(today.toDateString() + ' ' + openingHour.end + ' UTC');
+        }
         this.tempOpeningHours = cloneDeep(this.openingHours);
       },
       (error) => {
@@ -55,11 +61,13 @@ export class OpeningHoursComponent implements OnInit {
     this.newSpecialOpeningHoursFormVisable = true;
     this.newSpecialOpeningHours = {
       id: undefined,
-      start: 0,
-      end: 0,
+      start: new Date(),
+      end: new Date(),
       day: new Date(),
       description: '',
     };
+    this.newSpecialOpeningHours.start.setSeconds(0);
+    this.newSpecialOpeningHours.end.setSeconds(0);
   }
   openNewClosingDayForm() {
     this.newClosingDayFormVisable = true;
@@ -74,8 +82,11 @@ export class OpeningHoursComponent implements OnInit {
     this.openingHoursService.getAllSpecialOpeningHours().subscribe(
       (data) => {
         this.specialOpeningHours = data;
+        const today = new Date();
         for (const special of this.specialOpeningHours) {
-          special.day = new Date(special.day.toString());
+          special.day = new Date(special.day + 'Z');
+          special.start = new Date(today.toDateString() + ' ' + special.start + ' UTC');
+          special.end = new Date(today.toDateString() + ' ' + special.end + ' UTC');
         }
       },
       (error) => {
@@ -123,8 +134,7 @@ export class OpeningHoursComponent implements OnInit {
     this.openingHoursService.addSpecialOpeningHours(this.newSpecialOpeningHours).subscribe(
       (data) => {
         this.toastr.success('Nowe wyjątkowe godziny otwarcia dodane');
-        data.day = new Date(data.day);
-        this.specialOpeningHours.push(data);
+        this.getSpecialOpeningHours();
         this.newSpecialOpeningHoursFormVisable = false;
       },
       (error) => {
@@ -149,7 +159,11 @@ export class OpeningHoursComponent implements OnInit {
     const editedOpeningHours: OpeningHours[] = [];
     for (const opening of this.tempOpeningHours) {
       const orginal = this.openingHours.find((o) => o.dayOfWeek === opening.dayOfWeek);
-      if (orginal.end !== opening.end || orginal.start !== opening.start || orginal.open !== opening.open) {
+      if (
+        orginal.end.getTime() !== opening.end.getTime() ||
+        orginal.start.getTime() !== opening.start.getTime() ||
+        orginal.open !== opening.open
+      ) {
         editedOpeningHours.push(opening);
       }
     }

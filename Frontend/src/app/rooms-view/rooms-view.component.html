@@ -50,7 +50,11 @@
     <tbody>
       <tr *ngFor="let m of reservationService.reservationsCart">
         <td>{{ m.start.toLocaleDateString() }}</td>
-        <td>{{ m.start.getHours() }}:{{ m.start.getMinutes() }}-{{ m.end.getHours() }}:{{ m.end.getMinutes() }}</td>
+        <td>
+          {{ m.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}-{{
+            m.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          }}
+        </td>
         <td>{{ m.pingPongTableLabel }}</td>
         <td><button class="btn btn-danger btn-sm" (click)="removeFromReservationList(m)">Anuluj!</button></td>
       </tr>

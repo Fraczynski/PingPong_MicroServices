@@ -153,17 +153,19 @@ export class RoomsViewComponent implements OnInit {
     this.reservationService.removeFromReservationsCart(reservation);
   }
   sendReservations() {
-    this.reservationService.sendReservations().subscribe(
-      () => {
-        this.toastr.success('Zarezerwowano');
-        this.reservationService.reservationsCart = [];
-        this.router.navigate(['/user-reservations']);
-      },
-      (error) => {
-        this.toastr.error(error);
-        this.reservationService.reservationsCart = [];
-      }
-    );
+    this.reservationService
+      .sendReservations(this.authService.decodedToken.nameid, this.reservationService.reservationsCart)
+      .subscribe(
+        () => {
+          this.toastr.success('Zarezerwowano');
+          this.reservationService.reservationsCart = [];
+          this.router.navigate(['/user-reservations']);
+        },
+        (error) => {
+          this.toastr.error(error);
+          this.reservationService.reservationsCart = [];
+        }
+      );
   }
   detectTableHit(x: number, y: number) {
     const scale = this.drawRoomService.getScale(this.canvas, this.currentRoom);
