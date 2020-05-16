@@ -21,7 +21,9 @@ namespace Reservation_Service.Data
         }
         public async Task<bool> IsReservationTaken(Reservation reservation)
         {
-            return await _context.Reservations.AnyAsync(r => (r.PingPongTableId == reservation.PingPongTableId &&
+            return await _context.Reservations.AnyAsync(r => (
+                r.PingPongTableId == reservation.PingPongTableId &&
+                r.ReservationStatus == ReservationStatus.Active &&
             (
              (r.Start <= reservation.Start && r.End > reservation.Start) ||
              (r.Start < reservation.End && r.End >= reservation.End) ||
@@ -35,11 +37,7 @@ namespace Reservation_Service.Data
         }
         public async Task<IEnumerable<Reservation>> getTableReservations(int tableId, DateTime day)
         {
-            return await _context.Reservations.Where(r => (r.PingPongTableId == tableId && r.Start.Date == day.Date)).ToListAsync();
-        }
-        public void DeleteReservation(Reservation reservation)
-        {
-            _context.Reservations.Remove(reservation);
+            return await _context.Reservations.Where(r => (r.PingPongTableId == tableId && r.Start.Date == day.Date && r.ReservationStatus == ReservationStatus.Active)).ToListAsync();
         }
         public async Task<Reservation> GetReservation(int id)
         {
@@ -52,9 +50,13 @@ namespace Reservation_Service.Data
         public async Task<PagedList<Reservation>> GetReservations(ReservationParams reservationParams)
         {
             var reservations = _context.Reservations.OrderBy(r => r.Start).AsQueryable();
-            if (reservationParams.Start != DateTime.MinValue)
+            if (reservationParams.Start != null)
             {
-                reservations = reservations.Where(r => r.Start.Date == reservationParams.Start.Date);
+                reservations = reservations.Where(r => r.Start.Date == reservationParams.Start.Value.Date);
+            }
+            if (reservationParams.ReservationStatus != null)
+            {
+                reservations = reservations.Where(r => r.ReservationStatus == reservationParams.ReservationStatus);
             }
             if (reservationParams.UserId != null)
             {

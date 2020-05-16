@@ -10,7 +10,6 @@ namespace Reservation_Service.Data
     {
         void AddReservations(IEnumerable<Reservation> reservationsToAdd);
         Task<bool> IsReservationTaken(Reservation reservation);
-        void DeleteReservation(Reservation reservation);
         Task<IEnumerable<Reservation>> getTableReservations(int tableId, DateTime day);
         Task<Reservation> GetReservation(int id);
         Task<bool> SaveAll();
