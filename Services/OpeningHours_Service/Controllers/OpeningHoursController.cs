@@ -39,13 +39,13 @@ namespace OpeningHours_Service.Controllers
             var specialOpeningHours = await _repository.GetSpecialOpeningHours(day);
             if (specialOpeningHours != null)
             {
-                actualOpeningHours.Start = specialOpeningHours.Start.Hours;
-                actualOpeningHours.End = specialOpeningHours.End.Hours;
+                actualOpeningHours.Start = specialOpeningHours.Start;
+                actualOpeningHours.End = specialOpeningHours.End;
             }
             else
             {
-                actualOpeningHours.Start = regularOpeningHours.Start.Hours;
-                actualOpeningHours.End = regularOpeningHours.End.Hours;
+                actualOpeningHours.Start = regularOpeningHours.Start;
+                actualOpeningHours.End = regularOpeningHours.End;
             }
             return Ok(actualOpeningHours);
         }

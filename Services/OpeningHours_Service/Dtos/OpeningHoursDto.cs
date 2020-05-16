@@ -7,12 +7,10 @@ namespace OpeningHours_Service.Dtos
     {
         public DayOfWeek DayOfWeek { get; set; }
         [Required(ErrorMessage = "Nowa godzina zamknięcia jest wymagana.")]
-        [Range(0, 23, ErrorMessage = "Nieprawidłowa godzina")]
-        public int Start { get; set; }
+        public TimeSpan Start { get; set; }
         [Required(ErrorMessage = "Nowa godzina zamknięcia jest wymagana.")]
-        [Range(0, 23, ErrorMessage = "Nieprawidłowa godzina")]
-        
-        public int End { get; set; }
+
+        public TimeSpan End { get; set; }
         public bool Open { get; set; }
     }
 }
