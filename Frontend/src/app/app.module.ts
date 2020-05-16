@@ -12,6 +12,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale, plLocale } from 'ngx-bootstrap/chronos';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 // toastr
 import { ToastrModule } from 'ngx-toastr';
 // fontawesome
@@ -37,6 +38,7 @@ import { OpeningHoursComponent } from './admin/opening-hours/opening-hours.compo
 import { EnumToArrayPipe } from './_pipes/enumToArray.pipe';
 import { ReservationsListComponent } from './admin/reservations-list/reservations-list.component';
 import { HasRoleDirective } from './_directives/hasRole.directive';
+import { AddReservationModalComponent } from './admin/add-reservation-modal/add-reservation-modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -60,7 +62,8 @@ defineLocale('pl', plLocale);
     RoomsManagerComponent,
     OpeningHoursComponent,
     ReservationsListComponent,
-    HasRoleDirective
+    HasRoleDirective,
+    AddReservationModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,11 +71,9 @@ defineLocale('pl', plLocale);
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
-    UiSwitchModule.forRoot(
-      {
-        color: 'rgb(102, 153, 255)'
-      }
-    ),
+    UiSwitchModule.forRoot({
+      color: 'rgb(102, 153, 255)',
+    }),
     FontAwesomeModule,
     JwtModule.forRoot({
       config: {
@@ -90,9 +91,10 @@ defineLocale('pl', plLocale);
     ModalModule.forRoot(),
     PaginationModule.forRoot(),
     TabsModule.forRoot(),
+    TimepickerModule.forRoot(),
   ],
   providers: [ErrorInterceptorProvider],
   bootstrap: [AppComponent],
-  entryComponents: [TableScheduleComponent, EditRoleComponent],
+  entryComponents: [TableScheduleComponent, EditRoleComponent, AddReservationModalComponent],
 })
 export class AppModule {}

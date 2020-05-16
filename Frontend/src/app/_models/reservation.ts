@@ -6,4 +6,11 @@ export interface Reservation {
   id: number;
   userId: number;
   free: boolean;
+  reservationStatus: ReservationStatus;
+}
+export enum ReservationStatus {
+  Cancelled,
+  Convirmed,
+  CustomerAbsence,
+  Active,
 }

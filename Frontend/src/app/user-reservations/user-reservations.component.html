@@ -1,5 +1,4 @@
 <h1 class="text-center">Twoje rezerwacje</h1>
-<div *ngIf="userReservations?.length > 0">
   <div class="row justify-content-center">
     <form class="form-inline" #form="ngForm" ngSubmit="loadReservations()" novalidate>
       <div class="form-group mx-1">
@@ -26,7 +25,20 @@
           name="pingPongTableId"
         />
       </div>
-
+      <div class="form-group px-1">
+        <label for="reservationStatus">Status:</label>
+        <select
+          class="form-control ml-1"
+          [(ngModel)]="reservationParams.reservationStatus"
+          id="reservationStatus"
+          name="reservationStatus"
+        >
+        <option value=""></option>
+          <option *ngFor="let status of ReservationStatus | enumToArray" [value]="status">
+            {{ status | translate }}
+          </option>
+        </select>
+      </div>
       <div class="btn-group form-group mx-1" dropdown>
         <button
           id="button-animated"
@@ -57,7 +69,7 @@
       </div>
     </form>
   </div>
-
+  <div *ngIf="userReservations">
   <div class="row justify-content-center mt-3">
     <table class="table table-striped col-6" aria-labelledby="tableLabel">
       <thead>
@@ -65,15 +77,17 @@
           <th>Data</th>
           <th>Godzina</th>
           <th>Stół</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let reservation of userReservations">
           <td>{{ reservation.start.toLocaleDateString() }}</td>
-          <td>{{ reservation.start.getHours() }}:00-{{ reservation.start.getHours() + 1 }}:00</td>
+          <td>{{reservation.start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}}-{{ reservation.end.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}}</td>
           <td>{{ reservation.pingPongTableId }}</td>
+          <td>{{ReservationStatus[reservation.reservationStatus]|translate}}</td>
           <td>
-            <button type="button" class="btn btn-danger btn-sm ml-3" (click)="cancelReservation(reservation)">
+            <button *ngIf="reservation.reservationStatus==ReservationStatus.Active" type="button" class="btn btn-danger btn-sm ml-3" (click)="cancelReservation(reservation)">
               Anuluj!
             </button>
           </td>
@@ -94,14 +108,5 @@
       lastText="&raquo;"
     >
     </pagination>
-  </div>
-</div>
-
-<div *ngIf="userReservations?.length == 0">
-  <div class="row justify-content-center">
-    Nie masz obecnie żadnych rezerwacji. Jeżeli planujesz wizytę u nas to zajrzyj tutaj:
-  </div>
-  <div class="row mt-2 justify-content-center">
-    <button type="button" [routerLink]="['/rooms-view']" class="btn btn-success btn-lg">Sale</button>
   </div>
 </div>
