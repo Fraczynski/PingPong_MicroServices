@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace Auth_Service.Controllers
 {
@@ -73,27 +74,31 @@ namespace Auth_Service.Controllers
         }
         [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> ChangeUserRole(int id, RoleDto roleDto)
+        public async Task<IActionResult> ChangeUserRole(int id, UserForChangeRolesDto roleDto)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
             {
                 return NotFound($"Użytkownik o numerze id: {id}, którego role próbowałeś zmienić, nie istnieje");
             }
-            var currentRoles = await _userManager.GetRolesAsync(user);
-            var removingRolesResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
-            if (removingRolesResult.Succeeded)
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            var newRoles = roleDto.NewUserRoles;
+            newRoles = newRoles ?? new string[] { };
+            var addingToRolesResult = await _userManager.AddToRolesAsync(user, newRoles.Except(userRoles));
+
+            if (!addingToRolesResult.Succeeded)
             {
-                var addingRolesResult = await _userManager.AddToRoleAsync(user, roleDto.Name);
-                if (addingRolesResult.Succeeded)
-                {
-                    return NoContent();
-                }
-                return BadRequest(addingRolesResult.Errors);
+                return BadRequest(addingToRolesResult.Errors);
             }
-            return BadRequest(removingRolesResult.Errors);
+            var removingRolesResult = await _userManager.RemoveFromRolesAsync(user, userRoles.Except(newRoles));
+            if (!removingRolesResult.Succeeded)
+            {
+                return BadRequest(removingRolesResult.Errors);
+            }
+            return Ok(await _userManager.GetRolesAsync(user));
         }
-        [Authorize(Roles = "Administrator,Employee")]
+        [Authorize(Roles = "Administrator")]
         [HttpGet("roles")]
         public async Task<IActionResult> GetRoles()
         {
@@ -102,7 +107,7 @@ namespace Auth_Service.Controllers
         }
         private async Task<string> GenerateToken(string privateKey, User user)
         {
-            var claims= new List<Claim>(){
+            var claims = new List<Claim>(){
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.FirstName)
             };
