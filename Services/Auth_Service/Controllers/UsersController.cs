@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Auth_Service.Data;
@@ -25,7 +26,7 @@ namespace Auth_Service.Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Roles = "Administrator,Employee")]
+        [Authorize(Roles = "Employee")]
         [HttpGet]
         public async Task<IActionResult> GetUsers([FromQuery] UserParams userParams)
         {
@@ -33,36 +34,19 @@ namespace Auth_Service.Controllers
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
             foreach (var user in usersToReturn)
             {
-                user.Role = await _repository.GetUserRole(user.Id);
+                user.Roles = await _repository.GetUserRoles(user.Id);
             }
             Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 
             return Ok(usersToReturn);
         }
-        [HttpGet("{id}", Name = "GetUser")]
-        public async Task<IActionResult> GetUser(int id)
-        {
-            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)
-            && !(User.FindFirst(ClaimTypes.Role).Value.Contains("Employee")
-            || (User.FindFirst(ClaimTypes.Role).Value.Contains("Administrator"))))
-                return Forbid();
-
-            var user = await _repository.GetUser(id);
-            if (user == null)
-            {
-                return NotFound($"Użytkownik o numerze id: {id} nie istnieje");
-            }
-            var userToReturn = _mapper.Map<UserForReturnDto>(user);
-
-            return Ok(userToReturn);
-        }
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) &&
-             !(User.FindFirst(ClaimTypes.Role).Value.Contains("Employee")
-             || (User.FindFirst(ClaimTypes.Role).Value.Contains("Administrator"))))
-                return Forbid();
+             !(User.FindAll(ClaimTypes.Role).Any(r => r.Value == "Administrator")))
+                return Forbid(); //Non-administrator users can only delete their own accounts
 
             var userToDelete = await _repository.GetUser(id);
             if (userToDelete == null)

@@ -10,7 +10,7 @@ using Room_Service.Dtos;
 
 namespace Room_Service.Controllers
 {
-    [Authorize(Roles = "Employee,Administrator")]
+    [Authorize(Roles = "Administrator")]
     [Route("api/[controller]")]
     [ApiController]
     public class RoomsController : ControllerBase

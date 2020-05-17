@@ -9,7 +9,7 @@ using OpeningHours_Service.Models;
 namespace OpeningHours_Service.Controllers
 {
     [ApiController]
-    [Authorize(Roles="Employee,Administrator")]
+    [Authorize(Roles="Administrator")]
     [Route("api/[controller]")]
     public class ClosingDaysController : ControllerBase
     {

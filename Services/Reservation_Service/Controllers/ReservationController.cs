@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -25,13 +26,14 @@ namespace Reservation_Service.Controllers
             _reservationRepo = reservationRepo;
             _mapper = mapper;
         }
-        [Authorize]
+        [Authorize(Roles="Customer,Employee")]
         [HttpGet]
         public async Task<IActionResult> GetReservations([FromQuery] ReservationParams reservationParams)
         {
             if (reservationParams.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) &&
-             !(User.FindFirst(ClaimTypes.Role).Value.Contains("Employee")))
-                return Forbid();
+             !(User.FindAll(ClaimTypes.Role).Any(r => r.Value == "Employee")))
+                return Forbid(); //Non-employee users can only see their own reservations
+
             var reservations = await _reservationRepo.GetReservations(reservationParams);
             var reservationsToReturn = _mapper.Map<IEnumerable<ReservationForListDto>>(reservations);
             Response.AddPagination(reservations.CurrentPage, reservations.PageSize, reservations.TotalCount, reservations.TotalPages);
@@ -43,7 +45,7 @@ namespace Reservation_Service.Controllers
             var reservations = await _reservationRepo.getTableReservations(tableId, date);
             return Ok(_mapper.Map<IEnumerable<ReservationForScheduleDto>>(reservations));
         }
-        [Authorize]
+        [Authorize(Roles="Customer,Employee")]
         [HttpPost("changeStatus/{id}")]
         public async Task<IActionResult> ChangeReservationStatus(int id, ReservationForChangeStatusDto reservationForChangeStatusDto)
         {
@@ -52,15 +54,14 @@ namespace Reservation_Service.Controllers
             {
                 return NotFound($"Rezerwacja o numerze id: {id}, której status próbowałeś zmienić, nie istnieje");
             }
-            if (!(User.FindFirst(ClaimTypes.Role).Value.Contains("Employee")))
+
+
+            if (!(User.FindAll(ClaimTypes.Role).Any(r => r.Value == "Employee")))
             {
-                if (reservationForChangeStatusDto.ReservationStatus != ReservationStatus.Cancelled)
+                if (reservationForChangeStatusDto.ReservationStatus != ReservationStatus.Cancelled ||
+                 reservationToChangeStatus.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 {
-                    return Forbid();
-                }
-                if (reservationToChangeStatus.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                {
-                    return Forbid();
+                    return Forbid();//Non-employee users can only cancel reservations (only their own reservations)
                 }
             }
             reservationToChangeStatus.ReservationStatus = reservationForChangeStatusDto.ReservationStatus;
@@ -70,7 +71,7 @@ namespace Reservation_Service.Controllers
             }
             throw new Exception($"Zmiana statusu rezerwacji o numerze {id} nie powiodło się.");
         }
-        [Authorize]
+        [Authorize(Roles="Customer,Employee")]
         [HttpPost]
         public async Task<IActionResult> MakeReservation(ReservationsForAddDto reservationsForAddDto)
         {
