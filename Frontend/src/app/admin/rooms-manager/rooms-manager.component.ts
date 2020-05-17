@@ -5,11 +5,12 @@ import { Room } from 'src/app/_models/room';
 import { AuthService } from 'src/app/_services/auth.service';
 import { TablesService } from 'src/app/_services/tables.service';
 import { DrawRoomService } from 'src/app/_services/draw-room.service';
-import { forkJoin, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import * as cloneDeep from 'lodash/cloneDeep';
 import { ToastrService } from 'ngx-toastr';
+import { AddRoomModalComponent } from '../add-room-modal/add-room-modal.component';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { EditRoomModalComponent } from '../edit-room-modal/edit-room-modal.component';
 
 @Component({
   selector: 'app-rooms-manager',
@@ -22,16 +23,11 @@ export class RoomsManagerComponent implements OnInit {
 
   rooms: Room[];
   currentRoom: Room;
-  newRoom: Room;
-  roomToEdit: Room;
 
   private tables: Table[];
   private newTables: Table[] = [];
   private deletedTablesIds: number[] = [];
   allTables: Table[];
-
-  newRoomFormVisable = false;
-  editRoomFormVisable = false;
 
   constructor(
     public reservationService: ReservationsService,
@@ -39,12 +35,13 @@ export class RoomsManagerComponent implements OnInit {
     private toastr: ToastrService,
     private tablesService: TablesService,
     private roomsService: RoomsService,
-    private drawRoomService: DrawRoomService
+    private drawRoomService: DrawRoomService,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit() {
     this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    // its workaround, without it canvas.offsetWidth equals 0 even in ngAfterViewInit
+    // its workaround, canvas.offsetWidth equals 0 even in ngAfterViewInit
     setTimeout(() => this.getRooms(), 1);
   }
 
@@ -53,7 +50,7 @@ export class RoomsManagerComponent implements OnInit {
     this.roomsService.getRooms().subscribe(
       (data) => {
         this.rooms = data;
-        if (!this.currentRoom) {
+        if (!this.currentRoom || !this.rooms.includes(this.currentRoom)) {
           this.currentRoom = this.rooms[0];
         }
         this.getTables();
@@ -90,58 +87,27 @@ export class RoomsManagerComponent implements OnInit {
     this.allTables.push(newTable);
     this.draw();
   }
-  openEditRoomForm() {
-    this.roomToEdit = cloneDeep(this.currentRoom);
-    this.editRoomFormVisable = true;
-  }
-  editRoom() {
-    if (
-      this.roomToEdit.name !== this.currentRoom.name ||
-      this.roomToEdit.roomLength !== this.currentRoom.roomLength ||
-      this.roomToEdit.roomWidth !== this.currentRoom.roomWidth
-    ) {
-      this.roomsService.editRoom(this.roomToEdit).subscribe(
-        () => {
-          this.toastr.success('Zaaktualizowano sale');
-          this.editRoomFormVisable = false;
-          this.currentRoom.name = this.roomToEdit.name;
-          this.currentRoom.roomLength = this.roomToEdit.roomLength;
-          this.currentRoom.roomWidth = this.roomToEdit.roomWidth;
-          this.draw();
-        },
-        (error) => {
-          this.toastr.error(error);
-        }
-      );
-    }
-  }
-  deleteRoom() {
-    this.roomsService.deleteRoom(this.currentRoom).subscribe(
-      () => {
-        this.toastr.success('Usunięto sale');
-        this.editRoomFormVisable = false;
-        this.rooms = this.rooms.filter((r) => r !== this.currentRoom);
-        this.changeCurrentRoom(this.rooms[0]);
-      },
-      (error) => {
-        this.toastr.error(error);
+  openEditRoomModal() {
+    const subscription = this.modalService.onHide.subscribe((reason) => {
+      if (reason === null) {
+        this.getRooms();
       }
-    );
-  }
-  showAddRoomForm() {
-    this.newRoom = { id: 0, roomLength: 0, roomWidth: 0, name: 'Sala' };
-    this.newRoomFormVisable = true;
+      subscription.unsubscribe();
+    });
+    const initialState = {
+      orginalRoom: this.currentRoom,
+    };
+    this.modalService.show(EditRoomModalComponent, Object.assign({ initialState }, { class: 'modal-sm' }));
   }
 
-  addRoom() {
-    this.roomsService.addRoom(this.newRoom).subscribe(
-      (data) => {
-        this.toastr.success('Dodano pokój');
-        this.newRoomFormVisable = false;
-        this.rooms.push(data);
-      },
-      (error) => this.toastr.error(error)
-    );
+  openAddRoomModal() {
+    const subscription = this.modalService.onHide.subscribe((reason) => {
+      if (reason === null) {
+        this.getRooms();
+      }
+      subscription.unsubscribe();
+    });
+    this.modalService.show(AddRoomModalComponent, Object.assign({}, { class: 'modal-sm' }));
   }
 
   getTables() {
@@ -158,8 +124,6 @@ export class RoomsManagerComponent implements OnInit {
   }
 
   changeCurrentRoom(room: Room) {
-    this.editRoomFormVisable = false;
-    this.newRoomFormVisable = false;
     this.currentRoom = room;
     this.getTables();
   }

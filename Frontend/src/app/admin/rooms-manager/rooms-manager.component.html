@@ -16,51 +16,12 @@
         </li>
       </ul>
     </div>
-    <button
-      type="button"
-      class="btn btn-secondary ml-1"
-      (click)="openEditRoomForm()"
-      *ngIf="!editRoomFormVisable && !newRoomFormVisable"
-    >
+    <button type="button" class="btn btn-secondary ml-1" (click)="openEditRoomModal()">
       Edytuj sale
     </button>
-    <button
-      type="button"
-      *ngIf="!newRoomFormVisable && !editRoomFormVisable"
-      (click)="showAddRoomForm()"
-      class="btn btn-secondary ml-1"
-    >
+    <button type="button" (click)="openAddRoomModal()" class="btn btn-secondary ml-1">
       Dodaj sale
     </button>
-    <button
-      type="button"
-      *ngIf="newRoomFormVisable || editRoomFormVisable"
-      (click)="newRoomFormVisable = false; editRoomFormVisable = false"
-      class="btn btn-secondary ml-1"
-    >
-      Ukryj
-    </button>
-  </div>
-  <div class="col-lg-8">
-    <div class="row" *ngIf="newRoomFormVisable">
-      <label class="mt-auto ml-1">Nazwa: </label
-      ><input [(ngModel)]="newRoom.name" type="text" class="form-control col-lg-2 ml-1" />
-      <label class="mt-auto ml-1">Długość:</label>
-      <input [(ngModel)]="newRoom.roomLength" type="number" class="form-control col-lg-2 ml-1" />
-      <label class="mt-auto ml-1">Szerokość:</label>
-      <input [(ngModel)]="newRoom.roomWidth" type="number" class="form-control col-lg-2 ml-1" />
-      <button type="button ml-1" (click)="addRoom()" class="btn btn-success ml-1">Dodaj</button>
-    </div>
-    <div class="row" *ngIf="editRoomFormVisable">
-      <label class="mt-auto ml-1">Nazwa: </label
-      ><input [(ngModel)]="roomToEdit.name" type="text" class="form-control col-lg-2 ml-1" />
-      <label class="mt-auto ml-1">Długość:</label>
-      <input [(ngModel)]="roomToEdit.roomLength" type="number" class="form-control col-lg-2 ml-1" />
-      <label class="mt-auto ml-1">Szerokość:</label>
-      <input [(ngModel)]="roomToEdit.roomWidth" type="number" class="form-control col-lg-2 ml-1" />
-      <button type="button ml-1" (click)="editRoom()" class="btn btn-success ml-1">Aktualizuj</button>
-      <button type="button ml-1" (click)="deleteRoom()" class="btn btn-danger ml-1">Usuń</button>
-    </div>
   </div>
 </div>
 <div class="row">

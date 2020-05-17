@@ -39,6 +39,10 @@ import { EnumToArrayPipe } from './_pipes/enumToArray.pipe';
 import { ReservationsListComponent } from './admin/reservations-list/reservations-list.component';
 import { HasRoleDirective } from './_directives/hasRole.directive';
 import { AddReservationModalComponent } from './admin/add-reservation-modal/add-reservation-modal.component';
+import { AddSpecialOpeningHoursModalComponent } from './admin/add-special-opening-hours-modal/add-special-opening-hours-modal.component';
+import { AddClosingDayModalComponent } from './admin/add-closing-day-modal/add-closing-day-modal.component';
+import { AddRoomModalComponent } from './admin/add-room-modal/add-room-modal.component';
+import { EditRoomModalComponent } from './admin/edit-room-modal/edit-room-modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -64,6 +68,10 @@ defineLocale('pl', plLocale);
     ReservationsListComponent,
     HasRoleDirective,
     AddReservationModalComponent,
+    AddSpecialOpeningHoursModalComponent,
+    AddClosingDayModalComponent,
+    EditRoomModalComponent,
+    AddRoomModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,6 +103,14 @@ defineLocale('pl', plLocale);
   ],
   providers: [ErrorInterceptorProvider],
   bootstrap: [AppComponent],
-  entryComponents: [TableScheduleComponent, EditRoleComponent, AddReservationModalComponent],
+  entryComponents: [
+    TableScheduleComponent,
+    EditRoleComponent,
+    AddReservationModalComponent,
+    AddSpecialOpeningHoursModalComponent,
+    AddClosingDayModalComponent,
+    EditRoomModalComponent,
+    AddRoomModalComponent,
+  ],
 })
 export class AppModule {}

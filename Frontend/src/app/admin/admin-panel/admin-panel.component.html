@@ -1,5 +1,5 @@
 <div class="tab-panel">
-  <tabset #tabs class="member-tabset" >
+  <tabset #tabs class="member-tabset">
     <tab>
       <ng-template tabHeading><fa-icon [icon]="faUsers"></fa-icon> Użytkownicy</ng-template>
       <app-user-list *ngIf="tabs.tabs[0].active"></app-user-list>

@@ -1,0 +1,13 @@
+<div class="modal-content">
+  <div class="modal-header" style="background: #393535;">
+    <h5 class="col-12 modal-title text-center" style="color: white;">Dodaj nową sale</h5>
+  </div>
+  <div class="modal-body">
+    <label>Nazwa: </label><input [(ngModel)]="newRoom.name" type="text" class="form-control" />
+    <label>Długość:</label>
+    <input [(ngModel)]="newRoom.roomLength" type="number" class="form-control" />
+    <label>Szerokość:</label>
+    <input [(ngModel)]="newRoom.roomWidth" type="number" class="form-control" />
+    <button type="button" (click)="addRoom()" class="btn btn-success ml-1">Dodaj</button>
+  </div>
+</div>

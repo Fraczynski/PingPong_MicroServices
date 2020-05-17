@@ -8,28 +8,28 @@ import { ClosingDay } from 'src/app/_models/closingDay';
 import { ClosingDaysService } from 'src/app/_services/closing-days.service';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { ToastrService } from 'ngx-toastr';
-import { DATE } from 'ngx-bootstrap/chronos/units/constants';
-
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { AddSpecialOpeningHoursModalComponent } from '../add-special-opening-hours-modal/add-special-opening-hours-modal.component';
+import { AddClosingDayModalComponent } from '../add-closing-day-modal/add-closing-day-modal.component';
 @Component({
   selector: 'app-opening-hours',
   templateUrl: './opening-hours.component.html',
   styleUrls: ['./opening-hours.component.css'],
 })
 export class OpeningHoursComponent implements OnInit {
-  newSpecialOpeningHoursFormVisable = false;
-  newSpecialOpeningHours: SpecialOpeningHours;
-  newClosingDayFormVisable = false;
-  newClosingDay: ClosingDay;
   openingHours: OpeningHours[];
   specialOpeningHours: SpecialOpeningHours[];
   closingDays: ClosingDay[];
+
+
   tempOpeningHours: OpeningHours[];
   WeekDay = WeekDay;
   constructor(
     private openingHoursService: OpeningHoursService,
     private toastr: ToastrService,
     private closingDaysService: ClosingDaysService,
-    private localeService: BsLocaleService
+    private localeService: BsLocaleService,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit() {
@@ -57,25 +57,23 @@ export class OpeningHoursComponent implements OnInit {
       }
     );
   }
-  openNewSpecialOpeningHoursForm() {
-    this.newSpecialOpeningHoursFormVisable = true;
-    this.newSpecialOpeningHours = {
-      id: undefined,
-      start: new Date(),
-      end: new Date(),
-      day: new Date(),
-      description: '',
-    };
-    this.newSpecialOpeningHours.start.setSeconds(0);
-    this.newSpecialOpeningHours.end.setSeconds(0);
+  openNewSpecialOpeningHoursModal() {
+    const subscription = this.modalService.onHide.subscribe((reason) => {
+      if (reason === null) {
+        this.getSpecialOpeningHours();
+      }
+      subscription.unsubscribe();
+    });
+    this.modalService.show(AddSpecialOpeningHoursModalComponent, Object.assign({}, { class: 'modal-sm' }));
   }
-  openNewClosingDayForm() {
-    this.newClosingDayFormVisable = true;
-    this.newClosingDay = {
-      id: undefined,
-      day: new Date(),
-      description: '',
-    };
+  openNewClosingDayModal() {
+    const subscription = this.modalService.onHide.subscribe((reason) => {
+      if (reason === null) {
+        this.getClosingDays();
+      }
+      subscription.unsubscribe();
+    });
+    this.modalService.show(AddClosingDayModalComponent, Object.assign({}, { class: 'modal-sm' }));
   }
 
   getSpecialOpeningHours() {
@@ -109,33 +107,11 @@ export class OpeningHoursComponent implements OnInit {
     );
   }
 
-  addClosingDay() {
-    this.closingDaysService.addClosingDay(this.newClosingDay).subscribe((data) => {
-      this.toastr.success('Dodano nieczynny dzień');
-      data.day = new Date(data.day);
-      this.closingDays.push(data);
-      this.newClosingDayFormVisable = false;
-    });
-  }
-
   deleteClosingDay(day: ClosingDay) {
     this.closingDaysService.deleteClosingDay(day.id).subscribe(
       () => {
         this.toastr.success('Nieczynny dzień usunięty');
         this.closingDays = this.closingDays.filter((c) => c !== day);
-      },
-      (error) => {
-        this.toastr.error(error);
-      }
-    );
-  }
-
-  addSpecialOpeningHours() {
-    this.openingHoursService.addSpecialOpeningHours(this.newSpecialOpeningHours).subscribe(
-      (data) => {
-        this.toastr.success('Nowe wyjątkowe godziny otwarcia dodane');
-        this.getSpecialOpeningHours();
-        this.newSpecialOpeningHoursFormVisable = false;
       },
       (error) => {
         this.toastr.error(error);

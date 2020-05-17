@@ -52,6 +52,11 @@
           <tr>
             <th>Data</th>
             <th>Opis</th>
+            <th>
+              <button type="submit" (click)="openNewClosingDayModal()" class="btn btn-secondary btn-sm">
+                +
+              </button>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -67,31 +72,7 @@
         </tbody>
       </table>
     </div>
-    <button
-      type="submit"
-      *ngIf="!newClosingDayFormVisable"
-      (click)="openNewClosingDayForm()"
-      class="btn btn-primary ml-auto"
-    >
-      Dodaj nowy dzień
-    </button>
-    <div class="row" *ngIf="newClosingDayFormVisable">
-      <h6 class="h6 col-lg-12">Nowy nieczynny dzień:</h6>
-      <label class="mt-auto mr-1 ml-1">Data:</label>
-      <input
-        class="form-control col-lg-3 col-md-2"
-        [(ngModel)]="newClosingDay.day"
-        ngModel
-        bsDatepicker
-        [bsConfig]="{ containerClass: 'theme-green' }"
-      />
-      <label class="mt-auto mr-1 ml-1">Opis:</label>
-      <input type="text" [(ngModel)]="newClosingDay.description" class="form-control col-lg-2 col-md-2" />
-      <button type="button" (click)="addClosingDay()" class="btn btn-success ml-1 mr-1">Dodaj</button>
-      <button type="button" class="btn btn-secondary mr-1 ml-1" (click)="newClosingDayFormVisable = false">
-        Anuluj
-      </button>
-    </div>
+
     <h5 class="h5 mt-2">Dni o zmienionych godzinach otwarcia:</h5>
     <div class="table-responsive">
       <table *ngIf="specialOpeningHours?.length > 0" class="table" aria-labelledby="tableLabel">
@@ -101,6 +82,11 @@
             <th>Godzina otwarcia</th>
             <th>Godzina zamknięcia</th>
             <th>Opis</th>
+            <th>
+              <button (click)="openNewSpecialOpeningHoursModal()" type="submit" class="btn btn-secondary btn-sm">
+                +
+              </button>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -117,64 +103,6 @@
           </tr>
         </tbody>
       </table>
-    </div>
-    <button
-      *ngIf="!newSpecialOpeningHoursFormVisable"
-      (click)="openNewSpecialOpeningHoursForm()"
-      type="submit"
-      class="btn btn-primary ml-auto"
-    >
-      Dodaj nowy dzień
-    </button>
-    <div *ngIf="newSpecialOpeningHoursFormVisable">
-      <h6 class="h6">Nowy dzień o zmienionych godzinach otwarcia:</h6>
-      <div class="form-inline">
-        <div class="form-group mx-1">
-          <label class="mr-1">Data:</label>
-          <input
-            class="form-control"
-            [(ngModel)]="newSpecialOpeningHours.day"
-            ngModel
-            bsDatepicker
-            [bsConfig]="{ containerClass: 'theme-green' }"
-            style="width: 100px;"
-          />
-        </div>
-        <div class="form-group mx-1">
-          <label class="mr-1">Start:</label>
-          <timepicker
-          id="start"
-          name="start"
-          [minuteStep]="15"
-          [(ngModel)]="newSpecialOpeningHours.start"
-          [showMeridian]="false"
-          [showSpinners]="false"
-        ></timepicker>
-        </div>
-        <div class="form-group mx-1">
-          <label class="mr-1">Koniec:</label>
-          <timepicker
-          id="start"
-          name="start"
-          [minuteStep]="15"
-          [(ngModel)]="newSpecialOpeningHours.end"
-          [showMeridian]="false"
-          [showSpinners]="false"
-        ></timepicker>
-        </div>
-        <div class="form-group mx-1">
-          <label class="mr-1">Komentarz:</label>
-          <input type="text" [(ngModel)]="newSpecialOpeningHours.description" class="form-control" />
-        </div>
-        <div class="form-group mx-1">
-          <button type="button" (click)="addSpecialOpeningHours()" class="btn btn-success btn">Dodaj</button>
-        </div>
-        <div class="form-group mx-1">
-          <button type="button" class="btn btn-secondary" (click)="newSpecialOpeningHoursFormVisable = false">
-            Anuluj
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 </div>
