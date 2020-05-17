@@ -26,7 +26,9 @@ export class UserListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getRoles();
+    if (this.authService.roleMatch(['Administrator'])) {
+      this.getRoles();
+    }
     this.resetFilters();
   }
   getRoles() {

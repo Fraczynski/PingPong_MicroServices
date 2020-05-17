@@ -47,7 +47,7 @@
   <div class="col-lg-5 col-12">
     <h5 class="h5 mt-2">Pozostałe dni w których lokal jest zamknięty:</h5>
     <div class="table-responsive">
-      <table *ngIf="closingDays?.length > 0" class="table" aria-labelledby="tableLabel">
+      <table  class="table" aria-labelledby="tableLabel">
         <thead>
           <tr>
             <th>Data</th>
@@ -59,7 +59,7 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="closingDays?.length > 0">
           <tr *ngFor="let closingDay of closingDays">
             <td>{{ closingDay.day.toLocaleDateString() }}</td>
             <td>{{ closingDay.description }}</td>
@@ -75,7 +75,7 @@
 
     <h5 class="h5 mt-2">Dni o zmienionych godzinach otwarcia:</h5>
     <div class="table-responsive">
-      <table *ngIf="specialOpeningHours?.length > 0" class="table" aria-labelledby="tableLabel">
+      <table  class="table" aria-labelledby="tableLabel">
         <thead>
           <tr>
             <th>Data</th>
@@ -89,7 +89,7 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="specialOpeningHours?.length > 0">
           <tr *ngFor="let special of specialOpeningHours">
             <td>{{ special.day.toLocaleDateString() }}</td>
             <td>{{ special.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}</td>

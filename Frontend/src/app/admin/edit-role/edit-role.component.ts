@@ -11,12 +11,10 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class EditRoleComponent implements OnInit {
   user: User;
-  currentChosenRole: string;
   public rolesList: any[] = [];
   constructor(private authService: AuthService, private bsModalRef: BsModalRef, private toastr: ToastrService) {}
 
   ngOnInit() {
-    this.currentChosenRole = this.user.role;
     this.getRoles();
   }
 
@@ -24,7 +22,11 @@ export class EditRoleComponent implements OnInit {
     this.authService.getRoles().subscribe(
       (data) => {
         for (const role of data) {
-          this.rolesList.push(role.name);
+          if (this.user.roles.includes(role.name)) {
+            this.rolesList.push({ name: role.name, haveIt: true });
+          } else {
+            this.rolesList.push({ name: role.name, haveIt: false });
+          }
         }
       },
       (error) => {
@@ -33,21 +35,22 @@ export class EditRoleComponent implements OnInit {
     );
   }
 
-  changeCurrentRole(newRole: string) {
-    this.currentChosenRole = newRole;
-  }
-
   confirmRoleChange() {
-    if (this.currentChosenRole !== this.user.role) {
-      this.authService.editUserRole(this.user.id, this.currentChosenRole).subscribe(
-        () => {
-          this.bsModalRef.hide();
-          this.toastr.success('Rola zaaktualizowana');
-        },
-        (error) => {
-          this.toastr.error(error);
-        }
-      );
+    const newUserRoles: string[] = [];
+
+    for (const role of this.rolesList) {
+      if (role.haveIt === true) {
+        newUserRoles.push(role.name);
+      }
     }
+    this.authService.editUserRole(this.user.id, newUserRoles).subscribe(
+      () => {
+        this.bsModalRef.hide();
+        this.toastr.success('Rola zaaktualizowana');
+      },
+      (error) => {
+        this.toastr.error(error);
+      }
+    );
   }
 }

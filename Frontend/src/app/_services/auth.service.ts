@@ -27,8 +27,8 @@ export class AuthService {
     );
   }
 
-  editUserRole(id: number, newRoleName: string) {
-    return this.http.put(this.gatewayUrl + 'auth/' + id, { name: newRoleName });
+  editUserRole(id: number, rolesList: string[]) {
+    return this.http.put(this.gatewayUrl + 'auth/' + id, { newUserRoles: rolesList });
   }
 
   getRoles(): Observable<any[]> {

@@ -18,7 +18,7 @@
     <input type="text" [(ngModel)]="userParams.email" class="form-control ml-1" style="width: 140px" id="email" name="email">
   </div>
 
-  <div class="form-group px-1">
+  <div *appHasRole="['Administrator']" class="form-group px-1">
     <label for="gender">Rola:</label>
     <select class="form-control ml-1" [(ngModel)]="userParams.role" id="gender" name="gender">
       <option *ngFor="let role of roles" [value]="role">
@@ -52,7 +52,7 @@
       <tr>
         <th>Id</th>
         <th>Email</th>
-        <th>Rola</th>
+        <th *appHasRole="['Administrator']">Rola</th>
       </tr>
     </thead>
     <tbody>
@@ -61,7 +61,7 @@
           (click)="user.expanded = !user.expanded">
           <td>{{user.id}}</td>
           <td>{{user.email}}</td>
-          <td>{{user.role|translate}}</td>
+          <td *appHasRole="['Administrator']">{{user.role|translate}}</td>
         </tr>
         <tr *ngIf="user.expanded">
           <td colspan="100%">
@@ -70,9 +70,9 @@
                 <b>Imię:</b> {{user.firstName}} 
                 <b>Naziwsko:</b> {{user.lastName}} <br>   
               </div>
-              <div class="col-4" *ngIf="user.id!=authService.decodedToken.nameid">
-                <button type="button" (click)="openRoleEditModal(user)" class="btn btn-primary mr-2">Zmień rolę</button>
-                <button type="button" (click)="deleteUser(user)" class="btn btn-danger">Usuń użytkownika!</button>
+              <div class="col-4">
+                <button *appHasRole="['Administrator']" type="button" (click)="openRoleEditModal(user)" class="btn btn-primary mr-2">Zmień rolę</button>
+                <button *appHasRole="['Administrator']" type="button" (click)="deleteUser(user)" class="btn btn-danger">Usuń użytkownika!</button>
               </div>
             </div>
           </td>
