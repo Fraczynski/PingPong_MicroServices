@@ -13,6 +13,7 @@ namespace HomePageService.Data
 
         }
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<Alert> Alerts { get; set; }
 
     }
 }
