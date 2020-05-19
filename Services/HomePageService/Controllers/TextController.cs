@@ -15,17 +15,17 @@ namespace HomePageService.Controllers
     [Route("api/[controller]")]
     [Authorize(Roles = "Employee")]
     [ApiController]
-    public class TextControler : ControllerBase
+    public class TextController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly ITextRepository _repository;
-        public TextControler(IMapper mapper, ITextRepository repository)
+        public TextController(IMapper mapper, ITextRepository repository)
         {
             _repository = repository;
             _mapper = mapper;
         }
         [AllowAnonymous]
-        [HttpGet("textField/{name}")]
+        [HttpGet("{name}")]
         public async Task<IActionResult> GetTextFieldContent(string name)
         {
             var textField = await _repository.GetTextField(name);
@@ -35,7 +35,7 @@ namespace HomePageService.Controllers
             }
             return Ok(textField.Content);
         }
-        [HttpPut("textField/{name}")]
+        [HttpPut("{name}")]
         public async Task<IActionResult> UpdateTextFieldContent(string name, TextFieldForUpdateDto newContent)
         {
             var textField = await _repository.GetTextField(name);
