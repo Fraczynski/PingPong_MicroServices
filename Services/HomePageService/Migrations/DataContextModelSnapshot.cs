@@ -49,6 +49,23 @@ namespace HomePageService.Migrations
 
                     b.ToTable("Photos");
                 });
+
+            modelBuilder.Entity("HomePageService.Models.TextFieldContent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TextFieldContents");
+                });
 #pragma warning restore 612, 618
         }
     }

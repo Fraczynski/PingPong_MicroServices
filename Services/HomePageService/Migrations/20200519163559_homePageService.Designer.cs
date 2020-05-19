@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomePageService.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200518165641_HomePageService")]
-    partial class HomePageService
+    [Migration("20200519163559_homePageService")]
+    partial class homePageService
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,6 +50,23 @@ namespace HomePageService.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Photos");
+                });
+
+            modelBuilder.Entity("HomePageService.Models.TextFieldContent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TextFieldContents");
                 });
 #pragma warning restore 612, 618
         }

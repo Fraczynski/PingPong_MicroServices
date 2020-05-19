@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HomePageService.Migrations
 {
-    public partial class HomePageService : Migration
+    public partial class homePageService : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -34,6 +34,20 @@ namespace HomePageService.Migrations
                 {
                     table.PrimaryKey("PK_Photos", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "TextFieldContents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TextFieldContents", x => x.Id);
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -43,6 +57,9 @@ namespace HomePageService.Migrations
 
             migrationBuilder.DropTable(
                 name: "Photos");
+
+            migrationBuilder.DropTable(
+                name: "TextFieldContents");
         }
     }
 }
