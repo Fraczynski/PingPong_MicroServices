@@ -1,0 +1,170 @@
+<form class="form-inline mt-2 mb-2" #form="ngForm" ngSubmit="loadUsers()" novalidate>
+  <div class="form-group">
+    <label for="id">Id:</label>
+    <input type="number" style="width: 60px;" [(ngModel)]="userParams.id" class="form-control ml-1" id="id" name="id" />
+  </div>
+  <div class="form-group mx-2">
+    <label for="lastName">Nazwisko: </label>
+    <input
+      type="text"
+      [(ngModel)]="userParams.lastName"
+      class="form-control ml-1"
+      id="lastName"
+      style="width: 130px;"
+      name="lastName"
+    />
+  </div>
+  <div class="form-group mx-2">
+    <label for="email">Email:</label>
+    <input
+      type="text"
+      [(ngModel)]="userParams.email"
+      style="width: 150px;"
+      class="form-control ml-1"
+      id="email"
+      name="email"
+    />
+  </div>
+  <div class="btn-group mx-2" [insideClick]="true" dropdown>
+    <button
+      id="button-basic"
+      dropdownToggle
+      type="button"
+      class="btn btn-primary dropdown-toggle"
+      aria-controls="dropdown-basic"
+    >
+      Dodatkowe filtry <span class="caret"></span>
+    </button>
+    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu mx-2" role="menu" aria-labelledby="button-basic">
+      <li role="menuitem">
+        <div class="form-inline my-1">
+          <label class="col-4" for="fistName">Imię:</label>
+          <input
+            type="text"
+            [(ngModel)]="userParams.firstName"
+            class="form-control col-6"
+            id="fistName"
+            name="fistName"
+          />
+        </div>
+      </li>
+      <li *appHasRole="['Administrator']" role="menuitem">
+        <div class="form-inline my-1">
+          <label class="col-4" for="gender">Rola:</label>
+          <select class="form-control col-6" [(ngModel)]="userParams.role" id="gender" name="gender">
+            <option *ngFor="let role of roles" [value]="role">
+              {{ role | translate }}
+            </option>
+          </select>
+        </div>
+      </li>
+      <li role="menuitem">
+        <div class="form-inline my-1">
+          <label class="col-4" for="status">Status:</label>
+          <select class="form-control col-6" [(ngModel)]="userParams.active" id="status" name="status">
+            <option value=""></option>
+            <option value="true">Aktywne</option>
+            <option value="false">Nieaktywne</option>
+          </select>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="form-inline">
+    <div class="form-group btn-group px-1" dropdown>
+      <button
+        id="button-animated"
+        dropdownToggle
+        type="button"
+        class="btn btn-info dropdown-toggle"
+        aria-controls="dropdown-animated"
+      >
+        Sortowanie <span class="caret"></span>
+      </button>
+      <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated">
+        <li role="menuitem"><a (click)="userParams.orderBy = 'id'" class="dropdown-item">Id</a></li>
+        <li role="menuitem">
+          <a (click)="userParams.orderBy = 'lastName'" class="dropdown-item">Alfabetycznie</a>
+        </li>
+      </ul>
+    </div>
+    <div class="form-group px-1">
+      <button type="submit" class="btn btn-primary px-1" (click)="loadUsers()">Zastosuj</button>
+    </div>
+    <div class="form-group px-1">
+      <button type="button" class="btn btn-secondary px-1" (click)="resetFilters()">Resetuj</button>
+    </div>
+  </div>
+</form>
+<div *ngIf="users">
+  <table class="table" aria-labelledby="tableLabel">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Email</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let user of users">
+        <tr class="clickable-tr" (click)="user.expanded = !user.expanded">
+          <td>{{ user.id }}</td>
+          <td>{{ user.email }}</td>
+          <td *ngIf="user.active">Aktywne</td>
+          <td *ngIf="!user.active">Nie aktywne</td>
+        </tr>
+        <tr *ngIf="user.expanded">
+          <td colspan="100%">
+            <div class="row">
+              <div class="col-9"><b>Imię:</b> {{ user.firstName }} <b>Naziwsko:</b> {{ user.lastName }} <br /></div>
+              <div class="col-3">
+                <div class="row">
+                  <button
+                    *appHasRole="['Administrator']"
+                    type="button"
+                    (click)="openRoleEditModal(user)"
+                    class="btn btn-primary mr-2"
+                  >
+                    Zmień rolę
+                  </button>
+                  <div *appHasRole="['Administrator']">
+                    <button
+                      *ngIf="user.active"
+                      type="button"
+                      (click)="changeUserStatus(user, false)"
+                      class="btn btn-danger"
+                    >
+                      Dezaktywuj konto
+                    </button>
+                    <button
+                      *ngIf="!user.active"
+                      type="button"
+                      (click)="changeUserStatus(user, true)"
+                      class="btn btn-danger"
+                    >
+                      Aktywuj konto
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+  <div class="row justify-content-center">
+    <pagination
+      [boundaryLinks]="true"
+      [totalItems]="pagination.totalItems"
+      [itemsPerPage]="pagination.itemsPerPage"
+      (pageChanged)="pageChanged($event)"
+      [(ngModel)]="pagination.currentPage"
+      previousText="&lsaquo;"
+      nextText="&rsaquo;"
+      firstText="&laquo;"
+      lastText="&raquo;"
+    >
+    </pagination>
+  </div>
+</div>

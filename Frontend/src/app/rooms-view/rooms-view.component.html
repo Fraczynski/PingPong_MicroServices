@@ -1,20 +1,34 @@
 <div class="row mt-2">
   <div class="mt-2">Wybierz dzień:</div>
   <div class="col-xs-12 col-12 col-sm-6 col-md-4 form-group">
-    <input [(ngModel)]="day" class="form-control "  bsDatepicker [bsConfig]="{containerClass: 'theme-green'}"  [minDate]="minDate" [maxDate]="maxDate" [daysDisabled]="weekDaysWhenClosed"  [datesDisabled]="closingDays">
+    <input
+      [(ngModel)]="day"
+      class="form-control"
+      bsDatepicker
+      [bsConfig]="{ containerClass: 'theme-green' }"
+      [minDate]="minDate"
+      [maxDate]="maxDate"
+      [daysDisabled]="weekDaysWhenClosed"
+      [datesDisabled]="closingDays"
+    />
   </div>
 </div>
 
-<div *ngIf="rooms" class="row mt-2 mb-4 ">
+<div *ngIf="rooms" class="row mt-2 mb-4">
   <div class="mt-2">Wybierz sale:</div>
   <div class="btn-group ml-2" dropdown>
-    <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle ml-3"
-      aria-controls="dropdown-animated">
-      {{currentRoom.name}} <span class="caret"></span>
+    <button
+      id="button-animated"
+      dropdownToggle
+      type="button"
+      class="btn btn-primary dropdown-toggle ml-3"
+      aria-controls="dropdown-animated"
+    >
+      {{ currentRoom.name }} <span class="caret"></span>
     </button>
     <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated">
       <li *ngFor="let room of rooms" role="menuitem">
-        <a class="dropdown-item" (click)="changeCurrentRoom(room)">{{room.name}}</a>
+        <a class="dropdown-item" (click)="changeCurrentRoom(room)">{{ room.name }}</a>
       </li>
     </ul>
   </div>
@@ -22,7 +36,7 @@
 
 <canvas class="col-lg-8" id="canvas" style="width: 100%; cursor: pointer;"></canvas>
 
-<div *ngIf="reservationService.reservationsCart.length!=0">
+<div *ngIf="reservationService.reservationsCart.length != 0">
   <h3>Wybrane rezerwacje:</h3>
 
   <table class="table col-lg-6 table-striped">
@@ -35,18 +49,24 @@
     </thead>
     <tbody>
       <tr *ngFor="let m of reservationService.reservationsCart">
-        <td>{{m.start.toLocaleDateString()}}</td>
-        <td>{{m.start.getHours()}}:{{m.start.getMinutes()}}-{{m.end.getHours()}}:{{m.end.getMinutes()}}</td>
-        <td>{{m.pingPongTableLabel}}</td>
+        <td>{{ m.start.toLocaleDateString() }}</td>
+        <td>
+          {{ m.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}-{{
+            m.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          }}
+        </td>
+        <td>{{ m.pingPongTableLabel }}</td>
         <td><button class="btn btn-danger btn-sm" (click)="removeFromReservationList(m)">Anuluj!</button></td>
       </tr>
     </tbody>
   </table>
 
   <div class="row mt-3">
-    <button type="button" [disabled]="!authService.loggedIn()" (click)="sendReservations()"
-      class="btn btn-success">Zatwierdź rezerwacje</button>
-    <div *ngIf="!authService.loggedIn()" class="mt-2 ml-2" style="color:red"> <b>Musisz się zalogować przed złożeniem
-        rezerwacji!</b></div>
+    <button type="button" [disabled]="!authService.loggedIn()" (click)="sendReservations()" class="btn btn-success">
+      Zatwierdź rezerwacje
+    </button>
+    <div *ngIf="!authService.loggedIn()" class="mt-2 ml-2" style="color: red;">
+      <b>Musisz się zalogować przed złożeniem rezerwacji!</b>
+    </div>
   </div>
 </div>

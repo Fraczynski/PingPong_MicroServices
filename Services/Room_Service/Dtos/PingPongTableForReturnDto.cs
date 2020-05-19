@@ -1,3 +1,5 @@
+using Room_Service.Models;
+
 namespace Room_Service.Dtos
 {
     public class PingPongTableForReturnDto
@@ -10,6 +12,6 @@ namespace Room_Service.Dtos
         public double TableWidth { get; set; }
         public bool VerticalOrientation { get; set; }
         public int RoomId { get; set; }
-        public bool AvailableForReservations { get; set; }
+        public bool Active { get; set; }
     }
 }

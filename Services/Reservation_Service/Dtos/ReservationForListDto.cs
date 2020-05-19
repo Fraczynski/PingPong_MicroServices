@@ -1,4 +1,5 @@
 using System;
+using Reservation_Service.Models;
 
 namespace Reservation_Service.Dtos
 {
@@ -9,5 +10,6 @@ namespace Reservation_Service.Dtos
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public int UserId { get; set; }
+        public ReservationStatus ReservationStatus { get; set; }
     }
 }

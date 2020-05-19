@@ -1,4 +1,5 @@
 using System;
+using Reservation_Service.Models;
 
 namespace Reservation_Service.Helpers
 {
@@ -12,8 +13,9 @@ namespace Reservation_Service.Helpers
             get { return pageSize; }
             set { pageSize = (value > MaxPageSize) ? MaxPageSize : value; }
         }
-        public DateTime Start { get; set; }
+        public DateTime? Start { get; set; }
         public int? UserId { get; set; }
+        public ReservationStatus? ReservationStatus { get; set; }
         public int? PingPongTableId { get; set; }
         public string OrderBy { get; set; }
     }

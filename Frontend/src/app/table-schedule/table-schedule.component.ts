@@ -13,8 +13,8 @@ import { ToastrService } from 'ngx-toastr';
 export class TableScheduleComponent implements OnInit {
   alreadyBookedReservations: any[] = [];
   reservations: any[] = [];
-  openingHour: number;
-  closingHour: number;
+  openingHour: Date;
+  closingHour: Date;
   numberOfColumns;
 
   pickingStartDate: boolean;
@@ -42,23 +42,13 @@ export class TableScheduleComponent implements OnInit {
   }
 
   getOpeningHours() {
-    this.openingHoursService.getSpecialOpeningHours(this.date).subscribe(
-      (specialOpeningHours) => {
-        if (specialOpeningHours !== null) {
-          this.openingHour = specialOpeningHours.start;
-          this.closingHour = specialOpeningHours.end;
+    this.openingHoursService.getActualOpeningHours(this.date).subscribe(
+      (actualOpeningHours) => {
+        if (actualOpeningHours !== null) {
+          const today = new Date();
+          this.openingHour = new Date(today.toDateString() + ' ' + actualOpeningHours.start + ' UTC');
+          this.closingHour = new Date(today.toDateString() + ' ' + actualOpeningHours.end + ' UTC');
           this.setTableSchedule();
-        } else {
-          this.openingHoursService.getOpeningHours(this.date.getDay()).subscribe(
-            (regularOpeningHours) => {
-              this.closingHour = regularOpeningHours.end;
-              this.openingHour = regularOpeningHours.start;
-              this.setTableSchedule();
-            },
-            (error) => {
-              this.toastr.error(error);
-            }
-          );
         }
       },
       (error) => {
@@ -72,16 +62,20 @@ export class TableScheduleComponent implements OnInit {
     this.reservationsService.getAlreadyBookedReservations(this.date, this.tableId).subscribe((data) => {
       for (const d of data) {
         this.alreadyBookedReservations.push({
-          start: new Date(d.start),
-          end: new Date(d.end),
+          start: new Date(d.start + 'Z'),
+          end: new Date(d.end + 'Z'),
         });
       }
       // create empty day schedule
-      for (let i = this.openingHour * 60; i < this.closingHour * 60; i += 15) {
+      for (
+        let i = this.getQuartersOfTheHourFromMidnight(this.openingHour);
+        i < this.getQuartersOfTheHourFromMidnight(this.closingHour);
+        i++
+      ) {
         const tmpdate = new Date(this.date);
-        tmpdate.setMinutes(i);
+        tmpdate.setMinutes(i * 15);
         const tmpdate2 = new Date(this.date);
-        tmpdate2.setMinutes(i + 15);
+        tmpdate2.setMinutes((i + 1) * 15);
         this.reservations.push({
           start: tmpdate,
           end: tmpdate2,
@@ -100,32 +94,41 @@ export class TableScheduleComponent implements OnInit {
         tempDate.getDate() === this.date.getDate()
       ) {
         for (
-          let i = this.openingHour * 60;
-          i < this.getMinutesFromMidnight(tempDate) + 2 * 60 && i < this.closingHour * 60;
-          i += 15
+          let i = this.getQuartersOfTheHourFromMidnight(this.openingHour);
+          i < this.getQuartersOfTheHourFromMidnight(tempDate) + 4 &&
+          i < this.getQuartersOfTheHourFromMidnight(this.closingHour);
+          i++
         ) {
-          this.reservations[i / 15 - this.openingHour * 4].free = false;
+          this.reservations[i - this.getQuartersOfTheHourFromMidnight(this.openingHour)].free = false;
         }
       }
 
       // set reservations already booked as not avalible in schedule
       for (const m of this.alreadyBookedReservations) {
-        for (let i = this.getMinutesFromMidnight(m.start); i < this.getMinutesFromMidnight(m.end); i += 15) {
-          this.reservations[i / 15 - this.openingHour * 4].free = false;
+        for (
+          let i = this.getQuartersOfTheHourFromMidnight(m.start);
+          i < this.getQuartersOfTheHourFromMidnight(m.end);
+          i++
+        ) {
+          this.reservations[i - this.getQuartersOfTheHourFromMidnight(this.openingHour)].free = false;
         }
       }
       // set reservations already picked by user as not avalible in schedule
       for (const m of this.reservationsService.reservationsCart) {
         if (m.pingPongTableId === this.tableId && m.start.getDate() === this.date.getDate()) {
-          for (let i = this.getMinutesFromMidnight(m.start); i < this.getMinutesFromMidnight(m.end); i += 15) {
-            this.reservations[i / 15 - this.openingHour * 4].free = false;
+          for (
+            let i = this.getQuartersOfTheHourFromMidnight(m.start);
+            i < this.getQuartersOfTheHourFromMidnight(m.end);
+            i += 1
+          ) {
+            this.reservations[i - this.getQuartersOfTheHourFromMidnight(this.openingHour)].free = false;
           }
         }
       }
     });
   }
-  getMinutesFromMidnight(date: Date): number {
-    return date.getHours() * 60 + date.getMinutes();
+  getQuartersOfTheHourFromMidnight(date: Date): number {
+    return date.getHours() * 4 + date.getMinutes() / 15;
   }
 
   addToReservationList(res: Reservation) {
@@ -166,7 +169,7 @@ export class TableScheduleComponent implements OnInit {
       const firstNotFree = this.findFirstNotFree(this.startRes);
 
       for (const m of this.reservations) {
-        if (m.start < this.startRes.start || (firstNotFree != null && m.start >= firstNotFree.start)) {
+        if (m.start <= this.startRes.start || (firstNotFree != null && m.start >= firstNotFree.start)) {
           m.tempDisabled = true;
         }
       }
@@ -184,14 +187,15 @@ export class TableScheduleComponent implements OnInit {
       end: this.endRes.end,
       pingPongTableId: this.tableId,
       pingPongTableLabel: this.tableLabel,
+      reservationStatus: null,
     };
     this.reservationsService.addToReservationsCart(reservation);
     for (
-      let i = this.getMinutesFromMidnight(reservation.start);
-      i < this.getMinutesFromMidnight(reservation.end);
-      i += 15
+      let i = this.getQuartersOfTheHourFromMidnight(reservation.start);
+      i < this.getQuartersOfTheHourFromMidnight(reservation.end);
+      i ++
     ) {
-      this.reservations[i / 15 - this.openingHour * 4].free = false;
+      this.reservations[i  - this.openingHour.getHours() * 4].free = false;
     }
     this.cancelReservating();
   }

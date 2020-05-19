@@ -10,7 +10,7 @@ using Room_Service.Models;
 
 namespace Room_Service.Controllers
 {
-    [Authorize(Roles = "Employee")]
+    [Authorize(Roles = "Administrator")]
     [Route("api/[controller]")]
     [ApiController]
     public class TablesController : ControllerBase
@@ -32,8 +32,14 @@ namespace Room_Service.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("room/{roomId}/active")]
+        public async Task<IActionResult> GetActiveTablesFromOneRoom(int roomId)
+        {
+            var tables = await _repository.GetActiveTablesWithRoomId(roomId);
+            return Ok(_mapper.Map<IEnumerable<PingPongTableForReturnDto>>(tables));
+        }
         [HttpGet("room/{roomId}")]
-        public async Task<IActionResult> GetTablesFromOneRoom(int roomId)
+        public async Task<IActionResult> GetAllTablesFromOneRoom(int roomId)
         {
             var tables = await _repository.GetAllTablesWithRoomId(roomId);
             return Ok(_mapper.Map<IEnumerable<PingPongTableForReturnDto>>(tables));

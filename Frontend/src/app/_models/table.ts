@@ -1,4 +1,4 @@
-interface Table {
+export interface Table {
   id: number;
   label: string;
   x: number;
@@ -7,4 +7,5 @@ interface Table {
   tableWidth: number;
   verticalOrientation: boolean;
   roomId: number;
+  active: boolean;
 }

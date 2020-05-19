@@ -1,0 +1,9 @@
+.table td,.table th {
+    text-align: center;   
+ }
+ .clickable-tr{
+    cursor: pointer;
+  }
+  .dropdown-toggle,.dropdown-item{
+    cursor: pointer;
+  }

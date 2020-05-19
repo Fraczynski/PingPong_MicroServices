@@ -1,0 +1,16 @@
+.modal-heading{
+color: gray;
+}
+.nav-tabs .nav-link{
+color: gray;
+}
+.nav-tabs .nav-link:hover{
+color: #555555 !important;
+}
+
+.nav-tabs .nav-link.active{
+color: #000000 !important;
+}
+.nav-tabs .nav-link.active:hover{
+color: #000000 !important;
+}

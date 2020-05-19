@@ -7,6 +7,7 @@ namespace Auth_Service.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public ICollection<UserRole> UserRoles{get;set;}
+        public ICollection<UserRole> UserRoles { get; set; }
+        public bool Active { get; set; }
     }
 }

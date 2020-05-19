@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -25,12 +26,14 @@ namespace Reservation_Service.Controllers
             _reservationRepo = reservationRepo;
             _mapper = mapper;
         }
-        [Authorize]
+        [Authorize(Roles = "Customer,Employee")]
         [HttpGet]
         public async Task<IActionResult> GetReservations([FromQuery] ReservationParams reservationParams)
         {
-            if (reservationParams.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) && !User.FindFirst(ClaimTypes.Role).Value.Equals("Employee"))
-                return Forbid();
+            if (reservationParams.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) &&
+             !(User.FindAll(ClaimTypes.Role).Any(r => r.Value == "Employee")))
+                return Forbid(); //Non-employee users can only see their own reservations
+
             var reservations = await _reservationRepo.GetReservations(reservationParams);
             var reservationsToReturn = _mapper.Map<IEnumerable<ReservationForListDto>>(reservations);
             Response.AddPagination(reservations.CurrentPage, reservations.PageSize, reservations.TotalCount, reservations.TotalPages);
@@ -42,39 +45,49 @@ namespace Reservation_Service.Controllers
             var reservations = await _reservationRepo.getTableReservations(tableId, date);
             return Ok(_mapper.Map<IEnumerable<ReservationForScheduleDto>>(reservations));
         }
-        [Authorize]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteReservation(int id)
+        [Authorize(Roles = "Customer,Employee")]
+        [HttpPost("changeStatus/{id}")]
+        public async Task<IActionResult> ChangeReservationStatus(int id, ReservationForChangeStatusDto reservationForChangeStatusDto)
         {
-            var reservationToDelete = await _reservationRepo.GetReservation(id);
-            if (reservationToDelete == null)
+            var reservationToChangeStatus = await _reservationRepo.GetReservation(id);
+            if (reservationToChangeStatus == null)
             {
-                return NotFound($"Rezerwacja o numerze id: {id}, którą próbowałeś usunąć, już nie istnieje");
+                return NotFound($"Rezerwacja o numerze id: {id}, której status próbowałeś zmienić, nie istnieje");
             }
-            if (reservationToDelete.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) && !User.FindFirst(ClaimTypes.Role).Value.Equals("Employee"))
-                return Forbid();
-            _reservationRepo.DeleteReservation(reservationToDelete);
+
+
+            if (!(User.FindAll(ClaimTypes.Role).Any(r => r.Value == "Employee")))
+            {
+                if (reservationForChangeStatusDto.ReservationStatus != ReservationStatus.Cancelled ||
+                 reservationToChangeStatus.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                {
+                    return Forbid();//Non-employee users can only cancel reservations (only their own reservations)
+                }
+            }
+            reservationToChangeStatus.ReservationStatus = reservationForChangeStatusDto.ReservationStatus;
             if (await _reservationRepo.SaveAll())
             {
                 return NoContent();
             }
-            throw new Exception($"Usunięcie rezerwacji o numerze {id} nie powiodło się.");
+            throw new Exception($"Zmiana statusu rezerwacji o numerze {id} nie powiodło się.");
         }
-        [Authorize]
+        [Authorize(Roles = "Customer,Employee")]
         [HttpPost]
-        public async Task<IActionResult> MakeReservation(IEnumerable<ReservationForAddDto> reservationsForAddDto)
+        public async Task<IActionResult> MakeReservation(ReservationsForAddDto reservationsForAddDto)
         {
-            var userWhoRequestedId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var reservationsToAdd = _mapper.Map<IEnumerable<Reservation>>(reservationsForAddDto);
-
+            var reservationsToAdd = _mapper.Map<IEnumerable<Reservation>>(reservationsForAddDto.reservationsToAdd);
+            if (reservationsForAddDto.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) &&
+             !(User.FindFirst(ClaimTypes.Role).Value.Contains("Employee")))
+                return Forbid();
             foreach (Reservation r in reservationsToAdd)
             {
-                r.UserId = userWhoRequestedId;
+                r.UserId = reservationsForAddDto.UserId;
                 var validationResult = await ValidateReservationRequest(r);
-                if (!validationResult.Item1)
+                if (!validationResult.validationPassed)
                 {
-                    return BadRequest(validationResult.Item2);
+                    return BadRequest(validationResult.validationError);
                 }
+                r.ReservationStatus = ReservationStatus.Active;
             }
             _reservationRepo.AddReservations(reservationsToAdd);
             if (await _reservationRepo.SaveAll())
@@ -83,7 +96,7 @@ namespace Reservation_Service.Controllers
             }
             throw new System.Exception("Nie udało się zapisać rezerwacji do bazy!");
         }
-        private async Task<(bool, string)> ValidateReservationRequest(Reservation r)
+        private async Task<(bool validationPassed, string validationError)> ValidateReservationRequest(Reservation r)
         {
             if (r.Start.Minute % 15 != 0)
             {
@@ -110,7 +123,7 @@ namespace Reservation_Service.Controllers
             {
                 return (false, "Rezerwacja powinna być złożona nie wcześniej niż dwa tygodnie przed jej terminem oraz nie później niż na godzinę przed!");
             }
-            if ((await GetTable(r.PingPongTableId) == null))
+            if ((await GetTable(r.PingPongTableId.Value) == null))
             {
                 return (false, "Dany stół nie istnieje!");
             }
@@ -122,8 +135,8 @@ namespace Reservation_Service.Controllers
         }
         private bool ValidateReservationSubmitTimeWindow(DateTime start)
         {
-            var timeDiffrence = start - DateTime.Now;
-            if (start < DateTime.Now || timeDiffrence < TimeSpan.FromHours(1) || timeDiffrence.TotalDays > 14)
+            var timeDiffrence = start - DateTime.UtcNow;
+            if (start < DateTime.UtcNow || timeDiffrence < TimeSpan.FromHours(1) || timeDiffrence.TotalDays > 14)
             {
                 return false;
             }
@@ -144,7 +157,7 @@ namespace Reservation_Service.Controllers
             {
                 return null;
             }
-            return (new TimeSpan(actualOpeningHours.Start, 0, 0), new TimeSpan(actualOpeningHours.End, 0, 0));
+            return (actualOpeningHours.Start, actualOpeningHours.End);
         }
         private async Task<TableDto> GetTable(int tableId)
         {

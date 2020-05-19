@@ -10,7 +10,7 @@ using Room_Service.Dtos;
 
 namespace Room_Service.Controllers
 {
-    [Authorize(Roles = "Employee")]
+    [Authorize(Roles = "Administrator")]
     [Route("api/[controller]")]
     [ApiController]
     public class RoomsController : ControllerBase
@@ -37,12 +37,20 @@ namespace Room_Service.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("active")]
+        public async Task<IActionResult> GetActiveRooms()
+        {
+            var tables = await _repository.GetActiveRooms();
+            return Ok(_mapper.Map<List<RoomForReturnDto>>(tables));
+        }
+
         [HttpGet]
-        public async Task<IActionResult> GetRooms()
+        public async Task<IActionResult> GetAllRooms()
         {
             var tables = await _repository.GetAllRooms();
             return Ok(_mapper.Map<List<RoomForReturnDto>>(tables));
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRoom(int id, RoomForUpdateDto roomDto)

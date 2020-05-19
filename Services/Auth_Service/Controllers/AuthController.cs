@@ -11,6 +11,10 @@ using Auth_Service.Dtos;
 using Microsoft.AspNetCore.Identity;
 using Auth_Service.Models;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace Auth_Service.Controllers
 {
@@ -22,12 +26,14 @@ namespace Auth_Service.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<Role> _roleManager;
-        public AuthController(IConfiguration configuration, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager)
+        private readonly IMapper _mapper;
+        public AuthController(IConfiguration configuration, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager, IMapper mapper)
         {
             _configuration = configuration;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _mapper = mapper;
         }
         [HttpGet("publicKey")]
         public IActionResult GetPublicKey()
@@ -45,31 +51,68 @@ namespace Auth_Service.Controllers
             {
                 return BadRequest(creatingUserResult.Errors);
             }
-            await _userManager.AddToRoleAsync(userToCreate, "Employee");
+            await _userManager.AddToRoleAsync(userToCreate, "Customer");
             return Ok();
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
-            if (user != null)
+            if (user == null || !user.Active)
             {
-                var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-
-                if (result.Succeeded)
-                {
-                    return Ok(new
-                    {
-                        token = GenerateToken(_configuration.GetSection("AppSettings:PrivateKey").Value, user).Result
-                    });
-                }
+                return Unauthorized();
             }
-            return Unauthorized();
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+
+            if (!result.Succeeded)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(new
+            {
+                token = GenerateToken(_configuration.GetSection("AppSettings:PrivateKey").Value, user).Result
+            });
+        }
+        [Authorize(Roles = "Administrator")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> ChangeUserRole(int id, UserForChangeRolesDto roleDto)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return NotFound($"Użytkownik o numerze id: {id}, którego role próbowałeś zmienić, nie istnieje");
+            }
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            var newRoles = roleDto.NewUserRoles;
+            newRoles = newRoles ?? new string[] { };
+            var addingToRolesResult = await _userManager.AddToRolesAsync(user, newRoles.Except(userRoles));
+
+            if (!addingToRolesResult.Succeeded)
+            {
+                return BadRequest(addingToRolesResult.Errors);
+            }
+            var removingRolesResult = await _userManager.RemoveFromRolesAsync(user, userRoles.Except(newRoles));
+            if (!removingRolesResult.Succeeded)
+            {
+                return BadRequest(removingRolesResult.Errors);
+            }
+            return Ok(await _userManager.GetRolesAsync(user));
+        }
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("roles")]
+        public async Task<IActionResult> GetRoles()
+        {
+            var roles = await _roleManager.Roles.ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<RoleDto>>(roles));
         }
         private async Task<string> GenerateToken(string privateKey, User user)
         {
-            var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+            var claims = new List<Claim>(){
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.FirstName)
+            };
 
             var roles = await _userManager.GetRolesAsync(user);
 

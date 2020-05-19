@@ -1,0 +1,52 @@
+<div class="modal-content">
+  <div class="modal-header" style="background: #393535;">
+    <h5 class="col-12 modal-title text-center" style="color: white;">Nowy dzień o zmienionych godzinach otwarcia</h5>
+  </div>
+  <div class="modal-body">
+    <div class="form">
+      <div class="form-group">
+        <label class="mr-1">Data:</label>
+        <input
+          class="form-control"
+          [(ngModel)]="newSpecialOpeningHours.day"
+          ngModel
+          bsDatepicker
+          [bsConfig]="{ containerClass: 'theme-green' }"
+          style="width: 100px;"
+        />
+      </div>
+      <div class="form-group">
+        <label>Start:</label>
+        <timepicker
+          id="start"
+          name="start"
+          [minuteStep]="15"
+          [(ngModel)]="newSpecialOpeningHours.start"
+          [showMeridian]="false"
+          [showSpinners]="false"
+        ></timepicker>
+      </div>
+      <div class="form-group">
+        <label>Koniec:</label>
+        <timepicker
+          id="start"
+          name="start"
+          [minuteStep]="15"
+          [(ngModel)]="newSpecialOpeningHours.end"
+          [showMeridian]="false"
+          [showSpinners]="false"
+        ></timepicker>
+      </div>
+      <div class="form-group mx-1">
+        <label class="mr-1">Komentarz:</label>
+        <input type="text" [(ngModel)]="newSpecialOpeningHours.description" class="form-control" />
+      </div>
+      <div class="form-group">
+        <button type="button" (click)="addSpecialOpeningHours()" class="btn btn-success btn mr-4">Dodaj</button>
+        <button type="button" class="btn btn-secondary ml-2" (click)="this.bsModalRef.hide('backdrop-click')">
+          Anuluj
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

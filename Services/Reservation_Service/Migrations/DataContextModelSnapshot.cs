@@ -29,6 +29,9 @@ namespace Reservation_Service.Migrations
                     b.Property<int>("PingPongTableId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ReservationStatus")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Start")
                         .HasColumnType("datetime(6)");
 

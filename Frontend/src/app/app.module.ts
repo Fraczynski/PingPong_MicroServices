@@ -10,9 +10,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale, plLocale } from 'ngx-bootstrap/chronos';
-import { PaginationModule} from 'ngx-bootstrap/pagination';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 // toastr
 import { ToastrModule } from 'ngx-toastr';
+// fontawesome
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+// switch
+import { UiSwitchModule } from 'ngx-ui-switch';
 // components
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -23,6 +29,20 @@ import { TableScheduleComponent } from './table-schedule/table-schedule.componen
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { UserReservationsComponent } from './user-reservations/user-reservations.component';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { UserListComponent } from './admin/user-list/user-list.component';
+import { EditRoleComponent } from './admin/edit-role/edit-role.component';
+import { TranslatePipe } from './_pipes/translate.pipe';
+import { RoomsManagerComponent } from './admin/rooms-manager/rooms-manager.component';
+import { OpeningHoursComponent } from './admin/opening-hours/opening-hours.component';
+import { EnumToArrayPipe } from './_pipes/enumToArray.pipe';
+import { ReservationsListComponent } from './admin/reservations-list/reservations-list.component';
+import { HasRoleDirective } from './_directives/hasRole.directive';
+import { AddReservationModalComponent } from './admin/add-reservation-modal/add-reservation-modal.component';
+import { AddSpecialOpeningHoursModalComponent } from './admin/add-special-opening-hours-modal/add-special-opening-hours-modal.component';
+import { AddClosingDayModalComponent } from './admin/add-closing-day-modal/add-closing-day-modal.component';
+import { AddRoomModalComponent } from './admin/add-room-modal/add-room-modal.component';
+import { EditRoomModalComponent } from './admin/edit-room-modal/edit-room-modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -37,7 +57,21 @@ defineLocale('pl', plLocale);
     HomeComponent,
     RoomsViewComponent,
     TableScheduleComponent,
-    UserReservationsComponent
+    UserReservationsComponent,
+    AdminPanelComponent,
+    UserListComponent,
+    EditRoleComponent,
+    TranslatePipe,
+    EnumToArrayPipe,
+    RoomsManagerComponent,
+    OpeningHoursComponent,
+    ReservationsListComponent,
+    HasRoleDirective,
+    AddReservationModalComponent,
+    AddSpecialOpeningHoursModalComponent,
+    AddClosingDayModalComponent,
+    EditRoomModalComponent,
+    AddRoomModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +79,10 @@ defineLocale('pl', plLocale);
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
+    UiSwitchModule.forRoot({
+      color: 'rgb(102, 153, 255)',
+    }),
+    FontAwesomeModule,
     JwtModule.forRoot({
       config: {
         tokenGetter,
@@ -59,10 +97,20 @@ defineLocale('pl', plLocale);
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    TabsModule.forRoot(),
+    TimepickerModule.forRoot(),
   ],
   providers: [ErrorInterceptorProvider],
   bootstrap: [AppComponent],
-  entryComponents: [TableScheduleComponent]
+  entryComponents: [
+    TableScheduleComponent,
+    EditRoleComponent,
+    AddReservationModalComponent,
+    AddSpecialOpeningHoursModalComponent,
+    AddClosingDayModalComponent,
+    EditRoomModalComponent,
+    AddRoomModalComponent,
+  ],
 })
 export class AppModule {}

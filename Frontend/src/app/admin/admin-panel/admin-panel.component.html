@@ -1,0 +1,20 @@
+<div class="tab-panel">
+  <tabset #tabs class="member-tabset">
+    <tab>
+      <ng-template tabHeading><fa-icon [icon]="faUsers"></fa-icon> Użytkownicy</ng-template>
+      <app-user-list *ngIf="tabs.tabs[0].active"></app-user-list>
+    </tab>
+    <tab>
+      <ng-template tabHeading><fa-icon [icon]="faCalendarAlt"></fa-icon> Rezerwacje</ng-template>
+      <app-reservations-list *ngIf="tabs.tabs[1].active"></app-reservations-list>
+    </tab>
+    <tab *appHasRole="['Administrator']">
+      <ng-template tabHeading><fa-icon [icon]="faObjectsGroup"></fa-icon> Sale</ng-template>
+      <app-rooms-manager *ngIf="tabs.tabs[2].active"></app-rooms-manager>
+    </tab>
+    <tab *appHasRole="['Administrator']">
+      <ng-template tabHeading><fa-icon [icon]="faClock"></fa-icon> Godziny otwarcia</ng-template>
+      <app-opening-hours *ngIf="tabs.tabs[3].active"></app-opening-hours>
+    </tab>
+  </tabset>
+</div>

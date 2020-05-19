@@ -1,0 +1,16 @@
+<div class="modal-content">
+  <div class="modal-header" style="background: #393535;">
+    <h5 class="col-12 modal-title text-center" style="color: white;">{{ user.email }}<br />Zmień rolę:</h5>
+  </div>
+  <div class="modal-body">
+    <div *ngFor="let role of rolesList" class="row justify-content-center">
+      <div class="col-8">
+        {{ role.name | translate }}
+      </div>
+      <div class="col-4">
+        <ui-switch [(ngModel)]="role.haveIt"></ui-switch>
+      </div>
+    </div>
+    <button type="button" (click)="confirmRoleChange()" class="btn btn-success">Zatwierdź</button>
+  </div>
+</div>

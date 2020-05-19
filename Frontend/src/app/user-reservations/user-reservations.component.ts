@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Reservation } from '../_models/reservation';
+import { Reservation, ReservationStatus } from '../_models/reservation';
 import { ReservationsService } from '../_services/reservations.service';
 import { AuthService } from '../_services/auth.service';
 import { Pagination } from '../_models/pagination';
@@ -14,6 +14,7 @@ export class UserReservationsComponent implements OnInit {
   userReservations: Reservation[];
   reservationParams: any = {};
   pagination: Pagination;
+  ReservationStatus = ReservationStatus;
 
   constructor(
     private reservationService: ReservationsService,
@@ -23,8 +24,10 @@ export class UserReservationsComponent implements OnInit {
 
   resetFilters() {
     this.reservationParams.start = '';
+    this.reservationParams.userId = this.authService.decodedToken.nameid;
     this.reservationParams.orderBy = 'start';
     this.reservationParams.pingPongTableId = '';
+    this.reservationParams.reservationStatus = 'Active';
     this.getReservations();
   }
   pageChanged(event: any): void {
@@ -33,10 +36,7 @@ export class UserReservationsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.reservationParams.userId = this.authService.decodedToken.nameid;
-    this.reservationParams.start = '';
-    this.reservationParams.orderBy = 'start';
-    this.reservationParams.pingPongTableId = '';
+    this.resetFilters();
     this.getReservations();
   }
   getReservations() {
@@ -51,7 +51,8 @@ export class UserReservationsComponent implements OnInit {
           this.userReservations = data.results;
           this.pagination = data.pagination;
           for (const r of this.userReservations) {
-            r.start = new Date(r.start);
+            r.start = new Date(r.start + 'Z');
+            r.end = new Date(r.end + 'Z');
           }
         },
         (error) => {
@@ -60,7 +61,7 @@ export class UserReservationsComponent implements OnInit {
       );
   }
   cancelReservation(res: Reservation) {
-    this.reservationService.cancelReservation(res).subscribe(
+    this.reservationService.changeReservationStatus(res, ReservationStatus.Cancelled).subscribe(
       () => {
         this.toastr.success('Rezerwacja anulowana pomyślnie');
         this.getReservations();

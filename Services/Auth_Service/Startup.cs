@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Auth_Service.Data;
 using Microsoft.AspNetCore.Identity;
 using Auth_Service.Models;
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Auth_Service
 {
@@ -20,8 +22,11 @@ namespace Auth_Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
+
+            services.AddAutoMapper(typeof(UserRepository).Assembly);
             //database
-            services.AddDbContext<DataContext>(x=>x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IUserRepository, UserRepository>();
             //identity
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
@@ -37,11 +42,13 @@ namespace Auth_Service
             builder.AddRoleValidator<RoleValidator<Role>>();
             builder.AddRoleManager<RoleManager<Role>>();
             builder.AddSignInManager<SignInManager<User>>();
-            services.AddAuthentication(o =>
-            {
-                o.DefaultScheme = IdentityConstants.ApplicationScheme;
-                o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-            });
+            string publicAuthorizationKey = Configuration.GetSection("AppSettings:PublicKey").Value;
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
+                options =>
+                {
+                    var key = PingPongMicro.TokenHelper.BuildRsaSigningKey(publicAuthorizationKey);
+                    options.TokenValidationParameters = PingPongMicro.TokenHelper.GetTokenValidationParameters(key);
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -55,7 +62,7 @@ namespace Auth_Service
 
             app.UseRouting();
 
-            //app.UseAuthentication();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

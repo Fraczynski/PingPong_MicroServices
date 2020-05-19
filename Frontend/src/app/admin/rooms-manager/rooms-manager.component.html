@@ -1,0 +1,87 @@
+<div *ngIf="rooms" class="row mt-2">
+  <div class="col-lg-5">
+    <div class="btn-group" dropdown>
+      <button
+        id="button-animated"
+        dropdownToggle
+        type="button"
+        class="btn btn-primary dropdown-toggle"
+        aria-controls="dropdown-animated"
+      >
+        {{ currentRoom.name }} <span class="caret"></span>
+      </button>
+      <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated">
+        <li *ngFor="let room of rooms" role="menuitem">
+          <a class="dropdown-item" (click)="changeCurrentRoom(room)">{{ room.name }}</a>
+        </li>
+      </ul>
+    </div>
+    <button type="button" class="btn btn-secondary ml-1" (click)="openEditRoomModal()">
+      Edytuj sale
+    </button>
+    <button type="button" (click)="openAddRoomModal()" class="btn btn-secondary ml-1">
+      Dodaj sale
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-8">
+    <canvas class="mt-2" style="width: 100%;" id="canvas"></canvas>
+  </div>
+  <div class="col-lg-3 col-md-8 col-sm-10 col-12" *ngIf="rooms">
+    <div class="overflow-auto" [style.height.px]="canvas.offsetHeight">
+      <div class="card mt-2 mr-3" *ngFor="let table of allTables">
+        <div class="card-body">
+          <div class="row">
+            <label class="ml-3">Etykieta:</label
+            ><input
+              type="text"
+              [(ngModel)]="table.label"
+              (ngModelChange)="draw()"
+              class="form-control form-control-sm col-4 ml-2"
+            />
+            <fa-icon
+              class="ml-auto mr-3"
+              [styles]="{ color: '#ff5050' }"
+              (click)="deleteTable(table)"
+              [icon]="faTimes"
+            ></fa-icon>
+          </div>
+
+          <div class="row justify-content-around">
+            <div class="col-5">
+              X:
+              <input
+                type="number"
+                [(ngModel)]="table.x"
+                (ngModelChange)="draw()"
+                class="form-control form-control-sm"
+              />
+            </div>
+            <div class="col-5">
+              Y:
+              <input
+                type="number"
+                [(ngModel)]="table.y"
+                (ngModelChange)="draw()"
+                class="form-control form-control-sm"
+              />
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-6 text-center">
+              Pionowy:
+              <ui-switch [(ngModel)]="table.verticalOrientation" (ngModelChange)="draw()" size="small"></ui-switch>
+            </div>
+            <div class="col-6 text-center">
+              Aktywny:
+              <ui-switch [(ngModel)]="table.active" (ngModelChange)="draw()" size="small"></ui-switch>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" (click)="addNewTable()" type="button">Dodaj nowy stół</button>
+    </div>
+    <button type="button" (click)="saveTablesChanges()" class="btn btn-success ml-auto mt-2">Zapisz zmiany</button>
+  </div>
+</div>

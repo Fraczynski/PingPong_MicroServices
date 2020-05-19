@@ -17,6 +17,10 @@ namespace Room_Service.Data
         {
             return await _context.Tables.Where(t => (t.RoomId == roomId)).ToListAsync();
         }
+        public async Task<IEnumerable<PingPongTable>> GetActiveTablesWithRoomId(int roomId)
+        {
+            return await _context.Tables.Where(t => (t.RoomId == roomId && t.Active == true)).ToListAsync();
+        }
         public void AddTables(IEnumerable<PingPongTable> tables)
         {
             _context.Tables.AddRange(tables);

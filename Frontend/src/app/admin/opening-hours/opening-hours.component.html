@@ -1,0 +1,108 @@
+<div class="row">
+  <div class="col-12 col-lg-7">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Dzień</th>
+            <th scope="col">Godzina otwarcia</th>
+            <th scope="col">Godzina zamknięcia</th>
+            <th scope="col">Czynne</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let hours of tempOpeningHours">
+            <th>{{ (WeekDay | enumToArray)[hours.dayOfWeek] | translate }}</th>
+            <td>
+              <timepicker
+                id="start"
+                name="start"
+                [minuteStep]="15"
+                [(ngModel)]="hours.start"
+                [disabled]="!hours.open"
+                [showMeridian]="false"
+                [showSpinners]="false"
+              ></timepicker>
+            </td>
+            <td>
+              <timepicker
+                id="start"
+                name="start"
+                [minuteStep]="15"
+                [(ngModel)]="hours.end"
+                [disabled]="!hours.open"
+                [showMeridian]="false"
+                [showSpinners]="false"
+              ></timepicker>
+            </td>
+            <td>
+              <ui-switch [(ngModel)]="hours.open"></ui-switch>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button type="submit" class="btn btn-success ml-auto" (click)="submitNewOpeningHours()">Zatwierdź zmiany</button>
+  </div>
+  <div class="col-lg-5 col-12">
+    <h5 class="h5 mt-2">Pozostałe dni w których lokal jest zamknięty:</h5>
+    <div class="table-responsive">
+      <table  class="table" aria-labelledby="tableLabel">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Opis</th>
+            <th>
+              <button type="submit" (click)="openNewClosingDayModal()" class="btn btn-secondary btn-sm">
+                +
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="closingDays?.length > 0">
+          <tr *ngFor="let closingDay of closingDays">
+            <td>{{ closingDay.day.toLocaleDateString() }}</td>
+            <td>{{ closingDay.description }}</td>
+            <td>
+              <button type="button" (click)="deleteClosingDay(closingDay)" class="btn btn-danger btn-sm ml-3">
+                Usuń!
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h5 class="h5 mt-2">Dni o zmienionych godzinach otwarcia:</h5>
+    <div class="table-responsive">
+      <table  class="table" aria-labelledby="tableLabel">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Godzina otwarcia</th>
+            <th>Godzina zamknięcia</th>
+            <th>Opis</th>
+            <th>
+              <button (click)="openNewSpecialOpeningHoursModal()" type="submit" class="btn btn-secondary btn-sm">
+                +
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="specialOpeningHours?.length > 0">
+          <tr *ngFor="let special of specialOpeningHours">
+            <td>{{ special.day.toLocaleDateString() }}</td>
+            <td>{{ special.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}</td>
+            <td>{{ special.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}</td>
+            <td>{{ special.description }}</td>
+            <td>
+              <button type="button" (click)="deleteSpecialOpeningHours(special)" class="btn btn-danger btn-sm ml-3">
+                Usuń!
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

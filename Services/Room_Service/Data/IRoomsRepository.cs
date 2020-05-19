@@ -7,6 +7,7 @@ namespace Room_Service.Data
     public interface IRoomsRepository
     {
         Task<List<Room>> GetAllRooms();
+        Task<List<Room>> GetActiveRooms();
         Task<Room> GetRoom(int id);
         void Add(Room room);
         Task<bool> SaveAll();

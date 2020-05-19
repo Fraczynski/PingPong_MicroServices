@@ -5,11 +5,14 @@ import { HttpClient } from '@angular/common/http';
 import { Room } from '../_models/room';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RoomsService {
   baseUrl = environment.gatewayUrl;
   constructor(private http: HttpClient) {}
+  getActiveRooms(): Observable<Room[]> {
+    return this.http.get<Room[]>(this.baseUrl + 'rooms/active');
+  }
   getRooms(): Observable<Room[]> {
     return this.http.get<Room[]>(this.baseUrl + 'rooms');
   }

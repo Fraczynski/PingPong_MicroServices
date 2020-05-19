@@ -9,5 +9,6 @@ namespace Room_Service.Models
         public double RoomWidth { get; set; }
         public double RoomLength { get; set; }
         public ICollection<PingPongTable> PingPongTables { get; set; }
+        public bool Active { get; set; }
     }
 }
