@@ -26,7 +26,7 @@ namespace Reservation_Service.Controllers
             _reservationRepo = reservationRepo;
             _mapper = mapper;
         }
-        [Authorize(Roles="Customer,Employee")]
+        [Authorize(Roles = "Customer,Employee")]
         [HttpGet]
         public async Task<IActionResult> GetReservations([FromQuery] ReservationParams reservationParams)
         {
@@ -45,7 +45,7 @@ namespace Reservation_Service.Controllers
             var reservations = await _reservationRepo.getTableReservations(tableId, date);
             return Ok(_mapper.Map<IEnumerable<ReservationForScheduleDto>>(reservations));
         }
-        [Authorize(Roles="Customer,Employee")]
+        [Authorize(Roles = "Customer,Employee")]
         [HttpPost("changeStatus/{id}")]
         public async Task<IActionResult> ChangeReservationStatus(int id, ReservationForChangeStatusDto reservationForChangeStatusDto)
         {
@@ -71,7 +71,7 @@ namespace Reservation_Service.Controllers
             }
             throw new Exception($"Zmiana statusu rezerwacji o numerze {id} nie powiodło się.");
         }
-        [Authorize(Roles="Customer,Employee")]
+        [Authorize(Roles = "Customer,Employee")]
         [HttpPost]
         public async Task<IActionResult> MakeReservation(ReservationsForAddDto reservationsForAddDto)
         {
@@ -123,7 +123,7 @@ namespace Reservation_Service.Controllers
             {
                 return (false, "Rezerwacja powinna być złożona nie wcześniej niż dwa tygodnie przed jej terminem oraz nie później niż na godzinę przed!");
             }
-            if ((await GetTable(r.PingPongTableId) == null))
+            if ((await GetTable(r.PingPongTableId.Value) == null))
             {
                 return (false, "Dany stół nie istnieje!");
             }
@@ -135,8 +135,8 @@ namespace Reservation_Service.Controllers
         }
         private bool ValidateReservationSubmitTimeWindow(DateTime start)
         {
-            var timeDiffrence = start - DateTime.Now;
-            if (start < DateTime.Now || timeDiffrence < TimeSpan.FromHours(1) || timeDiffrence.TotalDays > 14)
+            var timeDiffrence = start - DateTime.UtcNow;
+            if (start < DateTime.UtcNow || timeDiffrence < TimeSpan.FromHours(1) || timeDiffrence.TotalDays > 14)
             {
                 return false;
             }
