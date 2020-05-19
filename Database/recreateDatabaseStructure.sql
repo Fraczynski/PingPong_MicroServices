@@ -204,3 +204,26 @@ CREATE TABLE `reservations` (
   CONSTRAINT `FK_Reservations_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE SET NULL,
   CONSTRAINT `FK_Reservations_Tables_PingPongTableId` FOREIGN KEY (`PingPongTableId`) REFERENCES `tables` (`Id`) ON DELETE SET NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Table structure for table `photos`
+--
+
+DROP TABLE IF EXISTS `photos`;
+CREATE TABLE `photos` (
+	`Id` int NOT NULL AUTO_INCREMENT,
+	 `Url` longtext,
+	 `PublicID` longtext,
+	 PRIMARY KEY (`Id`)  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Table structure for table `alerts`
+--
+DROP TABLE IF EXISTS `alerts`;
+CREATE TABLE `alerts` (
+	`Id` int NOT NULL AUTO_INCREMENT,
+	 `Message` longtext,
+	 `AlertType` int,
+	 PRIMARY KEY (`Id`)  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
