@@ -7,7 +7,7 @@ using HomePageService.Data;
 using HomePageService.Dtos;
 using HomePageService.Models;
 
-namespace TableReservationApplication.API.Controllers
+namespace HomePageService.Controllers
 {
     [Route("api/[controller]")]
     [Authorize(Roles = "Employee")]

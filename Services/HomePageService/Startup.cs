@@ -50,6 +50,8 @@ namespace HomePageService
             services.AddScoped<IDateTimeHelper,DateTimeHelper>();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddScoped<IAlertsRepository, AlertsRepository>();
+            services.AddAutoMapper(typeof(PhotosRepository).Assembly);
+            services.AddAutoMapper(typeof(AlertsRepository).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

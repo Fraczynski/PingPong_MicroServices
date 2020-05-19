@@ -12,7 +12,7 @@ using HomePageService.Dtos;
 using HomePageService.Helpers;
 using HomePageService.Models;
 
-namespace TableReservationApplication.API.Controllers
+namespace HomePageService.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
