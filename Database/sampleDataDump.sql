@@ -16,8 +16,9 @@ UNLOCK TABLES;
 LOCK TABLES aspnetusers WRITE;
 INSERT INTO aspnetusers
 VALUES
-    (1, 'jkowalski@gmail.com', 'JKOWALSKI@GMAIL.COM', 'jkowalski@gmail.com', 'JKOWALSKI@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAENCYrDq681G0gtkDGov+QN0ACbEaCwXzwlHvNdGtUvYUlPxIeGZCqcA4OPjOWjp6pQ==', 'PS2KO4XQ5L6IOJ6KETQJHDIFUX64Z3XG', 'e1bdff0c-bc4e-4343-a8f0-af06cd24a400', NULL, 0, 0, NULL, 1, 0, 'Jan', 'Kowalski'),
-    (2, 'pracownik@gmail.com', 'PRACOWNIK@GMAIL.COM', 'pracownik@gmail.com', 'PRACOWNIK@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEBcS4aykJtlrJYAHa+hrI0RHJY2XE2J6DFYaqe1e69WrLxsOAth/nbf/0pcXp9YEwA==', 'BSXYCZITLXVJKNZNCVXIHOBIJO7LTIPF', 'bbbaa638-98d8-4c7f-b685-165e8f8768f0', NULL, 0, 0, NULL, 1, 0, 'Adam', 'Nowak');
+    (1, 'jkowalski@gmail.com', 'JKOWALSKI@GMAIL.COM', 'jkowalski@gmail.com', 'JKOWALSKI@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAENCYrDq681G0gtkDGov+QN0ACbEaCwXzwlHvNdGtUvYUlPxIeGZCqcA4OPjOWjp6pQ==', 'PS2KO4XQ5L6IOJ6KETQJHDIFUX64Z3XG', 'e1bdff0c-bc4e-4343-a8f0-af06cd24a400', NULL, 0, 0, NULL, 1, 0, 'Jan', 'Kowalski',1),
+    (2, 'pracownik@gmail.com', 'PRACOWNIK@GMAIL.COM', 'pracownik@gmail.com', 'PRACOWNIK@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEBcS4aykJtlrJYAHa+hrI0RHJY2XE2J6DFYaqe1e69WrLxsOAth/nbf/0pcXp9YEwA==', 'BSXYCZITLXVJKNZNCVXIHOBIJO7LTIPF', 'bbbaa638-98d8-4c7f-b685-165e8f8768f0', NULL, 0, 0, NULL, 1, 0, 'Adam', 'Nowak',1),
+    (3, 'administrator@gmail.com','ADMINISTRATOR@GMAIL.COM','administrator@gmail.com','ADMINISTRATOR@GMAIL.COM',0,'AQAAAAEAACcQAAAAEOZWhUpWtu8Lx0gbY13gPSg+v4QAu1T3dllQ6s03XBMU0Ig7dkRuL74bPCTq3ilXeQ==','ZXNUCNI7ZHZ7P5G25XUUTUCYLRUR2DC6','f483facf-114f-4893-b2d8-6ba4cd843ff7',NULL,0,0,NULL,1,0,'Janusz','Nazarko',1);
 UNLOCK TABLES;
 
 --
@@ -27,7 +28,11 @@ LOCK TABLES aspnetuserroles WRITE;
 INSERT INTO aspnetuserroles
 VALUES
     (1, 1),
-    (2, 2);
+    (2, 1),
+    (2, 2),
+    (3, 1),
+    (3, 2),
+    (3, 3);
 UNLOCK TABLES;
 
 --
@@ -37,9 +42,9 @@ UNLOCK TABLES;
 LOCK TABLES rooms WRITE;
 INSERT INTO rooms
 VALUES
-    (1, 'Główny', 24, 20),
-    (2, 'Duży', 33, 33),
-    (3, 'VIP', 23, 22);
+    (1, 'Główny', 24, 20,1),
+    (2, 'Duży', 33, 33,1),
+    (3, 'VIP', 23, 22,0);
 UNLOCK TABLES;
 
 --
@@ -49,14 +54,14 @@ UNLOCK TABLES;
 LOCK TABLES tables WRITE;
 INSERT INTO tables
 VALUES
-    (1, 'Stol 1', 1, 1, 2.74, 1.525, 1, 1),
-    (2, 'Stol 2', 5, 1, 2.74, 1.525, 1, 1),
-    (3, 'Stol 3', 9, 1, 2.74, 1.525, 1, 1),
-    (4, 'Stol 4', 13, 1, 2.74, 1.525, 1, 1),
-    (5, 'Stol 1', 5, 1, 2.74, 1.525, 1, 3),
-    (6, 'Stol 1', 3, 1, 2.74, 1.525, 1, 2),
-    (7, 'Stol 2', 10, 1, 2.74, 1.525, 0, 2),
-    (8, 'Stol 3', 13, 1, 2.74, 1.525, 0, 2);
+    (1, 'Stol 1', 1, 1, 2.74, 1.525, 1, 1,1),
+    (2, 'Stol 2', 5, 1, 2.74, 1.525, 1, 1,1),
+    (3, 'Stol 3', 9, 1, 2.74, 1.525, 1, 1,1),
+    (4, 'Stol 4', 13, 1, 2.74, 1.525, 1, 1,0),
+    (5, 'Stol 1', 5, 1, 2.74, 1.525, 1, 3,1),
+    (6, 'Stol 1', 3, 1, 2.74, 1.525, 1, 2,1),
+    (7, 'Stol 2', 10, 1, 2.74, 1.525, 0, 2,1),
+    (8, 'Stol 3', 13, 1, 2.74, 1.525, 0, 2,1);
 UNLOCK TABLES;
 
 --
@@ -98,11 +103,11 @@ UNLOCK TABLES;
 LOCK TABLES `reservations` WRITE;
 INSERT INTO `reservations` 
 VALUES 
-(1,1,1,'2020-05-07 12:00:00','2020-05-07 15:00:00'),
-(2,1,1,'2020-05-07 15:00:00','2020-05-07 16:00:00'),
-(3,1,1,'2020-05-07 11:00:00','2020-05-07 12:00:00'),
-(4,1,1,'2020-05-07 10:00:00','2020-05-07 11:00:00'),
-(5,1,1,'2020-05-07 08:15:00','2020-05-07 10:00:00'),
-(6,1,1,'2020-05-10 08:15:00','2020-05-10 10:00:00'),
-(7,1,1,'2020-05-10 10:15:00','2020-05-10 10:45:00');
+(1,1,1,'2020-05-07 12:00:00','2020-05-07 15:00:00',0),
+(2,1,1,'2020-05-07 15:00:00','2020-05-07 16:00:00',1),
+(3,1,1,'2020-05-07 11:00:00','2020-05-07 12:00:00',2),
+(4,1,1,'2020-05-07 10:00:00','2020-05-07 11:00:00',3),
+(5,1,1,'2020-05-07 08:15:00','2020-05-07 10:00:00',0),
+(6,1,1,'2020-05-10 08:15:00','2020-05-10 10:00:00',1),
+(7,1,1,'2020-05-10 10:15:00','2020-05-10 10:45:00',2);
 UNLOCK TABLES;
