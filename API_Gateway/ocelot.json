@@ -167,6 +167,78 @@
       ],
       "UpstreamPathTemplate": "/api/reservation/{everything}",
       "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/photos",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 1000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/photos",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/photos/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 1000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/photos/{everything}",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/alerts",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 1000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/alerts",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/alerts/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 1000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/alerts/{everything}",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/text",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 1000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/text",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/text/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 1000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/text/{everything}",
+      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
     }
   ],
   "GlobalConfiguration": {

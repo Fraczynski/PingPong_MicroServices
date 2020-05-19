@@ -1,0 +1,83 @@
+<h3 class="mt-2">Zdjęcia:</h3>
+<div class="container testimonial-group">
+  <div class="row text-center">
+    <div class="card col-lg-3 col-md-5 col-sm-8 col-8" *ngFor="let photo of photos">
+      <img src="{{ photo.url }}" class="card-img-top" alt="photo.publicId" />
+      <div class="text-center delete-button animate">
+        <button type="button" class="btn btn-danger" (click)="deletePhoto(photo)">
+          <fa-icon [icon]="faTrash" size="3x"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<hr />
+<h3>Dodaj zdjęcia</h3>
+<div class="row mt-3">
+  <div class="col-md-3">
+    <div
+      ng2FileDrop
+      [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }"
+      (fileOver)="fileOverBase($event)"
+      [uploader]="uploader"
+      class="card bg-faded p-3 text-center mb-3 my-drop-zone"
+    >
+      <fa-icon [icon]="faUpload"></fa-icon>
+      Przeciągnij zdjęcia tutaj
+    </div>
+  </div>
+  <div class="col-md-3">
+    Dodaj pojedyncze zdjęcie
+    <input type="file" ng2FileSelect [uploader]="uploader" />
+    Dodaj kilka zdjęć
+    <input type="file" ng2FileSelect [uploader]="uploader" multiple /><br />
+  </div>
+</div>
+<div class="col-md-9" *ngIf="uploader?.queue?.length" style="margin-bottom: 40px;">
+  <h3>Lista plików</h3>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th width="50%">Nazwa</th>
+        <th>Rozmiar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of uploader.queue">
+        <td>
+          <strong>{{ item?.file?.name }}</strong>
+        </td>
+        <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size / 1024 / 1024 | number: '.2' }} MB</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div>
+    <div>
+      Postęp wgrywania:
+      <div class="progress mb-4">
+        <div class="progress-bar" role="progressbar" [ngStyle]="{ width: uploader.progress + '%' }"></div>
+      </div>
+    </div>
+    <button
+      type="button"
+      class="btn btn-success btn-s"
+      (click)="uploader.uploadAll()"
+      [disabled]="!uploader.getNotUploadedItems().length"
+    >
+      <fa-icon [icon]="faUpload" class="mr-2"></fa-icon> Wgraj
+    </button>
+    <button
+      type="button"
+      class="btn btn-warning btn-s"
+      (click)="uploader.cancelAll()"
+      [disabled]="!uploader.isUploading"
+    >
+      <fa-icon [icon]="faBan" class="mr-2"></fa-icon>Przerwij
+    </button>
+    <button type="button" class="btn btn-danger" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+      <fa-icon [icon]="faTrash" class="mr-2"></fa-icon>Wyczyść liste
+    </button>
+  </div>
+</div>
