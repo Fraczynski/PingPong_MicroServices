@@ -48,6 +48,7 @@ namespace HomePageService
             services.AddControllers();
             services.AddScoped<IPhotosRepository,PhotosRepository>();
             services.AddScoped<IDateTimeHelper,DateTimeHelper>();
+            services.AddScoped<ITextRepository, TextRepository>();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddScoped<IAlertsRepository, AlertsRepository>();
             services.AddAutoMapper(typeof(PhotosRepository).Assembly);
