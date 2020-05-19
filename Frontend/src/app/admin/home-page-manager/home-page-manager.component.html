@@ -1,0 +1,74 @@
+<div class="col-12 col-lg-8">
+  <h3>Kontakt:</h3>
+  <textarea class="form-control" rows="3" [(ngModel)]="newContactContent"></textarea>
+  <button
+    class="btn btn-success btn-sm mt-1 ml-auto"
+    [disabled]="!isContactContentDiffrent()"
+    (click)="updateContactContent()"
+  >
+    Zapisz zmiany
+  </button>
+  <h3>O nas:</h3>
+  <textarea #aboutUs class="form-control" rows="3" [(ngModel)]="newAboutUsContent"></textarea>
+  <button
+    [disabled]="!isAboutUsContentDiffrent()"
+    class="btn mt-1 btn-success btn-sm ml-auto"
+    (click)="updateAboutUsContent()"
+  >
+    Zapisz zmiany
+  </button>
+  <h3>Powiadomienia:</h3>
+  <h5 style="color: red;" *ngIf="alerts?.length == 0">Obecnie brak powiadomień</h5>
+  <div
+    role="alert"
+    *ngFor="let alert of alerts"
+    class="alert alert-success"
+    [ngClass]="{
+      'alert-success': alert.alertType == AlertType.Information,
+      'alert-danger': alert.alertType == AlertType.Warning
+    }"
+  >
+    <div class="row">
+      {{ alert.message }}
+      <fa-icon class="ml-auto mr-2"(click)="deleteAlert(alert)" [icon]="faTimes"></fa-icon>
+    </div>
+  </div>
+  <div>
+    <button *ngIf="!newAlertFormVisable" type="button" (click)="showNewAlertForm()" class="btn btn-success mt-2">
+      Dodaj nowe powiadomienie
+    </button>
+  </div>
+  <div *ngIf="newAlertFormVisable" class="col-12 col-lg-6">
+    <h4 class="text-center">Nowa powiadomienie</h4>
+    <div class="row">
+      <label class="mr-2 mt-auto">Typ: </label>
+      <div class="btn-group" dropdown>
+        <button
+          id="button-animated"
+          dropdownToggle
+          type="button"
+          class="btn dropdown-toggle"
+          [ngClass]="{
+            'btn-success': newAlert.alertType == AlertType.Information,
+            'btn-danger': newAlert.alertType == AlertType.Warning
+          }"
+          aria-controls="dropdown-animated"
+        >
+          {{ AlertType[newAlert.alertType] | translate }}
+        </button>
+        <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated">
+          <li *ngFor="let type of AlertType | enumToArray; let i = index" role="menuitem">
+            <a (click)="changeAlertType(i)" class="dropdown-item">{{ type | translate }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <label class="mr-2 mt-auto">Treść:</label><input [(ngModel)]="newAlert.message" class="form-control col-10" />
+    </div>
+    <div class="row mt-2 justify-content-around">
+      <button class="btn btn-secondary" (click)="newAlertFormVisable = false">Anuluj</button>
+      <button class="btn btn-success" (click)="addAlert()">Dodaj!</button>
+    </div>
+  </div>
+</div>

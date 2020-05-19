@@ -1,0 +1,35 @@
+<div class="row mt-3">
+  <div class="col-lg-8">
+    <div
+      role="alert"
+      *ngFor="let alert of alerts"
+      class="alert alert-success"
+      [ngClass]="{
+        'alert-success': alert.alertType == AlertType.Information,
+        'alert-danger': alert.alertType == AlertType.Warning
+      }"
+    >
+      {{ alert.message }}
+    </div>
+    <carousel>
+      <slide *ngFor="let photo of photos">
+        <img src="{{ photo.url }}" alt="first slide" style="display: block; width: 100%;" />
+      </slide>
+    </carousel>
+    <h3 class="mt-2">O nas</h3>
+    {{ aboutUs }}
+  </div>
+  <div class="col-lg-3">
+    <h3>Godziny otwarcia:</h3>
+    <ul>
+      <li *ngFor="let opening of openingHours">
+        {{ (WeekDay | enumToArray)[opening.dayOfWeek] | translate }}
+        {{ opening.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}-{{
+          opening.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }}
+      </li>
+    </ul>
+    <h3>Kontakt</h3>
+    {{ contact }}
+  </div>
+</div>

@@ -13,8 +13,11 @@ import { defineLocale, plLocale } from 'ngx-bootstrap/chronos';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 // toastr
 import { ToastrModule } from 'ngx-toastr';
+// file upload
+import { FileUploadModule } from 'ng2-file-upload';
 // fontawesome
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // switch
@@ -43,6 +46,8 @@ import { AddSpecialOpeningHoursModalComponent } from './admin/add-special-openin
 import { AddClosingDayModalComponent } from './admin/add-closing-day-modal/add-closing-day-modal.component';
 import { AddRoomModalComponent } from './admin/add-room-modal/add-room-modal.component';
 import { EditRoomModalComponent } from './admin/edit-room-modal/edit-room-modal.component';
+import { HomePageManagerComponent } from './admin/home-page-manager/home-page-manager.component';
+import { PhotosManagerComponent } from './admin/photos-manager/photos-manager.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -72,6 +77,8 @@ defineLocale('pl', plLocale);
     AddClosingDayModalComponent,
     EditRoomModalComponent,
     AddRoomModalComponent,
+    HomePageManagerComponent,
+    PhotosManagerComponent
   ],
   imports: [
     BrowserModule,
@@ -83,6 +90,7 @@ defineLocale('pl', plLocale);
       color: 'rgb(102, 153, 255)',
     }),
     FontAwesomeModule,
+    FileUploadModule,
     JwtModule.forRoot({
       config: {
         tokenGetter,
@@ -100,6 +108,7 @@ defineLocale('pl', plLocale);
     PaginationModule.forRoot(),
     TabsModule.forRoot(),
     TimepickerModule.forRoot(),
+    CarouselModule.forRoot(),
   ],
   providers: [ErrorInterceptorProvider],
   bootstrap: [AppComponent],
