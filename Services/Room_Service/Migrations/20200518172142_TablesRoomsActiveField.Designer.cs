@@ -8,8 +8,8 @@ using Room_Service.Data;
 namespace Room_Service.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200423145355_CreateRoomsAndTablesEntities")]
-    partial class CreateRoomsAndTablesEntities
+    [Migration("20200518172142_TablesRoomsActiveField")]
+    partial class TablesRoomsActiveField
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,9 @@ namespace Room_Service.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Label")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -57,6 +60,9 @@ namespace Room_Service.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");

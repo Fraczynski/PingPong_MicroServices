@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Room_Service.Models;
@@ -15,6 +16,10 @@ namespace Room_Service.Data
         public async Task<List<Room>> GetAllRooms()
         {
             return await _context.Rooms.ToListAsync();
+        }
+        public async Task<List<Room>> GetActiveRooms()
+        {
+            return await _context.Rooms.Where(r => r.Active == true).ToListAsync();
         }
         public void Add(Room room)
         {

@@ -7,6 +7,7 @@ namespace Room_Service.Data
     public interface ITablesRepository
     {
         Task<IEnumerable<PingPongTable>> GetAllTablesWithRoomId(int roomId);
+        Task<IEnumerable<PingPongTable>> GetActiveTablesWithRoomId(int roomId);
         void AddTables(IEnumerable<PingPongTable> tables);
         Task<PingPongTable> GetTable(int tableId);
         void Remove(PingPongTable table);
