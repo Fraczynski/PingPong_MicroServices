@@ -41,19 +41,22 @@ namespace Auth_Service.Controllers
             return Ok(usersToReturn);
         }
         [Authorize]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> ChangeUserAccountStatus(int id, UserForChangeStatusDto changeStatusDto)
         {
-            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) &&
-             !(User.FindAll(ClaimTypes.Role).Any(r => r.Value == "Administrator")))
-                return Forbid(); //Non-administrator users can only delete their own accounts
-
+            if (!(User.FindAll(ClaimTypes.Role).Any(r => r.Value == "Administrator")))
+            {
+                if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) || changeStatusDto.NewStatus != false)
+                {
+                    return Forbid(); //Non-administrator users can only deactivate their own accounts
+                }
+            }
             var userToDelete = await _repository.GetUser(id);
             if (userToDelete == null)
             {
                 return NotFound($"Użytkownik o numerze id: {id} nie istnieje");
             }
-            _repository.Delete(userToDelete);
+            userToDelete.Active = changeStatusDto.NewStatus;
 
             if (await _repository.SaveAll())
             {

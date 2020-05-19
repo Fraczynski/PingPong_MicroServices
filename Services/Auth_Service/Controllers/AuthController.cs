@@ -58,19 +58,21 @@ namespace Auth_Service.Controllers
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
-            if (user != null)
+            if (user == null || !user.Active)
             {
-                var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-
-                if (result.Succeeded)
-                {
-                    return Ok(new
-                    {
-                        token = GenerateToken(_configuration.GetSection("AppSettings:PrivateKey").Value, user).Result
-                    });
-                }
+                return Unauthorized();
             }
-            return Unauthorized();
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+
+            if (!result.Succeeded)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(new
+            {
+                token = GenerateToken(_configuration.GetSection("AppSettings:PrivateKey").Value, user).Result
+            });
         }
         [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]

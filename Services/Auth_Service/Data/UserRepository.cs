@@ -39,6 +39,10 @@ namespace Auth_Service.Data
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
             var users = _context.Users.Include(x => x.UserRoles).ThenInclude(y => y.Role).OrderBy(u => u.Id).AsQueryable();
+            if (userParams.Active != null)
+            {
+                users = users.Where(u => u.Active == userParams.Active);
+            }
             if (!string.IsNullOrEmpty(userParams.FirstName))
             {
                 users = users.Where(u => u.FirstName.ToLower().Contains(userParams.FirstName.ToLower()));
