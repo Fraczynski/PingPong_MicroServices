@@ -31,5 +31,6 @@ FLUSH PRIVILEGES;
 CREATE USER 'homePageService'@'localhost' IDENTIFIED BY 'homePageServicePassword';
 GRANT ALL PRIVILEGES ON pingpongapp.Alerts TO 'homePageService'@'localhost';
 GRANT ALL PRIVILEGES ON pingpongapp.Photos TO 'homePageService'@'localhost';
+GRANT ALL PRIVILEGES ON pingpongapp.TextFieldContents TO 'homePageService'@'localhost';
 GRANT ALL PRIVILEGES ON pingpongapp.__efmigrationshistory TO 'homePageService'@'localhost';
 FLUSH PRIVILEGES;

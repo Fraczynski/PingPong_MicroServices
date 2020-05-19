@@ -19,6 +19,10 @@ Switch to the database:
 ```
 use pingpongapp
 ```
+Since we have some polish letters inside sample dump we need to:
+```
+SET names 'utf8';
+```
 Recreate database structure:
 ```
 source recreateDatabaseStructure.sql

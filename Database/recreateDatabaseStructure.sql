@@ -227,3 +227,15 @@ CREATE TABLE `alerts` (
 	 `AlertType` int,
 	 PRIMARY KEY (`Id`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Table structure for table `textfieldcontents`
+--
+
+DROP TABLE IF EXISTS `textfieldcontents`;
+CREATE TABLE `textfieldcontents` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `Name` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `Content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
