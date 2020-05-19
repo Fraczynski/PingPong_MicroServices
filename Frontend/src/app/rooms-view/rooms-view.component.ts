@@ -14,6 +14,7 @@ import { Reservation } from '../_models/reservation';
 import { Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { Table } from '../_models/table';
 
 @Component({
   selector: 'app-tables',
@@ -75,7 +76,7 @@ export class RoomsViewComponent implements OnInit {
   }
 
   getRooms() {
-    this.roomsService.getRooms().subscribe(
+    this.roomsService.getActiveRooms().subscribe(
       (data) => {
         this.rooms = data;
         this.currentRoom = this.rooms[0];
@@ -88,7 +89,7 @@ export class RoomsViewComponent implements OnInit {
   }
 
   getTables() {
-    this.tablesService.getTables(this.currentRoom.id).subscribe(
+    this.tablesService.getActiveTables(this.currentRoom.id).subscribe(
       (result) => {
         this.tables = result;
         this.draw();

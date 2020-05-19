@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Room } from 'src/app/_models/room';
+import { Room} from 'src/app/_models/room';
 import { RoomsService } from 'src/app/_services/rooms.service';
 import { ToastrService } from 'ngx-toastr';
 import { BsModalRef } from 'ngx-bootstrap/modal';
@@ -12,9 +12,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 export class AddRoomModalComponent implements OnInit {
   newRoom: Room;
   constructor(private roomsService: RoomsService, private toastr: ToastrService, private bsModalRef: BsModalRef) {}
-
   ngOnInit() {
-    this.newRoom = { id: 0, roomLength: 0, roomWidth: 0, name: 'Sala' };
+    this.newRoom = { id: 0, roomLength: 0, roomWidth: 0, name: 'Sala', active: true };
   }
   addRoom() {
     this.roomsService.addRoom(this.newRoom).subscribe(

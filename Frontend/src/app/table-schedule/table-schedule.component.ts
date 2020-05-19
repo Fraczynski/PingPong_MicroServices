@@ -110,7 +110,6 @@ export class TableScheduleComponent implements OnInit {
           i < this.getQuartersOfTheHourFromMidnight(m.end);
           i++
         ) {
-          console.log(i - this.getQuartersOfTheHourFromMidnight(this.openingHour));
           this.reservations[i - this.getQuartersOfTheHourFromMidnight(this.openingHour)].free = false;
         }
       }
@@ -194,9 +193,9 @@ export class TableScheduleComponent implements OnInit {
     for (
       let i = this.getQuartersOfTheHourFromMidnight(reservation.start);
       i < this.getQuartersOfTheHourFromMidnight(reservation.end);
-      i += 15
+      i ++
     ) {
-      this.reservations[i / 15 - this.openingHour.getHours() * 4].free = false;
+      this.reservations[i  - this.openingHour.getHours() * 4].free = false;
     }
     this.cancelReservating();
   }

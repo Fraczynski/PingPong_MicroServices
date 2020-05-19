@@ -3,4 +3,5 @@ export interface Room {
   name: string;
   roomWidth: number;
   roomLength: number;
+  active: boolean;
 }

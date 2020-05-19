@@ -52,6 +52,7 @@ export class UserListComponent implements OnInit {
     this.userParams.role = '';
     this.userParams.id = '';
     this.userParams.orderBy = 'id';
+    this.userParams.active = '';
     this.loadUsers();
   }
 
@@ -98,11 +99,11 @@ export class UserListComponent implements OnInit {
     );
   }
 
-  deleteUser(userToDelete: User) {
-    this.userService.deleteUser(userToDelete.id).subscribe(
+  changeUserStatus(userToDelete: User, newStatus: boolean) {
+    this.userService.changeUserStatus(userToDelete.id, newStatus).subscribe(
       () => {
         this.loadUsers();
-        this.toastr.success('Użytkownik usunięty');
+        this.toastr.success('Status użytkownika zmieniony');
       },
       (error) => {
         this.toastr.error(error);

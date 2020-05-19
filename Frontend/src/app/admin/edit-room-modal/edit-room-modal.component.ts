@@ -13,11 +13,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 export class EditRoomModalComponent implements OnInit {
   roomToEdit: Room;
   orginalRoom: Room;
-  constructor(
-    private toastr: ToastrService,
-    private roomsService: RoomsService,
-    public bsModalRef: BsModalRef
-  ) {}
+  constructor(private toastr: ToastrService, private roomsService: RoomsService, public bsModalRef: BsModalRef) {}
 
   ngOnInit() {
     this.roomToEdit = cloneDeep(this.orginalRoom);
@@ -26,7 +22,8 @@ export class EditRoomModalComponent implements OnInit {
     if (
       this.roomToEdit.name !== this.orginalRoom.name ||
       this.roomToEdit.roomLength !== this.orginalRoom.roomLength ||
-      this.roomToEdit.roomWidth !== this.orginalRoom.roomWidth
+      this.roomToEdit.roomWidth !== this.orginalRoom.roomWidth ||
+      this.roomToEdit.active !== this.orginalRoom.active
     ) {
       this.roomsService.editRoom(this.roomToEdit).subscribe(
         () => {

@@ -43,16 +43,22 @@ export class TranslatePipe implements PipeTransform {
         return 'Sobota';
       }
       case 'Cancelled': {
-        return 'Anulowana';
+        return 'Anulowany';
       }
       case 'CustomerAbsence': {
         return 'Niebecność klienta';
       }
       case 'Convirmed': {
-        return 'Potwierdzona';
+        return 'Potwierdzony';
       }
       case 'Active': {
-        return 'Aktywna';
+        return 'Aktywny';
+      }
+      case 'Removed': {
+        return 'Usunięty';
+      }
+      case 'Disabled': {
+        return 'Niedostępny';
       }
     }
   }

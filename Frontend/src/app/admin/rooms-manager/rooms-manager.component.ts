@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AddRoomModalComponent } from '../add-room-modal/add-room-modal.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { EditRoomModalComponent } from '../edit-room-modal/edit-room-modal.component';
+import { Table } from 'src/app/_models/table';
 
 @Component({
   selector: 'app-rooms-manager',
@@ -82,6 +83,7 @@ export class RoomsManagerComponent implements OnInit {
       x: 0,
       y: 0,
       roomId: this.currentRoom.id,
+      active: true,
     };
     this.newTables.push(newTable);
     this.allTables.push(newTable);
@@ -141,7 +143,8 @@ export class RoomsManagerComponent implements OnInit {
           orginal.label !== table.label ||
           orginal.verticalOrientation !== table.verticalOrientation ||
           orginal.x !== table.x ||
-          orginal.y !== table.y
+          orginal.y !== table.y ||
+          orginal.active !== table.active
         ) {
           changedTables.push(table);
         }

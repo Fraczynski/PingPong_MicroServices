@@ -21,6 +21,9 @@ export class UserService {
       params = params.append('pageSize', itemsPerPage);
     }
     if (userParams) {
+      if (userParams.active !== '') {
+        params = params.append('active', userParams.active);
+      }
       if (userParams.firstName !== '') {
         params = params.append('firstName', userParams.firstName);
       }
@@ -57,7 +60,7 @@ export class UserService {
   getUser(id: number): Observable<User> {
     return this.http.get<User>(this.gatewayUrl + 'users/' + id);
   }
-  deleteUser(id: number) {
-    return this.http.delete(this.gatewayUrl + 'users/' + id);
+  changeUserStatus(id: number, newStatus: boolean) {
+    return this.http.patch(this.gatewayUrl + 'users/' + id, { newStatus });
   }
 }
