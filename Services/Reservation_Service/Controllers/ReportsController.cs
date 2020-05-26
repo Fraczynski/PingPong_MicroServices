@@ -20,9 +20,9 @@ namespace Reports_Service.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetReport(ReportType type, [FromQuery] ReportParams reportParams)
+        public IActionResult GetReport([FromQuery] ReportParams reportParams)
         {
-            var report = _repository.GetReport(type, reportParams);
+            var report = _repository.GetReport(reportParams);
 
             return Ok(report);
         }

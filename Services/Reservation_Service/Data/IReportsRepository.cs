@@ -7,6 +7,6 @@ namespace Reservation_Service.Data
 {
     public interface IReportsRepository
     {
-        List<(string, int)> GetReport(ReportType type, ReportParams reportParams);
+        List<(string, int)> GetReport(ReportParams reportParams);
     }
 }

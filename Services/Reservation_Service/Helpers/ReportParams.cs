@@ -5,6 +5,7 @@ namespace Reservation_Service.Dtos
 {
     public class ReportParams
     {
+        public ReportType Type { get; set; }
         public Nullable<int> UserId { get; set; }
         public Nullable<int> PingPongTableId { get; set; }
         public Nullable<DateTime> MinDate { get; set; }

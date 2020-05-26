@@ -15,13 +15,13 @@ namespace Reservation_Service.Data
             _context = context;
         }
 
-        public List<(string, int)> GetReport(ReportType type, ReportParams reportParams)
+        public List<(string, int)> GetReport(ReportParams reportParams)
         {
             var reservations = _context.Reservations.AsQueryable();
 
             reservations = Filter(reservations, reportParams);
 
-            return CreateStatistics(type, reservations.ToList());
+            return CreateStatistics(reportParams.Type, reservations.ToList());
         }
 
         private IQueryable<Reservation> Filter(IQueryable<Reservation> reservations, ReportParams reportParams)
