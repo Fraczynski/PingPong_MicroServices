@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { faUsers, faCalendarAlt, faClock, faObjectGroup, faHome, faImages } from '@fortawesome/free-solid-svg-icons';
+import { faUsers, faCalendarAlt, faClock, faObjectGroup, faHome, faImages, faChartBar } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-admin-panel',
@@ -8,12 +8,13 @@ import { faUsers, faCalendarAlt, faClock, faObjectGroup, faHome, faImages } from
   encapsulation: ViewEncapsulation.None,
 })
 export class AdminPanelComponent implements OnInit {
-  constructor() {}
+  constructor() { }
   faUsers = faUsers;
   faCalendarAlt = faCalendarAlt;
   faClock = faClock;
   faObjectsGroup = faObjectGroup;
   faHome = faHome;
   faImages = faImages;
-  ngOnInit() {}
+  faChart = faChartBar;
+  ngOnInit() { }
 }
