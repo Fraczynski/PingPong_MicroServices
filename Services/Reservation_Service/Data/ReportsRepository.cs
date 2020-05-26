@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -98,6 +99,35 @@ namespace Reservation_Service.Data
                         {
                             dictionary.Add(reservationStatus, 1);
                         }
+                    }
+                    break;
+                case ReportType.Hours:
+                    for (int hour = 0; hour < 24; hour++)
+                    {
+                        dictionary.Add(hour.ToString(), 0);
+                    }
+                    foreach (var reservation in reservations)
+                    {
+                        for (int hour = 0; hour < 24; hour++)
+                        {
+                            if (hour >= reservation.Start.Hour && hour <= reservation.End.Hour)
+                            {
+                                if (hour < reservation.End.Hour || reservation.End.Minute > 0)
+                                {
+                                    dictionary[hour.ToString()]++;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case ReportType.WeekDays:
+                    for (int i = 1; i <= 7; i++)
+                    {
+                        dictionary.Add(((DayOfWeek)(i % 7)).ToString(), 0);
+                    }
+                    foreach (var reservation in reservations)
+                    {
+                        dictionary[reservation.Start.DayOfWeek.ToString()]++;
                     }
                     break;
             }
