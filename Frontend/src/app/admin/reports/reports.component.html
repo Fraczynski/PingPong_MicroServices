@@ -1,9 +1,64 @@
-<div>
-  <div>
-    <div style="display: block">
-      <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
-        [legend]="barChartLegend" [chartType]="barChartType">
-      </canvas>
+<div class="container">
+  <div class="row m-4">
+    <div class="mx-auto">
+      <button class="btn btn-secondary btn-lg mr-2" id="userId" (click)="getReport('userId')">ID Użytkownika</button>
+      <button class="btn btn-secondary btn-lg mr-2" id="pingPongTableId" (click)="getReport('pingPongTableId')">ID
+        Stołu</button>
+      <button class="btn btn-secondary btn-lg mr-2" id="reservationStatus"
+        (click)="getReport('reservationStatus')">Status
+        Rezerwacji</button>
     </div>
+  </div>
+  <div class="row justify-content-center">
+    <form class="form-inline py-2" #form="ngForm" ngSubmit="getReport()" novalidate>
+      <div class="form-group px-1">
+        <label for="userId">Id użytkownika:</label>
+        <input type="number" [(ngModel)]="reportParams.userId" class="form-control ml-1" style="width: 70px;"
+          id="userId" name="userId" />
+      </div>
+      <div class="form-group px-1">
+        <label for="pingPongTableLabel">Id stołu:</label>
+        <input type="number" [(ngModel)]="reportParams.pingPongTableId" class="form-control ml-1" style="width: 70px;"
+          id="pingPongTableId" name="pingPongTableId" />
+      </div>
+      <div class="form-group px-1">
+        <label for="minDate">Min data:</label>
+        <input type="text" [(ngModel)]="reportParams.minDate" style="width: 100px;" id="minDate" name="minDate"
+          class="form-control ml-1" bsDatepicker />
+      </div>
+      <div class="form-group px-1">
+        <label for="maxDate">Max data:</label>
+        <input type="text" [(ngModel)]="reportParams.maxDate" style="width: 100px;" id="maxDate" name="maxDate"
+          class="form-control ml-1" bsDatepicker />
+      </div>
+      <div class="form-group px-1">
+        <label for="reservationStatus">Status:</label>
+        <select class="form-control ml-1" [(ngModel)]="reportParams.reservationStatus" id="reservationStatus"
+          name="reservationStatus">
+          <option value=""></option>
+          <option *ngFor="let status of ReservationStatus | enumToArray" [value]="status">
+            {{ status | translate }}
+          </option>
+        </select>
+      </div>
+      <div class="form-inline">
+        <div class="form-group px-1">
+          <button type="button" class="btn btn-primary px-1" (click)="getReport()">Zastosuj</button>
+        </div>
+        <div class="form-group px-1">
+          <button type="button" class="btn btn-secondary px-1" (click)="resetFilters()">Resetuj</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <div class="mx-auto">
+      <h2>{{chartName}}</h2>
+    </div>
+  </div>
+  <div *ngIf="chartReady" style="display: block">
+    <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="ChartOptions" [legend]="ChartLegend"
+      [chartType]="ChartType" [colors]="chartColors">
+    </canvas>
   </div>
 </div>

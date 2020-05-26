@@ -115,7 +115,7 @@ defineLocale('pl', plLocale);
     CarouselModule.forRoot(),
     ChartsModule
   ],
-  providers: [ErrorInterceptorProvider],
+  providers: [ErrorInterceptorProvider, TranslatePipe],
   bootstrap: [AppComponent],
   entryComponents: [
     TableScheduleComponent,
