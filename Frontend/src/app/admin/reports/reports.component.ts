@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
 import { ReportsService } from 'src/app/_services/reports.service';
-import { HttpResponseBase } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { ReservationStatus } from 'src/app/_models/reservation';
 import { TranslatePipe } from 'src/app/_pipes/translate.pipe';
+import { UserService } from 'src/app/_services/user.service';
+import { TablesService } from 'src/app/_services/tables.service';
 
 @Component({
   selector: 'app-reports',
@@ -28,6 +29,51 @@ export class ReportsComponent implements OnInit {
         anchor: 'end',
         align: 'end',
       }
+    },
+    tooltips: {
+      callbacks: {
+        // beforeTitle: () => {
+        //   return 'beforeTitlebeforeTitle';
+        // },
+        afterTitle: () => {
+          if (this.type === 'userId') {
+            return this.tooltips.name;
+          } else if (this.type === 'pingPongTableId') {
+            return this.tooltips.label;
+          }
+        },
+        beforeBody: () => {
+          if (this.type === 'userId') {
+            return this.tooltips.email;
+          } else if (this.type === 'pingPongTableId') {
+            return this.tooltips.position;
+          }
+        },
+        // beforeLabel: () => {
+        //   return 'beforeLabelbeforeLabel';
+        // },
+        // afterLabel: () => {
+        //   return 'afterLabelafterLabel';
+        // },
+        afterBody: () => {
+          if (this.type === 'userId') {
+            return this.tooltips.active;
+          } else if (this.type === 'pingPongTableId') {
+            return this.tooltips.roomId;
+          }
+        },
+        // beforeFooter: () => {
+        //   return 'beforeFooterbeforeFooter';
+        // },
+        footer: () => {
+          if (this.type === 'pingPongTableId') {
+            return this.tooltips.active;
+          }
+        },
+        // afterFooter: () => {
+        //   return 'afterFooterafterFooter';
+        // }
+      }
     }
   };
   public ChartType: ChartType = 'bar';
@@ -41,12 +87,14 @@ export class ReportsComponent implements OnInit {
   reportParams: any = {};
   ReservationStatus = ReservationStatus;
   type = 'userId';
+  tooltips: any = {};
 
   red = 255;
   green = 0;
   blue = 255;
 
-  constructor(private reportsService: ReportsService, private toastr: ToastrService, private pipe: TranslatePipe) { }
+  constructor(private reportsService: ReportsService, private toastr: ToastrService, private pipe: TranslatePipe,
+    private userService: UserService, private tablesService: TablesService) { }
 
   ngOnInit() {
     this.getReport();
@@ -70,8 +118,42 @@ export class ReportsComponent implements OnInit {
       this.setColor();
       this.chartReady = true;
       this.chartName = document.getElementById(this.type).innerHTML;
+      if (this.type === 'userId') {
+        this.getUsersInfo();
+      }
+      if (this.type === 'pingPongTableId') {
+        this.getTablesInfo();
+      }
     }, error => {
       this.toastr.error(error);
+    });
+  }
+
+  getUsersInfo() {
+    this.userService.getUsersInfo(this.chartLabels).subscribe((response: any) => {
+      this.tooltips.name = [];
+      this.tooltips.email = [];
+      this.tooltips.active = [];
+      response.forEach(element => {
+        this.tooltips.name.push(element.firstName + ' ' + element.lastName);
+        this.tooltips.email.push(element.email);
+        this.tooltips.active.push(element.active ? 'Aktywny' : 'Nieaktywny');
+      });
+    });
+  }
+
+  getTablesInfo() {
+    this.tablesService.getTablesInfo(this.chartLabels).subscribe((response: any) => {
+      this.tooltips.label = [];
+      this.tooltips.position = [];
+      this.tooltips.roomId = [];
+      this.tooltips.active = [];
+      response.forEach(element => {
+        this.tooltips.label.push(element.label);
+        this.tooltips.position.push('x: ' + element.x + ', y: ' + element.y);
+        this.tooltips.roomId.push('Sala: ' + element.roomId);
+        this.tooltips.active.push(element.active ? 'Aktywny' : 'Nieaktywny');
+      });
     });
   }
 
