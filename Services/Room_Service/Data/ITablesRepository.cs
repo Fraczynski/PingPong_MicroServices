@@ -12,5 +12,6 @@ namespace Room_Service.Data
         Task<PingPongTable> GetTable(int tableId);
         void Remove(PingPongTable table);
         Task<bool> SaveAll();
+        Task<IEnumerable<PingPongTable>> GetInfo(List<int> idNumbers);
     }
 }

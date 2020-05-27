@@ -45,6 +45,17 @@ namespace Room_Service.Controllers
             return Ok(_mapper.Map<IEnumerable<PingPongTableForReturnDto>>(tables));
         }
 
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("info")]
+        public async Task<IActionResult> GetTablesInfo([FromQuery] List<int> id)
+        {
+            var tables = await _repository.GetInfo(id);
+
+            var infoToReturn = _mapper.Map<IEnumerable<TableForInfoDto>>(tables);
+
+            return Ok(infoToReturn);
+        }
+
         [HttpPost]
         public async Task<IActionResult> SaveChanges(PingPongTablesForSaveChangesDto pingPongTables)
         {
