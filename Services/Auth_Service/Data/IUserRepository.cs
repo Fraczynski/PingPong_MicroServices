@@ -12,5 +12,6 @@ namespace Auth_Service.Data
         Task<PagedList<User>> GetUsers(UserParams userParams);
         Task<User> GetUser(int id);
         Task<IEnumerable<string>> GetUserRoles(int id);
+        Task<IEnumerable<User>> GetInfo(List<int> idNumbers);
     }
 }
