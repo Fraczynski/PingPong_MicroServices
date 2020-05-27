@@ -32,7 +32,6 @@ export class ReportsService {
         params = params.append('reservationStatus', reportParams.reservationStatus);
       }
     }
-    debugger;
 
     return this.http.get(this.baseUrl + 'reports', { params });
   }

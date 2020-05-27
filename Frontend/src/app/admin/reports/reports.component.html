@@ -63,4 +63,7 @@
       [chartType]="ChartType" [colors]="chartColors">
     </canvas>
   </div>
+  czerwony: <input type="range" (click)="setColor()" [(ngModel)]="red" min="0" max="255" step="1">
+  zielony: <input type="range" (click)="setColor()" [(ngModel)]="green" min="0" max="255" step="1">
+  niebieski:<input type="range" (click)="setColor()" [(ngModel)]="blue" min="0" max="255" step="1">
 </div>

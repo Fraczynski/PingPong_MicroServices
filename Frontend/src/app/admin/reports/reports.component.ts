@@ -42,6 +42,10 @@ export class ReportsComponent implements OnInit {
   ReservationStatus = ReservationStatus;
   type = 'userId';
 
+  red = 255;
+  green = 0;
+  blue = 255;
+
   constructor(private reportsService: ReportsService, private toastr: ToastrService, private pipe: TranslatePipe) { }
 
   ngOnInit() {
@@ -63,7 +67,7 @@ export class ReportsComponent implements OnInit {
       });
       this.chartData = [{ data: valuesArray }];
       this.chartLabels = namesArray;
-      this.randomizeColors(report);
+      this.setColor();
       this.chartReady = true;
       this.chartName = document.getElementById(this.type).innerHTML;
     }, error => {
@@ -71,22 +75,10 @@ export class ReportsComponent implements OnInit {
     });
   }
 
-  randomizeColors(report) {
+  setColor() {
     const colors = [];
-    const min = 30;
-    const max = 255;
-    report.forEach(() => {
-      let sum = 500;
-      let red;
-      let green;
-      let blue;
-      while (sum >= 500) {
-        red = Math.floor(Math.random() * (max - min + 1)) + min;
-        green = Math.floor(Math.random() * (max - min + 1)) + min;
-        blue = Math.floor(Math.random() * (max - min + 1)) + min;
-        sum = red + green + blue;
-      }
-      colors.push('rgba(' + red + ', ' + green + ', ' + blue + ', 0.6)');
+    this.chartLabels.forEach(() => {
+      colors.push('rgba(' + this.red + ', ' + this.green + ', ' + this.blue + ', 0.7)');
     });
     this.chartColors = [{ backgroundColor: colors }];
   }
