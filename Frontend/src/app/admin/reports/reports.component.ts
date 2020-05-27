@@ -32,47 +32,32 @@ export class ReportsComponent implements OnInit {
     },
     tooltips: {
       callbacks: {
-        // beforeTitle: () => {
-        //   return 'beforeTitlebeforeTitle';
-        // },
-        afterTitle: () => {
+        afterTitle: (tooltipItem, data) => {
           if (this.type === 'userId') {
-            return this.tooltips.name;
+            return this.tooltips.name[tooltipItem[0].index];
           } else if (this.type === 'pingPongTableId') {
-            return this.tooltips.label;
+            return this.tooltips.label[tooltipItem[0].index];
           }
         },
-        beforeBody: () => {
+        beforeBody: (tooltipItem, data) => {
           if (this.type === 'userId') {
-            return this.tooltips.email;
+            return this.tooltips.email[tooltipItem[0].index];
           } else if (this.type === 'pingPongTableId') {
-            return this.tooltips.position;
+            return this.tooltips.position[tooltipItem[0].index];
           }
         },
-        // beforeLabel: () => {
-        //   return 'beforeLabelbeforeLabel';
-        // },
-        // afterLabel: () => {
-        //   return 'afterLabelafterLabel';
-        // },
-        afterBody: () => {
+        afterBody: (tooltipItem, data) => {
           if (this.type === 'userId') {
-            return this.tooltips.active;
+            return this.tooltips.active[tooltipItem[0].index];
           } else if (this.type === 'pingPongTableId') {
-            return this.tooltips.roomId;
+            return this.tooltips.roomId[tooltipItem[0].index];
           }
         },
-        // beforeFooter: () => {
-        //   return 'beforeFooterbeforeFooter';
-        // },
-        footer: () => {
+        footer: (tooltipItem, data) => {
           if (this.type === 'pingPongTableId') {
-            return this.tooltips.active;
+            return this.tooltips.active[tooltipItem[0].index];
           }
         },
-        // afterFooter: () => {
-        //   return 'afterFooterafterFooter';
-        // }
       }
     }
   };
