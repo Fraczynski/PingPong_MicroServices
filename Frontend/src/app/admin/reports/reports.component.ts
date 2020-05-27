@@ -94,6 +94,8 @@ export class ReportsComponent implements OnInit {
   red = 255;
   green = 0;
   blue = 255;
+  buttonColor = '#' + this.red.toString(16) + this.green.toString(16) + this.blue.toString(16);
+  buttonTextColor = '#ffffff';
 
   constructor(private reportsService: ReportsService, private toastr: ToastrService, private pipe: TranslatePipe,
     private userService: UserService, private tablesService: TablesService) { }
@@ -165,6 +167,24 @@ export class ReportsComponent implements OnInit {
       colors.push('rgba(' + this.red + ', ' + this.green + ', ' + this.blue + ', 0.7)');
     });
     this.chartColors = [{ backgroundColor: colors }];
+    let r = this.red.toString(16);
+    let g = this.green.toString(16);
+    let b = this.blue.toString(16);
+    if (r.length === 1) {
+      r = '0' + r;
+    }
+    if (g.length === 1) {
+      g = '0' + g;
+    }
+    if (b.length === 1) {
+      b = '0' + b;
+    }
+    if (this.red + this.green + this.blue > 350) {
+      this.buttonTextColor = '#000000';
+    } else {
+      this.buttonTextColor = '#ffffff';
+    }
+    this.buttonColor = '#' + r + g + b;
   }
 
   resetFilters() {

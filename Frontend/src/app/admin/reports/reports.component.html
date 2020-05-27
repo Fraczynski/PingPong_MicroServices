@@ -1,14 +1,17 @@
 <div class="container">
   <div class="row m-4">
     <div class="mx-auto">
-      <button class="btn btn-secondary btn-lg mr-2" id="userId" (click)="getReport('userId')">Klienci</button>
-      <button class="btn btn-secondary btn-lg mr-2" id="pingPongTableId"
-        (click)="getReport('pingPongTableId')">Stoły</button>
-      <button class="btn btn-secondary btn-lg mr-2" id="reservationStatus"
-        (click)="getReport('reservationStatus')">Statusy
+      <button class="btn btn-secondary btn-lg mr-2" id="userId" (click)="getReport('userId')"
+        [ngStyle]="{'background-color': buttonColor, 'color': buttonTextColor}">Klienci</button>
+      <button class="btn btn-secondary btn-lg mr-2" id="pingPongTableId" (click)="getReport('pingPongTableId')"
+        [ngStyle]="{'background-color': buttonColor, 'color': buttonTextColor}">Stoły</button>
+      <button class="btn btn-secondary btn-lg mr-2" id="reservationStatus" (click)="getReport('reservationStatus')"
+        [ngStyle]="{'background-color': buttonColor, 'color': buttonTextColor}">Statusy
         Rezerwacji</button>
-      <button class="btn btn-secondary btn-lg mr-2" id="hours" (click)="getReport('hours')">Godziny</button>
-      <button class="btn btn-secondary btn-lg mr-2" id="weekDays" (click)="getReport('weekDays')">Dni Tygodnia</button>
+      <button class="btn btn-secondary btn-lg mr-2" id="hours" (click)="getReport('hours')"
+        [ngStyle]="{'background-color': buttonColor, 'color': buttonTextColor}">Godziny</button>
+      <button class="btn btn-secondary btn-lg mr-2" id="weekDays" (click)="getReport('weekDays')"
+        [ngStyle]="{'background-color': buttonColor, 'color': buttonTextColor}">Dni Tygodnia</button>
     </div>
   </div>
   <div class="row justify-content-center">
