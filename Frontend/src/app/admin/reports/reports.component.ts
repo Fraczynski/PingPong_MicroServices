@@ -18,7 +18,8 @@ export class ReportsComponent implements OnInit {
     scales: {
       xAxes: [{}], yAxes: [{
         ticks: {
-          beginAtZero: true
+          beginAtZero: true,
+          stepSize: 1
         }
       }]
     },
@@ -62,7 +63,7 @@ export class ReportsComponent implements OnInit {
       });
       this.chartData = [{ data: valuesArray }];
       this.chartLabels = namesArray;
-      this.setColors(report);
+      this.randomizeColors(report);
       this.chartReady = true;
       this.chartName = document.getElementById(this.type).innerHTML;
     }, error => {
@@ -70,13 +71,22 @@ export class ReportsComponent implements OnInit {
     });
   }
 
-  setColors(report) {
+  randomizeColors(report) {
     const colors = [];
-    const red = 32;
-    const green = 38;
-    const blue = 44;
+    const min = 30;
+    const max = 255;
     report.forEach(() => {
-      colors.push('rgba(' + red + ', ' + green + ', ' + blue + ', 0.7)');
+      let sum = 500;
+      let red;
+      let green;
+      let blue;
+      while (sum >= 500) {
+        red = Math.floor(Math.random() * (max - min + 1)) + min;
+        green = Math.floor(Math.random() * (max - min + 1)) + min;
+        blue = Math.floor(Math.random() * (max - min + 1)) + min;
+        sum = red + green + blue;
+      }
+      colors.push('rgba(' + red + ', ' + green + ', ' + blue + ', 0.6)');
     });
     this.chartColors = [{ backgroundColor: colors }];
   }
