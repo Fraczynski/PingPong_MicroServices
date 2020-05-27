@@ -31,7 +31,21 @@ export class ReportsComponent implements OnInit {
       }
     },
     tooltips: {
+      displayColors: false,
       callbacks: {
+        title: (tooltipItem, data) => {
+          let title: string;
+          switch (this.type) {
+            case 'userId':
+            case 'pingPongTableId':
+              title = 'ID: ' + tooltipItem[0].label;
+              break;
+            case 'hours':
+              title = 'Godzina: ' + tooltipItem[0].label;
+              break;
+          }
+          return title !== undefined ? title : tooltipItem[0].label;
+        },
         afterTitle: (tooltipItem, data) => {
           if (this.type === 'userId') {
             return this.tooltips.name[tooltipItem[0].index];
@@ -43,19 +57,22 @@ export class ReportsComponent implements OnInit {
           if (this.type === 'userId') {
             return this.tooltips.email[tooltipItem[0].index];
           } else if (this.type === 'pingPongTableId') {
-            return this.tooltips.position[tooltipItem[0].index];
+            return 'Pozycja: ' + this.tooltips.position[tooltipItem[0].index];
           }
+        },
+        label: (tooltipItem, data) => {
+          return 'Ilość: ' + tooltipItem.value;
         },
         afterBody: (tooltipItem, data) => {
           if (this.type === 'userId') {
-            return this.tooltips.active[tooltipItem[0].index];
+            return 'Status: ' + this.tooltips.active[tooltipItem[0].index];
           } else if (this.type === 'pingPongTableId') {
-            return this.tooltips.roomId[tooltipItem[0].index];
+            return 'Sala: ' + this.tooltips.roomId[tooltipItem[0].index];
           }
         },
         footer: (tooltipItem, data) => {
           if (this.type === 'pingPongTableId') {
-            return this.tooltips.active[tooltipItem[0].index];
+            return 'Status: ' + this.tooltips.active[tooltipItem[0].index];
           }
         },
       }
@@ -135,8 +152,8 @@ export class ReportsComponent implements OnInit {
       this.tooltips.active = [];
       response.forEach(element => {
         this.tooltips.label.push(element.label);
-        this.tooltips.position.push('x: ' + element.x + ', y: ' + element.y);
-        this.tooltips.roomId.push('Sala: ' + element.roomId);
+        this.tooltips.position.push('(' + element.x + ', ' + element.y + ')');
+        this.tooltips.roomId.push(element.roomId);
         this.tooltips.active.push(element.active ? 'Aktywny' : 'Nieaktywny');
       });
     });
