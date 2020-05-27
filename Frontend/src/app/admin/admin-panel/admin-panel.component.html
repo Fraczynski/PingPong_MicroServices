@@ -36,11 +36,5 @@
       </ng-template>
       <app-photos-manager *ngIf="tabs.tabs[5].active"></app-photos-manager>
     </tab>
-    <tab *appHasRole="['Administrator']">
-      <ng-template tabHeading>
-        <fa-icon [icon]="faChart"></fa-icon> Raporty
-      </ng-template>
-      <app-reports *ngIf="tabs.tabs[6].active"></app-reports>
-    </tab>
   </tabset>
 </div>
