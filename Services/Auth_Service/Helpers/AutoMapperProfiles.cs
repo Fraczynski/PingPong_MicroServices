@@ -9,6 +9,7 @@ namespace Auth_Service.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<User, UserForListDto>();
+            CreateMap<User, UserForInfoDto>();
             CreateMap<Role, RoleDto>();
             CreateMap<RoleDto, Role>();
         }

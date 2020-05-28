@@ -36,6 +36,12 @@ namespace Auth_Service.Data
 
             return await userRoles.ToListAsync();
         }
+        public async Task<IEnumerable<User>> GetInfo(List<int> idNumbers)
+        {
+            var users = await _context.Users.OrderBy(u => u.Id).Where(u => idNumbers.Contains(u.Id)).ToListAsync();
+
+            return users;
+        }
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
             var users = _context.Users.Include(x => x.UserRoles).ThenInclude(y => y.Role).OrderBy(u => u.Id).AsQueryable();

@@ -11,6 +11,7 @@ namespace Room_Service.Helpers
             CreateMap<PingPongTableForAddDto, PingPongTable>();
             CreateMap<PingPongTableForUpdateDto, PingPongTable>();
             CreateMap<PingPongTable, PingPongTableForReturnDto>();
+            CreateMap<PingPongTable, TableForInfoDto>();
 
             CreateMap<RoomForUpdateDto, Room>();
             CreateMap<RoomForAddDto, Room>();

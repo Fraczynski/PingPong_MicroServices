@@ -3,37 +3,58 @@
     <a class="navbar-brand" [routerLink]="['']">Rezerwacja ping-pong</a>
 
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> 
-        <a [routerLink]="['']" class="nav-link"><fa-icon [icon]="faHome"></fa-icon> Strona główna</a>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a [routerLink]="['']" class="nav-link">
+          <fa-icon [icon]="faHome"></fa-icon> Strona główna
+        </a>
       </li>
-      <li  class="nav-item" routerLinkActive="active">
-        <a [routerLink]="['rooms-view']" class="nav-link"><fa-icon [icon]="faTableTennis"></fa-icon> Sale</a>
+      <li class="nav-item" routerLinkActive="active">
+        <a [routerLink]="['rooms-view']" class="nav-link">
+          <fa-icon [icon]="faTableTennis"></fa-icon> Sale
+        </a>
       </li>
       <div *ngIf="loggedIn()">
         <li *appHasRole="['Employee','Administrator']" class="nav-item" routerLinkActive="active">
-          <a class="nav-link" [routerLink]="['/admin-panel']"><fa-icon [icon]="faUserCog"></fa-icon> Panel administratora</a>
+          <a class="nav-link" [routerLink]="['/admin-panel']">
+            <fa-icon [icon]="faUserCog"></fa-icon> Panel administratora
+          </a>
+        </li>
+      </div>
+      <div *ngIf="loggedIn()">
+        <li *appHasRole="['Administrator']" class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="['/reports']">
+            <fa-icon [icon]="faChart"></fa-icon> Raporty
+          </a>
         </li>
       </div>
     </ul>
 
-    <form  *ngIf="!loggedIn()" #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">
-      <input class="form-control mr-sm-2" type="text" name="email" placeholder="e-mail" required [(ngModel)]="model.email" >
-      <input class="form-control mr-sm-2" type="password" name="password" placeholder="hasło" required [(ngModel)]="model.password">
+    <form *ngIf="!loggedIn()" #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">
+      <input class="form-control mr-sm-2" type="text" name="email" placeholder="e-mail" required
+        [(ngModel)]="model.email">
+      <input class="form-control mr-sm-2" type="password" name="password" placeholder="hasło" required
+        [(ngModel)]="model.password">
       <button class="btn btn-success my-2 my-sm-0" [disabled]="!loginForm.valid" type="submit">Zaloguj</button>
     </form>
-    <button *ngIf="!loggedIn()" [routerLink]="['/register']" class="btn btn-success my-2 my-sm-0 ml-2">Rejestracja</button>
+    <button *ngIf="!loggedIn()" [routerLink]="['/register']"
+      class="btn btn-success my-2 my-sm-0 ml-2">Rejestracja</button>
 
     <div *ngIf="loggedIn()" class="dropdown" dropdown>
       <a class="dropdown-toggle text-light" dropdownToggle>
-         Witaj {{authService.decodedToken.unique_name}}!
+        Witaj {{authService.decodedToken.unique_name}}!
       </a>
       <div class="dropdown-menu mt-3" *dropdownMenu>
-        <a class="dropdown-item" ><fa-icon [icon]="faAddressCard"></fa-icon> Edytuj profil</a>
-        <a class="dropdown-item" [routerLink]="['user-reservations']"><fa-icon [icon]="faBook"></fa-icon> Twoje rezerwacje</a>
+        <a class="dropdown-item">
+          <fa-icon [icon]="faAddressCard"></fa-icon> Edytuj profil
+        </a>
+        <a class="dropdown-item" [routerLink]="['user-reservations']">
+          <fa-icon [icon]="faBook"></fa-icon> Twoje rezerwacje
+        </a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" (click)="logout()"><fa-icon [icon]="faSignOutAlt"></fa-icon> Wyloguj</a>
+        <a class="dropdown-item" (click)="logout()">
+          <fa-icon [icon]="faSignOutAlt"></fa-icon> Wyloguj
+        </a>
       </div>
-  </div>
+    </div>
   </div>
 </nav>
-

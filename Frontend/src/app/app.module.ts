@@ -22,6 +22,8 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // switch
 import { UiSwitchModule } from 'ngx-ui-switch';
+// charts
+import { ChartsModule } from 'ng2-charts';
 // components
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -48,6 +50,7 @@ import { AddRoomModalComponent } from './admin/add-room-modal/add-room-modal.com
 import { EditRoomModalComponent } from './admin/edit-room-modal/edit-room-modal.component';
 import { HomePageManagerComponent } from './admin/home-page-manager/home-page-manager.component';
 import { PhotosManagerComponent } from './admin/photos-manager/photos-manager.component';
+import { ReportsComponent } from './admin/reports/reports.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -78,7 +81,8 @@ defineLocale('pl', plLocale);
     EditRoomModalComponent,
     AddRoomModalComponent,
     HomePageManagerComponent,
-    PhotosManagerComponent
+    PhotosManagerComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,
@@ -109,8 +113,9 @@ defineLocale('pl', plLocale);
     TabsModule.forRoot(),
     TimepickerModule.forRoot(),
     CarouselModule.forRoot(),
+    ChartsModule
   ],
-  providers: [ErrorInterceptorProvider],
+  providers: [ErrorInterceptorProvider, TranslatePipe],
   bootstrap: [AppComponent],
   entryComponents: [
     TableScheduleComponent,
@@ -122,4 +127,4 @@ defineLocale('pl', plLocale);
     AddRoomModalComponent,
   ],
 })
-export class AppModule {}
+export class AppModule { }

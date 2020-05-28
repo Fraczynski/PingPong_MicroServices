@@ -10,7 +10,14 @@
         }
       ],
       "UpstreamPathTemplate": "/api/auth",
-      "UpstreamHttpMethod": ["Post", "Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Post",
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/auth/{everything}",
@@ -22,7 +29,14 @@
         }
       ],
       "UpstreamPathTemplate": "/api/auth/{everything}",
-      "UpstreamHttpMethod": ["Post", "Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Post",
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/users/",
@@ -34,7 +48,14 @@
         }
       ],
       "UpstreamPathTemplate": "/api/users",
-      "UpstreamHttpMethod": ["Post", "Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Post",
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/users/{everything}",
@@ -46,7 +67,14 @@
         }
       ],
       "UpstreamPathTemplate": "/api/users/{everything}",
-      "UpstreamHttpMethod": ["Post", "Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Post",
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/rooms",
@@ -58,7 +86,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/rooms",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/rooms/{everything}",
@@ -70,7 +104,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/rooms/{everything}",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/tables",
@@ -82,7 +122,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/tables",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/tables/{everything}",
@@ -94,7 +140,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/tables/{everything}",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/openinghours",
@@ -106,7 +158,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/openinghours",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/openinghours/{everything}",
@@ -118,7 +176,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/openinghours/{everything}",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/closingdays",
@@ -130,7 +194,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/closingdays",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/closingdays/{everything}",
@@ -142,7 +212,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/closingdays/{everything}",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/reservation",
@@ -154,7 +230,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/reservation",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/reservation/{everything}",
@@ -166,7 +248,45 @@
         }
       ],
       "UpstreamPathTemplate": "/api/reservation/{everything}",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/reports",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5006
+        }
+      ],
+      "UpstreamPathTemplate": "/api/reports",
+      "UpstreamHttpMethod": [
+        "Get"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/reports{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5006
+        }
+      ],
+      "UpstreamPathTemplate": "/api/reports{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/photos",
@@ -178,7 +298,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/photos",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/photos/{everything}",
@@ -190,7 +316,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/photos/{everything}",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/alerts",
@@ -202,7 +334,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/alerts",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/alerts/{everything}",
@@ -214,7 +352,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/alerts/{everything}",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/text",
@@ -226,7 +370,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/text",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/text/{everything}",
@@ -238,7 +388,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/text/{everything}",
-      "UpstreamHttpMethod": ["Get", "Post", "Patch", "Delete", "Put"]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Patch",
+        "Delete",
+        "Put"
+      ]
     }
   ],
   "GlobalConfiguration": {

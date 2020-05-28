@@ -9,6 +9,7 @@ import {
   faSignOutAlt,
   faHome,
   faTableTennis,
+  faChartBar
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -24,9 +25,10 @@ export class NavMenuComponent implements OnInit {
   faHome = faHome;
   faTableTennis = faTableTennis;
   faSignOutAlt = faSignOutAlt;
-  constructor(public authService: AuthService, public router: Router, private toastr: ToastrService) {}
+  faChart = faChartBar;
+  constructor(public authService: AuthService, public router: Router, private toastr: ToastrService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   login() {
     this.authService.login(this.model).subscribe(

@@ -8,12 +8,12 @@ import { faUsers, faCalendarAlt, faClock, faObjectGroup, faHome, faImages } from
   encapsulation: ViewEncapsulation.None,
 })
 export class AdminPanelComponent implements OnInit {
-  constructor() {}
+  constructor() { }
   faUsers = faUsers;
   faCalendarAlt = faCalendarAlt;
   faClock = faClock;
   faObjectsGroup = faObjectGroup;
   faHome = faHome;
   faImages = faImages;
-  ngOnInit() {}
+  ngOnInit() { }
 }

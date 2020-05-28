@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 })
 export class UserService {
   gatewayUrl = environment.gatewayUrl;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getUsers(page?, itemsPerPage?, userParams?): Observable<PaginatedResult<User[]>> {
     const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
@@ -60,7 +60,18 @@ export class UserService {
   getUser(id: number): Observable<User> {
     return this.http.get<User>(this.gatewayUrl + 'users/' + id);
   }
+
   changeUserStatus(id: number, newStatus: boolean) {
     return this.http.patch(this.gatewayUrl + 'users/' + id, { newStatus });
+  }
+
+  getUsersInfo(idNumbers) {
+    let params = new HttpParams();
+
+    idNumbers.forEach(id => {
+      params = params.append('id', id);
+    });
+
+    return this.http.get(this.gatewayUrl + 'users/info', { params });
   }
 }

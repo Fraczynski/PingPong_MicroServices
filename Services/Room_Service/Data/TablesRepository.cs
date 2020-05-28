@@ -37,5 +37,11 @@ namespace Room_Service.Data
         {
             return await _context.SaveChangesAsync() > 0;
         }
+        public async Task<IEnumerable<PingPongTable>> GetInfo(List<int> idNumbers)
+        {
+            var tables = await _context.Tables.OrderBy(t => t.Id).Where(t => idNumbers.Contains(t.Id)).ToListAsync();
+
+            return tables;
+        }
     }
 }

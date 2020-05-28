@@ -40,6 +40,18 @@ namespace Auth_Service.Controllers
 
             return Ok(usersToReturn);
         }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("info")]
+        public async Task<IActionResult> GetUsersInfo([FromQuery] List<int> id)
+        {
+            var users = await _repository.GetInfo(id);
+
+            var infoToReturn = _mapper.Map<IEnumerable<UserForInfoDto>>(users);
+
+            return Ok(infoToReturn);
+        }
+
         [Authorize]
         [HttpPatch("{id}")]
         public async Task<IActionResult> ChangeUserAccountStatus(int id, UserForChangeStatusDto changeStatusDto)

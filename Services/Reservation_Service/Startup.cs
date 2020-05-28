@@ -33,6 +33,7 @@ namespace Reservation_Service
         {
             services.AddControllers().AddNewtonsoftJson();
             services.AddScoped<IReservationRepository, ReservationRepository>();
+            services.AddScoped<IReportsRepository, ReportsRepository>();
             services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(typeof(ReservationRepository).Assembly);
             string publicAuthorizationKey;
