@@ -11,24 +11,27 @@ import { TablesService } from 'src/app/_services/tables.service';
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.css']
+  styleUrls: ['./reports.component.css'],
 })
 export class ReportsComponent implements OnInit {
   public ChartOptions: ChartOptions = {
     responsive: true,
     scales: {
-      xAxes: [{}], yAxes: [{
-        ticks: {
-          beginAtZero: true,
-          stepSize: 1
-        }
-      }]
+      xAxes: [{}],
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+            stepSize: 1,
+          },
+        },
+      ],
     },
     plugins: {
       datalabels: {
         anchor: 'end',
         align: 'end',
-      }
+      },
     },
     tooltips: {
       displayColors: false,
@@ -56,8 +59,6 @@ export class ReportsComponent implements OnInit {
         beforeBody: (tooltipItem, data) => {
           if (this.type === 'userId') {
             return this.tooltips.email[tooltipItem[0].index];
-          } else if (this.type === 'pingPongTableId') {
-            return 'Pozycja: ' + this.tooltips.position[tooltipItem[0].index];
           }
         },
         label: (tooltipItem, data) => {
@@ -75,8 +76,8 @@ export class ReportsComponent implements OnInit {
             return 'Status: ' + this.tooltips.active[tooltipItem[0].index];
           }
         },
-      }
-    }
+      },
+    },
   };
   public ChartType: ChartType = 'bar';
   public ChartLegend = false;
@@ -91,14 +92,13 @@ export class ReportsComponent implements OnInit {
   type = 'userId';
   tooltips: any = {};
 
-  red = 255;
-  green = 0;
-  blue = 255;
-  buttonColor = '#' + this.red.toString(16) + this.green.toString(16) + this.blue.toString(16);
-  buttonTextColor = '#ffffff';
-
-  constructor(private reportsService: ReportsService, private toastr: ToastrService, private pipe: TranslatePipe,
-    private userService: UserService, private tablesService: TablesService) { }
+  constructor(
+    private reportsService: ReportsService,
+    private toastr: ToastrService,
+    private pipe: TranslatePipe,
+    private userService: UserService,
+    private tablesService: TablesService
+  ) {}
 
   ngOnInit() {
     this.getReport();
@@ -109,28 +109,31 @@ export class ReportsComponent implements OnInit {
       this.type = type;
     }
     this.reportParams.type = this.type;
-    this.reportsService.getReport(this.reportParams).subscribe((report: any[]) => {
-      const namesArray = [];
-      const valuesArray = [];
-      report.forEach((element) => {
-        const translatedName = this.pipe.transform(element.item1);
-        namesArray.push(translatedName === undefined ? element.item1 : translatedName);
-        valuesArray.push(element.item2);
-      });
-      this.chartData = [{ data: valuesArray }];
-      this.chartLabels = namesArray;
-      this.setColor();
-      this.chartReady = true;
-      this.chartName = document.getElementById(this.type).innerHTML;
-      if (this.type === 'userId') {
-        this.getUsersInfo();
+    this.reportsService.getReport(this.reportParams).subscribe(
+      (report: any[]) => {
+        const namesArray = [];
+        const valuesArray = [];
+        report.forEach((element) => {
+          const translatedName = this.pipe.transform(element.item1);
+          namesArray.push(translatedName === undefined ? element.item1 : translatedName);
+          valuesArray.push(element.item2);
+        });
+        this.chartData = [{ data: valuesArray }];
+        this.chartLabels = namesArray;
+        this.setColor();
+        this.chartReady = true;
+        this.chartName = document.getElementById(this.type).innerHTML;
+        if (this.type === 'userId') {
+          this.getUsersInfo();
+        }
+        if (this.type === 'pingPongTableId') {
+          this.getTablesInfo();
+        }
+      },
+      (error) => {
+        this.toastr.error(error);
       }
-      if (this.type === 'pingPongTableId') {
-        this.getTablesInfo();
-      }
-    }, error => {
-      this.toastr.error(error);
-    });
+    );
   }
 
   getUsersInfo() {
@@ -138,7 +141,7 @@ export class ReportsComponent implements OnInit {
       this.tooltips.name = [];
       this.tooltips.email = [];
       this.tooltips.active = [];
-      response.forEach(element => {
+      response.forEach((element) => {
         this.tooltips.name.push(element.firstName + ' ' + element.lastName);
         this.tooltips.email.push(element.email);
         this.tooltips.active.push(element.active ? 'Aktywny' : 'Nieaktywny');
@@ -149,42 +152,17 @@ export class ReportsComponent implements OnInit {
   getTablesInfo() {
     this.tablesService.getTablesInfo(this.chartLabels).subscribe((response: any) => {
       this.tooltips.label = [];
-      this.tooltips.position = [];
       this.tooltips.roomId = [];
       this.tooltips.active = [];
-      response.forEach(element => {
+      response.forEach((element) => {
         this.tooltips.label.push(element.label);
-        this.tooltips.position.push('(' + element.x + ', ' + element.y + ')');
         this.tooltips.roomId.push(element.roomId);
         this.tooltips.active.push(element.active ? 'Aktywny' : 'Nieaktywny');
       });
     });
   }
-
   setColor() {
-    const colors = [];
-    this.chartLabels.forEach(() => {
-      colors.push('rgba(' + this.red + ', ' + this.green + ', ' + this.blue + ', 0.7)');
-    });
-    this.chartColors = [{ backgroundColor: colors }];
-    let r = this.red.toString(16);
-    let g = this.green.toString(16);
-    let b = this.blue.toString(16);
-    if (r.length === 1) {
-      r = '0' + r;
-    }
-    if (g.length === 1) {
-      g = '0' + g;
-    }
-    if (b.length === 1) {
-      b = '0' + b;
-    }
-    if (this.red + this.green + this.blue > 350) {
-      this.buttonTextColor = '#000000';
-    } else {
-      this.buttonTextColor = '#ffffff';
-    }
-    this.buttonColor = '#' + r + g + b;
+    this.chartColors = [{ backgroundColor: 'rgba(0,85,255,0.7)' }];
   }
 
   resetFilters() {

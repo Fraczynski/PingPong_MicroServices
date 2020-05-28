@@ -1,45 +1,104 @@
 <div class="container">
   <div class="row m-4">
     <div class="mx-auto">
-      <button class="btn btn-secondary btn-lg mr-2" id="userId" (click)="getReport('userId')"
-        [ngStyle]="{'background-color': buttonColor, 'color': buttonTextColor}">Klienci</button>
-      <button class="btn btn-secondary btn-lg mr-2" id="pingPongTableId" (click)="getReport('pingPongTableId')"
-        [ngStyle]="{'background-color': buttonColor, 'color': buttonTextColor}">Stoły</button>
-      <button class="btn btn-secondary btn-lg mr-2" id="reservationStatus" (click)="getReport('reservationStatus')"
-        [ngStyle]="{'background-color': buttonColor, 'color': buttonTextColor}">Statusy
-        Rezerwacji</button>
-      <button class="btn btn-secondary btn-lg mr-2" id="hours" (click)="getReport('hours')"
-        [ngStyle]="{'background-color': buttonColor, 'color': buttonTextColor}">Godziny</button>
-      <button class="btn btn-secondary btn-lg mr-2" id="weekDays" (click)="getReport('weekDays')"
-        [ngStyle]="{'background-color': buttonColor, 'color': buttonTextColor}">Dni Tygodnia</button>
+      <button
+        style="background-color: rgb(40, 156, 71);"
+        class="btn btn-primary btn-lg mr-2"
+        id="userId"
+        (click)="getReport('userId')"
+      >
+        Rezerwacje klientów
+      </button>
+      <button
+        style="background-color: rgb(79, 136, 209);"
+        class="btn btn-success btn-lg mr-2"
+        id="pingPongTableId"
+        (click)="getReport('pingPongTableId')"
+      >
+        Obciążenie stołów
+      </button>
+      <button
+        style="background-color: rgb(129, 79, 209);"
+        class="btn btn-info btn-lg mr-2"
+        id="reservationStatus"
+        (click)="getReport('reservationStatus')"
+      >
+        Status rezerwacji
+      </button>
+      <button
+        style="background-color: rgb(252, 131, 83);"
+        class="btn btn-secondary btn-lg mr-2"
+        id="hours"
+        (click)="getReport('hours')"
+      >
+        Rozkład godzinowy
+      </button>
+      <button
+        style="background-color: rgb(255, 107, 107);"
+        class="btn btn-secondary btn-lg mr-2"
+        id="weekDays"
+        (click)="getReport('weekDays')"
+      >
+        Rozkład dniowy
+      </button>
     </div>
   </div>
   <div class="row justify-content-center">
     <form class="form-inline py-2" #form="ngForm" ngSubmit="getReport()" novalidate>
       <div class="form-group px-1">
         <label for="userId">Id użytkownika:</label>
-        <input type="number" [(ngModel)]="reportParams.userId" class="form-control ml-1" style="width: 70px;"
-          id="userId" name="userId" />
+        <input
+          type="number"
+          [(ngModel)]="reportParams.userId"
+          class="form-control ml-1"
+          style="width: 70px;"
+          id="userId"
+          name="userId"
+        />
       </div>
       <div class="form-group px-1">
         <label for="pingPongTableLabel">Id stołu:</label>
-        <input type="number" [(ngModel)]="reportParams.pingPongTableId" class="form-control ml-1" style="width: 70px;"
-          id="pingPongTableId" name="pingPongTableId" />
+        <input
+          type="number"
+          [(ngModel)]="reportParams.pingPongTableId"
+          class="form-control ml-1"
+          style="width: 70px;"
+          id="pingPongTableId"
+          name="pingPongTableId"
+        />
       </div>
       <div class="form-group px-1">
         <label for="minDate">Min data:</label>
-        <input type="text" [(ngModel)]="reportParams.minDate" style="width: 100px;" id="minDate" name="minDate"
-          class="form-control ml-1" bsDatepicker />
+        <input
+          type="text"
+          [(ngModel)]="reportParams.minDate"
+          style="width: 100px;"
+          id="minDate"
+          name="minDate"
+          class="form-control ml-1"
+          bsDatepicker
+        />
       </div>
       <div class="form-group px-1">
         <label for="maxDate">Max data:</label>
-        <input type="text" [(ngModel)]="reportParams.maxDate" style="width: 100px;" id="maxDate" name="maxDate"
-          class="form-control ml-1" bsDatepicker />
+        <input
+          type="text"
+          [(ngModel)]="reportParams.maxDate"
+          style="width: 100px;"
+          id="maxDate"
+          name="maxDate"
+          class="form-control ml-1"
+          bsDatepicker
+        />
       </div>
       <div class="form-group px-1">
         <label for="reservationStatus">Status:</label>
-        <select class="form-control ml-1" [(ngModel)]="reportParams.reservationStatus" id="reservationStatus"
-          name="reservationStatus">
+        <select
+          class="form-control ml-1"
+          [(ngModel)]="reportParams.reservationStatus"
+          id="reservationStatus"
+          name="reservationStatus"
+        >
           <option value=""></option>
           <option *ngFor="let status of ReservationStatus | enumToArray" [value]="status">
             {{ status | translate }}
@@ -58,15 +117,19 @@
   </div>
   <div class="row">
     <div class="mx-auto">
-      <h2>{{chartName}}</h2>
+      <h2>{{ chartName }}</h2>
     </div>
   </div>
-  <div *ngIf="chartReady" style="display: block">
-    <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="ChartOptions" [legend]="ChartLegend"
-      [chartType]="ChartType" [colors]="chartColors">
+  <div *ngIf="chartReady" style="display: block;">
+    <canvas
+      baseChart
+      [datasets]="chartData"
+      [labels]="chartLabels"
+      [options]="ChartOptions"
+      [legend]="ChartLegend"
+      [chartType]="ChartType"
+      [colors]="chartColors"
+    >
     </canvas>
   </div>
-  czerwony: <input type="range" (click)="setColor()" [(ngModel)]="red" min="0" max="255" step="1">
-  zielony: <input type="range" (click)="setColor()" [(ngModel)]="green" min="0" max="255" step="1">
-  niebieski:<input type="range" (click)="setColor()" [(ngModel)]="blue" min="0" max="255" step="1">
 </div>
