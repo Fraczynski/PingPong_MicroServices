@@ -56,7 +56,7 @@ namespace HomePageService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPhoto([FromForm]PhotoForCreationDto photoForCreationDto)
+        public async Task<IActionResult> AddPhoto([FromForm] PhotoForCreationDto photoForCreationDto)
         {
             var file = photoForCreationDto.File;
             var uploudResult = new ImageUploadResult();
@@ -72,7 +72,7 @@ namespace HomePageService.Controllers
                     uploudResult = _cloudinary.Upload(uploudParams);
                 }
             }
-            photoForCreationDto.Url = uploudResult.Uri.ToString();
+            photoForCreationDto.Url = uploudResult.SecureUri.ToString();
             photoForCreationDto.PublicId = uploudResult.PublicId;
 
             var photo = _mapper.Map<Photo>(photoForCreationDto);

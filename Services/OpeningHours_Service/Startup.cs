@@ -20,7 +20,7 @@ namespace OpeningHours_Service
             Configuration = configuration;
             using (var httpClient = new HttpClient())
             {
-                using (var response = httpClient.GetAsync("http://localhost:5100/api/auth/publickey"))
+                using (var response = httpClient.GetAsync("https://localhost:5100/api/auth/publickey"))
                 {
                     publicAuthorizationKey = response.Result.Content.ReadAsStringAsync().Result;
                 }
@@ -36,16 +36,16 @@ namespace OpeningHours_Service
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
                 options =>
                 {
-                var key = PingPongMicro.TokenHelper.BuildRsaSigningKey(publicAuthorizationKey);
-                options.TokenValidationParameters = PingPongMicro.TokenHelper.GetTokenValidationParameters(key);
+                    var key = PingPongMicro.TokenHelper.BuildRsaSigningKey(publicAuthorizationKey);
+                    options.TokenValidationParameters = PingPongMicro.TokenHelper.GetTokenValidationParameters(key);
                 });
 
-            services.AddControllers().AddNewtonsoftJson();  
+            services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
             //
             services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
-            
+
             services.AddScoped<IClosingDaysRepository, ClosingDaysRepository>();
             services.AddScoped<IOpeningHoursRepository, OpeningHoursRepository>();
             services.AddAutoMapper(typeof(OpeningHoursRepository).Assembly);

@@ -39,7 +39,7 @@ namespace Reservation_Service
             string publicAuthorizationKey;
             using (var httpClient = new HttpClient())
             {
-                using (var response = httpClient.GetAsync("http://localhost:5100/api/auth/publickey"))
+                using (var response = httpClient.GetAsync("https://localhost:5100/api/auth/publickey"))
                 {
                     publicAuthorizationKey = response.Result.Content.ReadAsStringAsync().Result;
                 }

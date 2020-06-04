@@ -21,7 +21,7 @@ namespace HomePageService
             Configuration = configuration;
             using (var httpClient = new HttpClient())
             {
-                using (var response = httpClient.GetAsync("http://localhost:5100/api/auth/publickey"))
+                using (var response = httpClient.GetAsync("https://localhost:5100/api/auth/publickey"))
                 {
                     publicAuthorizationKey = response.Result.Content.ReadAsStringAsync().Result;
                 }
@@ -33,21 +33,21 @@ namespace HomePageService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
                 options =>
                 {
-                var key = PingPongMicro.TokenHelper.BuildRsaSigningKey(publicAuthorizationKey);
-                options.TokenValidationParameters = PingPongMicro.TokenHelper.GetTokenValidationParameters(key);
+                    var key = PingPongMicro.TokenHelper.BuildRsaSigningKey(publicAuthorizationKey);
+                    options.TokenValidationParameters = PingPongMicro.TokenHelper.GetTokenValidationParameters(key);
                 });
 
-            services.AddControllers().AddNewtonsoftJson();  
+            services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
             //
             services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
-            services.AddScoped<IPhotosRepository,PhotosRepository>();
-            services.AddScoped<IDateTimeHelper,DateTimeHelper>();
+            services.AddScoped<IPhotosRepository, PhotosRepository>();
+            services.AddScoped<IDateTimeHelper, DateTimeHelper>();
             services.AddScoped<ITextRepository, TextRepository>();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddScoped<IAlertsRepository, AlertsRepository>();

@@ -13,7 +13,11 @@ First you need to download all required dependencies. Inside project folder:
 ```
 npm install
 ```
-To start hosting angular app:
+To serve angular app:
 ```
 ng serve
+```
+To serve it over https: 
+```
+ng serve --ssl --ssl-key .\certificates\localhost.key  --ssl-cert .\certificates\localhost.crt 
 ```
