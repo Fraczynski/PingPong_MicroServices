@@ -1,35 +1,46 @@
-<div class="row mt-3">
-  <div class="col-lg-8">
-    <div
-      role="alert"
-      *ngFor="let alert of alerts"
-      class="alert alert-success"
-      [ngClass]="{
-        'alert-success': alert.alertType == AlertType.Information,
-        'alert-danger': alert.alertType == AlertType.Warning
-      }"
-    >
-      {{ alert.message }}
+<div class="row justify-content-center mt-3">
+  <div class="row">
+    <div class="col-lg-8">
+      <div *ngIf="alerts">
+        <div [ngClass]="{ 'overflow-hidden': alertsHidden }">
+          <alert
+            *ngFor="let alert of alerts"
+            (onClosed)="addToIgnoredAlerts(alert)"
+            [dismissible]="true"
+            [type]="alert.type"
+          >
+            {{ alert.message }}
+          </alert>
+        </div>
+        <div *ngIf="alerts.length > 2" class="row justify-content-center">
+          <button *ngIf="alertsHidden==true" style="width: 100%; line-height: 8px;" (click)="alertsHidden = false" class="btn mx-3 btn-light mb-3 pt-2">
+             Więcej powiadomień ({{ alerts.length - 2 }}) <br /><fa-icon [icon]="faSortDown"></fa-icon>
+          </button>
+          <button *ngIf="alertsHidden==false" style="width: 100%; line-height: 8px;" (click)="alertsHidden = true" class="btn mx-3 btn-light mb-3 pb-2">
+            <fa-icon [icon]="faSortUp"></fa-icon> <br />Schowaj
+          </button>
+        </div>
+      </div>
+      <carousel>
+        <slide *ngFor="let photo of photos">
+          <img src="{{ photo.url }}" alt="first slide" style="display: block; width: 100%;" />
+        </slide>
+      </carousel>
+      <h3 class="mt-2">O nas</h3>
+      {{ aboutUs }}
     </div>
-    <carousel>
-      <slide *ngFor="let photo of photos">
-        <img src="{{ photo.url }}" alt="first slide" style="display: block; width: 100%;" />
-      </slide>
-    </carousel>
-    <h3 class="mt-2">O nas</h3>
-    {{ aboutUs }}
-  </div>
-  <div class="col-lg-3">
-    <h3>Godziny otwarcia:</h3>
-    <ul>
-      <li *ngFor="let opening of openingHours">
-        {{ (WeekDay | enumToArray)[opening.dayOfWeek] | translate }}
-        {{ opening.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}-{{
-          opening.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        }}
-      </li>
-    </ul>
-    <h3>Kontakt</h3>
-    {{ contact }}
+    <div class="col-lg-3">
+      <h3>Godziny otwarcia:</h3>
+      <ul>
+        <li *ngFor="let opening of openingHours">
+          {{ (WeekDay | enumToArray)[opening.dayOfWeek] | translate }}
+          {{ opening.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}-{{
+            opening.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          }}
+        </li>
+      </ul>
+      <h3>Kontakt</h3>
+      {{ contact }}
+    </div>
   </div>
 </div>

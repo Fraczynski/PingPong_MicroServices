@@ -1,3 +1,9 @@
 div {
-    white-space: pre-line;
-  }
+  white-space: pre-line;
+}
+::-webkit-scrollbar {
+  width: 0px;
+}
+.overflow-hidden {
+  max-height: 120px;
+}

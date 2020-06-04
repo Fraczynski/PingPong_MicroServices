@@ -14,6 +14,8 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { AlertModule } from 'ngx-bootstrap/alert';
+
 // toastr
 import { ToastrModule } from 'ngx-toastr';
 // file upload
@@ -82,7 +84,7 @@ defineLocale('pl', plLocale);
     AddRoomModalComponent,
     HomePageManagerComponent,
     PhotosManagerComponent,
-    ReportsComponent
+    ReportsComponent,
   ],
   imports: [
     BrowserModule,
@@ -106,6 +108,7 @@ defineLocale('pl', plLocale);
       positionClass: 'toast-bottom-right',
     }),
     // ngx-bootstrap
+    AlertModule.forRoot(),
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
@@ -113,7 +116,7 @@ defineLocale('pl', plLocale);
     TabsModule.forRoot(),
     TimepickerModule.forRoot(),
     CarouselModule.forRoot(),
-    ChartsModule
+    ChartsModule,
   ],
   providers: [ErrorInterceptorProvider, TranslatePipe],
   bootstrap: [AppComponent],
@@ -127,4 +130,4 @@ defineLocale('pl', plLocale);
     AddRoomModalComponent,
   ],
 })
-export class AppModule { }
+export class AppModule {}
