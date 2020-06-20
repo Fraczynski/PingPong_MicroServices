@@ -21,6 +21,7 @@ namespace Reservation_Service.Controllers
     {
         private readonly IReservationRepository _reservationRepo;
         private readonly IMapper _mapper;
+        private const string ApiGatewayUrl = "https://localhost:5100";
         public ReservationController(IReservationRepository reservationRepo, IMapper mapper)
         {
             _reservationRepo = reservationRepo;
@@ -147,7 +148,7 @@ namespace Reservation_Service.Controllers
             ActualOpeningHoursDto actualOpeningHours;
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync($"http://localhost:5100/api/openinghours/actual/{day.Date}"))
+                using (var response = await httpClient.GetAsync($"{ApiGatewayUrl}/api/openinghours/actual/{day.Date}"))
                 {
                     var openingHoursServiceAnswer = await response.Content.ReadAsStringAsync();
                     actualOpeningHours = JsonConvert.DeserializeObject<ActualOpeningHoursDto>(openingHoursServiceAnswer);
@@ -163,7 +164,7 @@ namespace Reservation_Service.Controllers
         {
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync($"http://localhost:5100/api/tables/{tableId}"))
+                using (var response = await httpClient.GetAsync($"{ApiGatewayUrl}/api/tables/{tableId}"))
                 {
                     var openingHoursServiceAnswer = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<TableDto>(openingHoursServiceAnswer);
